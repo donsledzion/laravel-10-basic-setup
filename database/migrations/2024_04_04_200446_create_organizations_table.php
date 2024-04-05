@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('prefix');
+            $table->datetime('expires_at');
+            $table->string('headset_login');
+            $table->string('headset_pin');
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }

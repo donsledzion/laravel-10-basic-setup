@@ -2,8 +2,8 @@
     {{ config('app.name', 'Laravel') }}
 </a>
 <a class="navbar-brand" href="{{ url('/') }}">
-    {{ __('Users') }}
+    {{ ucfirst(__('user.users')) }}
 </a>
-<a class="navbar-brand" href="{{ url('/') }}">
-    {{ __('Organizations') }}
+<a class="navbar-brand" href="{{ route('organization.index') }}">
+    {{ ucfirst(__('organization.organizations')) }}
 </a>
