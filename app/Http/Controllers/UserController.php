@@ -32,8 +32,11 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
         try{
+            dd($request->validated());
+
+            $user = User::create($request->validated());
             return view('user.show',[
-                'user' => User::create($request->validated())
+                'user' => $user
             ]);
         } catch(\Exception $e){
             $msg = "An error occurred while trying to store user. Exception message: ".$e->getMessage();
