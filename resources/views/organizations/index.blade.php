@@ -13,7 +13,7 @@
                         </div>
                     @endif
 
-                    <a href="{{ route('organization.create') }}"<button class="btn btn-info">{{ ucfirst(__('organization.add')) }}</button></a>
+                    <a href="{{ route('organization.create') }}"><button class="btn btn-info">{{ ucfirst(__('organization.add')) }}</button></a>
                 </div>
             </div>
         </div>
