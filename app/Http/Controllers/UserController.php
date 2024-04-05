@@ -32,7 +32,7 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
         try{
-            dd($request->validated());
+            //dd($request->validated());
 
             $user = User::create($request->validated());
             return view('user.show',[

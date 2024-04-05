@@ -39,7 +39,7 @@
                             <div class="col">
                                 <select id="role" name="role" class="form-select">
                                     @foreach(\App\Enums\UserRoles::cases() as $role)
-                                        <option>{{ ucfirst(__('user.roles.'.$role->value)) }}</option>
+                                        <option value="{{ $role->value }}">{{ ucfirst(__('user.roles.'.$role->value)) }}</option>
                                     @endforeach
                                 </select>
                                 <label class="form-label" for="role">{{ ucfirst(__('user.role')) }}</label>

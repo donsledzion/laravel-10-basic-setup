@@ -3,6 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Enums\UserRoles;
+use Illuminate\Validation\Rule;
+
+use Illuminate\Validation\Rules\Enum;
 
 class CreateUserRequest extends FormRequest
 {
@@ -26,6 +30,7 @@ class CreateUserRequest extends FormRequest
         return [
             'name' => 'required|min:3',
             'email' => 'required|email',
+            'role' => [new Enum(UserRoles::class)]
         ];
     }
 }
