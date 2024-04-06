@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrganizationRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
@@ -33,9 +34,11 @@ class Organization extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function managers()
+    public function managers():belongsToMany
     {
         //return users()->where('role',UserRoles::MANAGER)->get();
+        return $this->belongsToMany(User::class)->wherePivot('role',OrganizationRoles::MANAGER->value);
+
         return Organization::whereHas('users',function($query){
             return $query->where('role', UserRoles::MANAGER);
         })->get();

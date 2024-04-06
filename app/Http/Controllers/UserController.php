@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrganizationRoles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
@@ -15,12 +16,12 @@ class UserController extends Controller
     public function index()
     {
         $role = \Auth::user()->role;
-        $users;
+        $users = null;
         switch($role){
             case UserRoles::ADMIN->value:
                 $users = User::all();
                 break;
-            case UserRoles::MANAGER->value:
+            case UserRoles::USER->value:
                 $user = \Auth::user();
                 $users = User::whereHas('organizations',function($query) use ($user) {
                     $query->whereIn('id', $user );
@@ -52,7 +53,7 @@ class UserController extends Controller
     {
         return view('users.create',[
             'organization' => $organization,
-            'role' => UserRoles::MANAGER->value
+            'role' => OrganizationRoles::MANAGER->value
         ]);
     }
 
@@ -60,7 +61,7 @@ class UserController extends Controller
     {
         return view('users.create',[
             'organization' => $organization,
-            'role' => UserRoles::TRAINER->value
+            'role' => OrganizationRoles::TRAINER->value
         ]);
     }
 

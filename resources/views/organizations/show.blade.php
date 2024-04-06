@@ -233,7 +233,7 @@
                                             <strong>{{ ucfirst(__('user.roles.none')) }}</strong>
                                         </p>
                                         @endif
-                                        @foreach($organization->managers() as $manager)
+                                        @foreach($organization->managers as $manager)
                                             <p class="text-strong mb-2 fw-medium">
                                                 <i class="mdi mdi-email-outline me-2"></i>
                                                 <strong>{{ $manager->name }}</strong>
