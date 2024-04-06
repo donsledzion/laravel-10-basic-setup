@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default(UserRoles::NONE->value)->after('password');
+            $table->string('role')->default(UserRoles::USER->value)->after('password');
         });
     }
 
