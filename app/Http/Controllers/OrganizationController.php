@@ -17,6 +17,13 @@ class OrganizationController extends Controller
         ]);
     }
 
+    public function show(Organization $organization)
+    {
+        return view('organizations.show',[
+            'organization' => $organization
+        ]);
+    }
+
     public function create()
     {
         return view('organizations.create');
@@ -24,14 +31,39 @@ class OrganizationController extends Controller
 
     public function store(CreateOrganizationRequest $request)
     {
-        try{
+        try{            
+            return redirect(route('organization.show',[
+                Organization::create($request->validated())
+            ]));
             
-            return view('organization.show',[
-                'organization' => Organization::create($request->validated())
-            ]);
         } catch(\Exception $e) {
             $msg = "An exception occured while trying to create organization entry. Exception message: ".$e->getMessage();
-            Log::Error("An exception occured while trying to create organization entry");
+            error_log($msg);
+            Log::Error($msg);
         }
+    }
+
+    public function edit(Organization $organization)
+    {
+        return view('organizations.edit',[
+            'organization' => $organization
+        ]);
+    }
+
+    public function update(UpdateOrganizationRequest $request, Organization $organization)
+    {
+        $organization->update($request->validated());
+        return redirect(route('organization.show',[
+            $organization
+        ]));
+        return view('organizations.show',[
+            'organization' => $organization
+        ]);
+    }
+
+    public function destroy(Organization $organization)
+    {
+        $organization->delete();
+        return redirect(route('organization.index'));        
     }
 }

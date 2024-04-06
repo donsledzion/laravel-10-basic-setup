@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\ScenarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,5 +27,6 @@ Route::get('/home', function(){
 
 Route::resource('user', UserController::class)->middleware(['auth', 'verified']);
 Route::resource('organization', OrganizationController::class)->middleware(['auth', 'verified']);
+Route::resource('scenario', ScenarioController::class)->middleware(['auth', 'verified']);
 Auth::routes(['verify' => true]);
 

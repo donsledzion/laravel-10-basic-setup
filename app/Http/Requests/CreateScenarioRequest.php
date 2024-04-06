@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateOrganizationRequest extends FormRequest
+class CreateScenarioRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,9 @@ class UpdateOrganizationRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|min:3|max:256',
-            'prefix' => 'string|min:5|max:10',
-            'expires_at' => 'date',
-            'headset_login' => 'string|min:5|max:15',
-            'headset_pin' => 'numeric|digits:4',
-            'logo' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:5120'
+            'name' => 'required|string|min:3|max:128|unique:organizations,name',
+            'description' => 'string|min:5|max:1024',
+            'pin' => 'numeric|digits:4',
             ];
     }
 }

@@ -14,6 +14,35 @@
                     @endif
 
                     <a href="{{ route('organization.create') }}"><button class="btn btn-info">{{ ucfirst(__('organization.add')) }}</button></a>
+
+                    <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">{{ ucfirst(__('organization.name')) }}</th>
+                            <th scope="col">{{ ucfirst(__('organization.prefix')) }}</th>
+                            <th scope="col">{{ ucfirst(__('organization.members')) }}</th>
+                            <th scope="col">{{ ucfirst(__('organization.scenarios')) }}</th>
+                            <th scope="col">{{ ucfirst(__('organization.options')) }}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach($organizations as $organization)
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>{{ $organization->name }}</td>
+                            <td>{{ $organization->prefix }}</td>
+                            <td>{{ $organization->users()->count() }}</td>
+                            <td><!--  -->n/a</td>
+                            <td>
+                              <a href="{{ route('organization.edit',[$organization]) }}"><button class="btn btn-warning">{{ ucfirst(__('organization.edit')) }}</button></a>
+                              <a href="{{ route('organization.show',[$organization]) }}"><button class="btn btn-info">{{ ucfirst(__('organization.show')) }}</button></a>
+                            </td>
+                          </tr>                     
+                          @endforeach
+                          
+                        </tbody>
+                      </table>
                 </div>
             </div>
         </div>

@@ -20,7 +20,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         return view('users.show',[
-            'uses' => $user
+            'user' => $user
         ]);
     }
 
@@ -32,12 +32,8 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
         try{
-            //dd($request->validated());
-
             $user = User::create($request->validated());
-            return view('user.show',[
-                'user' => $user
-            ]);
+            return redirect(route('user.show',[$user]));            
         } catch(\Exception $e){
             $msg = "An error occurred while trying to store user. Exception message: ".$e->getMessage();
             error_log($msg);
@@ -53,13 +49,23 @@ class UserController extends Controller
         ]);
     }
 
+    public function update(UpdateUserRequest $request, User $user)
+    {
+        try{
+            $user->update($request->validated());
+            return redirect(route('user.show',[$user]));
+        }catch(\Exception $e){
+            $msg = "An error occurred while trying to update user. Exception message: ".$e->getMessage();
+            error_log($msg);
+            Log::error($msg);
+        }
+    }
+
     public function destroy(User $user)
     {
         try{
             $user->delete();
-            return view('users.index',[
-                'users' => User::all()
-            ]);
+            return redirect(route('users.index'));
         } catch(\Exception $e){
             $msg = "An error occured while trying to delete user. ".$e->getMessage();
             Log::error($msg);

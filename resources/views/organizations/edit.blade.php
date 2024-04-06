@@ -20,13 +20,14 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('organization.store') }}">
+                    <form method="POST" action="{{ route('organization.update',[$organization]) }}">
                         @csrf
+                        @method("PATCH")
                         <!-- 2 column grid layout with text inputs for organization name and prefix -->
                         <div class="row mb-4">
                           <div class="col">
                             <div data-mdb-input-init class="form-outline">
-                              <input type="text" id="name" name="name" class="form-control" value="{{ old("name") }}" />
+                              <input type="text" id="name" name="name" class="form-control" value="{{ old("name", $organization->name) }}" />
                               <label class="form-label" for="name">{{ ucfirst(__('organization.name')) }}</label>
                                 @error('name')
                                     <div class="text-danger">{{ __($message) }}</div>
@@ -35,7 +36,7 @@
                           </div>
                           <div class="col">
                             <div data-mdb-input-init class="form-outline">
-                              <input type="text" id="prefix" name="prefix" class="form-control" value="{{ old("prefix") }}" />
+                              <input type="text" id="prefix" name="prefix" class="form-control" value="{{ old("prefix", $organization->prefix) }}" />
                               <label class="form-label" for="prefix">{{ ucfirst(__('organization.prefix')) }}</label>
                                 @error('prefix')
                                     <div class="text-danger">{{ __($message) }}</div>
@@ -48,7 +49,7 @@
                         <div class="row mb-4">
                           <div class="col">
                             <div data-mdb-input-init class="form-outline">
-                              <input type="text" id="headset_login" name="headset_login" class="form-control" value="{{ old("headset_login") }}" />
+                              <input type="text" id="headset_login" name="headset_login" class="form-control" value="{{ old("headset_login", $organization->headset_login) }}" />
                               <label class="form-label" for="headset_login">{{ ucfirst(__('organization.headset.login')) }}</label>
                               @error('headset_login')
                                     <div class="text-danger">{{ __($message) }}</div>
@@ -57,7 +58,7 @@
                           </div>
                           <div class="col">
                             <div data-mdb-input-init class="form-outline">
-                              <input type="password" id="headset_pin" name="headset_pin" class="form-control" placeholder="organization.placeholder.pin" value="{{ old('headset_pin') }}"/>
+                              <input type="password" id="headset_pin" name="headset_pin" class="form-control" placeholder="organization.placeholder.pin" value="{{ old('headset_pin', $organization->headset_pin) }}"/>
                               <label class="form-label" for="headset_pin">{{ ucfirst(__('organization.headset.pin')) }}</label>
                                 @error('headset_pin')
                                     <div class="text-danger">{{ __($message) }}</div>
@@ -68,7 +69,7 @@
 
 
                         <div data-mdb-input-init class="form-outline mb-4">
-                            <input id="expires_at" name="expires_at" width="276" value="{{ old("expires_at") }}" />
+                            <input id="expires_at" name="expires_at" width="276" value="{{ old("expires_at", $organization->expires_at) }}" />
                             <label class="form-label" for="expires_at">{{ ucfirst(__('organization.expires_at')) }}</label>
                             @error('expires_at')
                                     <div class="text-danger">{{ __($message) }}</div>

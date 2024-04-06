@@ -16,9 +16,33 @@
                       <a href="{{ route('user.create') }}"> <button class="btn btn-info">{{ ucfirst(__('user.add')) }}</button></a>
                     </p>
                     
-                    @foreach($users as $user)
-                    {{ $user->name }} - {{ $user->email }} - {{ ucfirst(__('user.roles.'.$user->role)) }} - <a href="{{ route('user.edit',[$user]) }}"><button class="btn btn-success">{{ ucfirst(__('user.edit')) }}</button></a>
-                    @endforeach
+                    
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">{{ __('user.name') }}</th>
+                          <th scope="col">{{ __('user.email') }}</th>
+                          <th scope="col">{{ __('user.role') }}</th>
+                          <th scope="col">{{ __('user.options') }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach($users as $user)
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>{{ $user->name }}</td>
+                          <td>{{ $user->email }}</td>
+                          <td>{{ ucfirst(__('user.roles.'.$user->role)) }}</td>
+                          <td>
+                            <a href="{{ route('user.edit',[$user]) }}"><button class="btn btn-warning">{{ ucfirst(__('user.edit')) }}</button></a>
+                            <a href="{{ route('user.show',[$user]) }}"><button class="btn btn-info">{{ ucfirst(__('user.show')) }}</button></a>
+                          </td>
+                        </tr>                     
+                        @endforeach
+                        
+                      </tbody>
+                    </table>
                 </div>
             </div>
         </div>

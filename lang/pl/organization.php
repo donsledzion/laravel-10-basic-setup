@@ -6,6 +6,13 @@ return [
     'add' => 'dodaj organizację',
     'name' => 'nazwa',
     'prefix' => 'prefix',
+    'card' => 'karta organizacji',
+    'quizes' => 'quizy',
+    'members' => 'członkowie',
+    'show' => 'podgląd',
+    'edit' => 'edycja',
+    'options' => 'opcje',
+    'scenarios' => 'scenariusze',
     'headset' =>[
         'login' => 'login gogli',
         'pin' => 'pin gogli'
