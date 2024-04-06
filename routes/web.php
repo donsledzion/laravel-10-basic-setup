@@ -24,6 +24,8 @@ Route::get('/home', function(){
     return view('home');
 })->middleware(['auth','verified']);
 
+Route::get('/organization/{organization}/create-manager', [UserController::class, "createManager"])->name('organization.create.manager')->middleware(['auth','verified']);
+Route::get('/organization/{organization}/create-trainer', [UserController::class, "createTrainer"])->name('organization.create.trainer')->middleware(['auth','verified']);
 
 Route::resource('user', UserController::class)->middleware(['auth', 'verified']);
 Route::resource('organization', OrganizationController::class)->middleware(['auth', 'verified']);

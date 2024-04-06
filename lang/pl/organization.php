@@ -8,11 +8,22 @@ return [
     'prefix' => 'prefix',
     'card' => 'karta organizacji',
     'quizes' => 'quizy',
-    'members' => 'członkowie',
+    'members' => [
+        'members' => 'członkowie',
+        'none' => 'brak',
+        'add' => [
+            'manager' => 'dodaj menadżera',
+            'trainer' => 'dodaj trenera'
+        ],
+    ],
     'show' => 'podgląd',
     'edit' => 'edycja',
     'options' => 'opcje',
-    'scenarios' => 'scenariusze',
+    'scenarios' => [
+        'scenarios' => 'scenariusze',
+        'none' => 'brak',
+        'add' => 'dodaj scenariusz'
+    ],
     'headset' =>[
         'login' => 'login gogli',
         'pin' => 'pin gogli'

@@ -253,8 +253,25 @@
         </div><!-- end card -->
 
         <div class="card">
-            <h4 class="card-title mb-4">{{ ucfirst(__('organization.scenarios')) }}</h4>
-            <a href="{{ route('scenario.create',[$organization]) }}" class="btn btn-info">{{ ucfirst(__('scenarios.add')) }}</a>
+            <h4 class="card-title mb-4">{{ ucfirst(__('organization.members.members')) }}</h4>
+            <a href="{{ route('organization.create.manager',[$organization]) }}" class="btn btn-info">{{ ucfirst(__('organization.members.add.manager')) }}</a>
+            <a href="{{ route('organization.create.trainer',[$organization]) }}" class="btn btn-success mt-1">{{ ucfirst(__('organization.members.add.trainer')) }}</a>
+            <div class="tab-content p-4">
+                
+
+                <div class="tab-panel active show" id="tasks-tab" role="tabpanel">    
+                    @foreach($organization->users as $user)
+                        @include('organizations.components.member',['user' => $user])
+                    @endforeach
+                </div><!-- end tab pane -->
+
+                
+            </div>
+        </div><!-- end card -->
+
+        <div class="card">
+            <h4 class="card-title mb-4">{{ ucfirst(__('organization.scenarios.scenarios')) }}</h4>
+            <a href="{{ route('scenario.create',[$organization]) }}" class="btn btn-info">{{ ucfirst(__('organization.scenarios.add')) }}</a>
             <div class="tab-content p-4">
                 
 

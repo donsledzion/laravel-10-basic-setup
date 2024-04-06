@@ -40,11 +40,18 @@
                         
                         <div class="row mb-4">
                             <div class="col">
+                                @if(isset($organization))
+                                <input id="organization_id" name="organization_id" type="hidden" value="{{ $organization->id}} " />
+                                <input id="role" name="role" type="hidden" value="{{ $role }} " />
+                                <span><strong>{{ ucfirst(__('user.roles.'.$role)) }}</strong></span></br>
+                                
+                                @else
                                 <select id="role" name="role" class="form-select">
                                     @foreach(\App\Enums\UserRoles::cases() as $role)
                                         <option value="{{ $role->value }}" @if( old('role') == $role->value) selected @endif>{{ ucfirst(__('user.roles.'.$role->value)) }}</option>
                                     @endforeach
                                 </select>
+                                @endif
                                 <label class="form-label" for="role">{{ ucfirst(__('user.role')) }}</label>
                                 @error('role')
                                     <div class="text-danger">{{ __($message) }}</div>

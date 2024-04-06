@@ -21,8 +21,8 @@
                             <th scope="col">#</th>
                             <th scope="col">{{ ucfirst(__('organization.name')) }}</th>
                             <th scope="col">{{ ucfirst(__('organization.prefix')) }}</th>
-                            <th scope="col">{{ ucfirst(__('organization.members')) }}</th>
-                            <th scope="col">{{ ucfirst(__('organization.scenarios')) }}</th>
+                            <th scope="col">{{ ucfirst(__('organization.members.members')) }}</th>
+                            <th scope="col">{{ ucfirst(__('organization.scenarios.scenarios')) }}</th>
                             <th scope="col">{{ ucfirst(__('organization.options')) }}</th>
                           </tr>
                         </thead>
