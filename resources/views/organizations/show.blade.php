@@ -279,8 +279,10 @@
                     
                     
                     
-                    @foreach($organization->scenarios() as $scenario)
-                        @include('organizations.components.scenario',['scenario' => $scenario])
+                    @foreach($organization->users as $user)
+                        @foreach($user->scenarios as $scenario)
+                            @include('organizations.components.scenario',['scenario' => $scenario])
+                        @endforeach
                     @endforeach
                 </div><!-- end tab pane -->
 

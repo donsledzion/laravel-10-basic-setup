@@ -24,7 +24,7 @@ class CreateScenarioRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|min:3|max:128|unique:organizations,name',
+            'name' => 'required|string|min:3|max:128',
             'description' => 'string|min:5|max:1024',
             'pin' => 'numeric|digits:4',
             ];

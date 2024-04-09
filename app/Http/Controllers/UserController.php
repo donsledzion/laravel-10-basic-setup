@@ -10,6 +10,7 @@ use App\Models\Organization;
 use App\Enums\UserRoles;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserController extends Controller
 {
@@ -23,9 +24,12 @@ class UserController extends Controller
                 break;
             case UserRoles::USER->value:
                 $user = \Auth::user();
-                $users = User::whereHas('organizations',function($query) use ($user) {
-                    $query->whereIn('id', $user );
-                })->get();
+                $users = new Collection();
+                foreach($user->organizations as $organization){
+                    foreach($organization->users as $member){
+                        $users->push($member);
+                    }
+                }                
                 break;
             default:
             return redirect('/home');
@@ -68,9 +72,13 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
         try{
-            $user = User::create($request->validated());
+            $user = User::where('email',$request->email)->first();
+            if($user == null)
+                $user = User::create($request->validated());
             if(isset($request->organization_id)){
-                $user->organizations()->attach($request->organization_id);
+                $user->organizations()->attach($request->organization_id,[
+                    'role' => $request->organization_role
+                ]);
             }
             return redirect(route('user.show',[$user]));            
         } catch(\Exception $e){

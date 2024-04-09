@@ -7,8 +7,10 @@
                         <div class="row align-items-center">
                             <div class="col-xl-6 col-sm-5">
                                 <div class="checklist form-check font-size-15">
-                                    <input type="checkbox" class="form-check-input" id="customCheck1">
-                                    <label class="form-check-label ms-1 task-title" for="customCheck1">{{ $scenario->name }}</label>
+                                    <!-- <input type="checkbox" class="form-check-input" id="customCheck1"> -->
+                                    <a href="{{ route('scenario.show',[$scenario]) }}">
+                                        <label class="form-check-label ms-1 task-title" for="customCheck1">{{ $scenario->name }}</label>
+                                    </a>
                                 </div>
                             </div><!-- end col -->
                             

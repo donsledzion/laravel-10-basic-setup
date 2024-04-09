@@ -7,7 +7,7 @@
                         <div class="row align-items-center">
                             <div class="col-xl-6 col-sm-5">
                                 <div class="list font-size-15">
-                                    <span><strong>{{ $user->name }} - {{ $user->role }} - {{ $user->email }}</strong></span>
+                                    <span><strong>{{ $user->name }} - {{ $user->email }} - {{ ucfirst(__('user.roles.'.$user->pivot->role)) }} </strong></span>
                                 </div>
                             </div><!-- end col -->
                             

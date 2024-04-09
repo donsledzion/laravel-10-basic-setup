@@ -27,7 +27,7 @@ class CreateUserRequest extends FormRequest
     {
         return [
             'name' => 'string|min:5|max:40',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email',
             'role' => [new Enum(UserRoles::class)]
         ];
     }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\QuizTypes;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
-class UpdateScenarioRequest extends FormRequest
+class CreateQuizRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +26,10 @@ class UpdateScenarioRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|min:3|max:128|unique:organizations,name',
-            'description' => 'string|min:5|max:1024',
-            'pin' => 'numeric|digits:4',
-            ];        
+            'type' => [new Enum(QuizTypes::class)],
+            'question_text' => 'required|string|min:4|max:512',
+            'question_picture' => 'string',
+            'question_audio' => 'string'
+        ];
     }
 }

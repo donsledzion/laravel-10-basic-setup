@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Enums\UserRoles;
 use App\Models\Organization;
+use App\Models\Scenario;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -44,7 +46,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        //'role' => UserRole::class
+        'role' => UserRoles::class
     ];
 
     public function isAdmin():bool
@@ -54,6 +56,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function organizations():BelongsToMany
     {
-        return $this->belongsToMany(Organization::class);
+        return $this->belongsToMany(Organization::class)->withPivot('role');
+    }
+
+    public function scenarios():HasMany
+    {
+        return $this->hasMany(Scenario::class);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateScenarioRequest extends FormRequest
+class CreateAnswerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class UpdateScenarioRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|min:3|max:128|unique:organizations,name',
-            'description' => 'string|min:5|max:1024',
-            'pin' => 'numeric|digits:4',
-            ];        
+            'content' => 'required|string',
+            'is_correct' => 'boolean',
+            'order' => 'numeric',
+        ];
     }
 }

@@ -17,6 +17,11 @@ class ScenarioController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return view('scenarios.create');
+    }
+
     public function show(Scenario $scenario)
     {
         return view('scenarios.show',[
@@ -27,7 +32,8 @@ class ScenarioController extends Controller
     public function store(CreateScenarioRequest $request)
     {
         try{
-            $scenario = Scenario::create($request->validated());
+            $scenario = \Auth::user()->scenarios()->make($request->validated());
+            $scenario->save();
             return redirect(route('scenario.show',[$scenario]));            
         }catch(\Exception $e){
             $msg = "An error occured while trying to store scenario: ".$e->getMessage();

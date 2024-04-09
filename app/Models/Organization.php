@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Enums\UserRoles;
 
 class Organization extends Model
 {
@@ -31,17 +30,13 @@ class Organization extends Model
 
     public function users():BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('role');
     }
 
     public function managers():belongsToMany
     {
-        //return users()->where('role',UserRoles::MANAGER)->get();
-        return $this->belongsToMany(User::class)->wherePivot('role',OrganizationRoles::MANAGER->value);
-
-        return Organization::whereHas('users',function($query){
-            return $query->where('role', UserRoles::MANAGER);
-        })->get();
+        return $this->belongsToMany(User::class)
+                    ->wherePivot('role',OrganizationRoles::MANAGER->value);
     }
 
     public function scenarios():HasMany
