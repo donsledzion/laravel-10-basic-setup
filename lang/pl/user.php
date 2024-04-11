@@ -6,6 +6,7 @@ return [
     'add' => 'dodaj użytkownika',
     'create' => 'stwórz użytkownika',
     'users' => 'użytkownicy',
+    'my-profile' => 'mój profil',
     'edit' => 'edytuj',
     'role' => 'uprawnienia',
     'email' => 'email',
@@ -31,6 +32,7 @@ return [
         'none' => 'brak',
         'trainer' => 'trener',
         'manager' => 'menadżer',
-        'admin' => 'admnistrator'
+        'admin' => 'admnistrator',
+        'user' => 'użytkownik'
     ]
 ];

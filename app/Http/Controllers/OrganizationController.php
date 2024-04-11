@@ -8,6 +8,7 @@ use App\Http\Requests\CreateOrganizationRequest;
 use App\Http\Requests\UpdateOrganizationRequest;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class OrganizationController extends Controller
 {
@@ -35,10 +36,20 @@ class OrganizationController extends Controller
 
     public function store(CreateOrganizationRequest $request)
     {
+        //dd($request);
         try{            
-            return redirect(route('organization.show',[
-                Organization::create($request->validated())
-            ]));
+            $organization = Organization::create($request->validated());
+            if($request->hasFile('logo')){
+                $file = $request->file('logo');
+                $fileName = $file->getClientOriginalName();
+                $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+                $hashName = hash('sha256',$fileName).'.'.$ext;
+                $file->storeAs('multimedia/'.$organization->id.'/pictures/', $hashName);
+                $organization->logo = $hashName;
+                $organization->save();
+                //dd($filePath);
+            }
+            return redirect(route('organization.show',[$organization]))->with('success','Dodano organizację!');
             
         } catch(\Exception $e) {
             $msg = "An exception occured while trying to create organization entry. Exception message: ".$e->getMessage();
@@ -57,6 +68,18 @@ class OrganizationController extends Controller
     public function update(UpdateOrganizationRequest $request, Organization $organization)
     {
         $organization->update($request->validated());
+        if($request->hasFile('logo')){
+            //if organization already has any logo 
+            // need to remove it from storage
+            $file = $request->file('logo');
+            $fileName = $file->getClientOriginalName();
+            $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+            $hashName = hash('sha256',$fileName).'.'.$ext;
+            $file->storeAs('multimedia/'.$organization->id.'/pictures/', $hashName);
+            $organization->logo = $hashName;
+            $organization->save();
+            //dd($filePath);
+        }
         return redirect(route('organization.show',[
             $organization
         ]));

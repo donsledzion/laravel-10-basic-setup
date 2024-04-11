@@ -37,9 +37,9 @@
                             <div class="row mb-4 mt-4">
                                 <div class="col">
                                     <div data-mdb-input-init class="form-outline">
-                                      <input type="password" id="scenario_pin" name="scenario_pin" class="form-control" placeholder="{{ __('scenario.placeholder.pin') }}" value="{{ old('scenario_pin') }}"/>
-                                      <label class="form-label" for="scenario_pin">{{ ucfirst(__('scenario.pin')) }}</label>
-                                        @error('scenario_pin')
+                                      <input type="password" id="pin" name="pin" class="form-control" placeholder="{{ __('scenario.placeholder.pin') }}" value="{{ old('pin') }}"/>
+                                      <label class="form-label" for="pin">{{ ucfirst(__('scenario.pin')) }}</label>
+                                        @error('pin')
                                             <div class="text-danger">{{ __($message) }}</div>
                                         @enderror
                                     </div>

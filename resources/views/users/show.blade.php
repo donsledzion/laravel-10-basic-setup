@@ -19,8 +19,11 @@
                           <div class="col">
                             <div data-mdb-input-init class="form-outline">
                                 <label >{{ ucfirst(__('user.card.name')) }}</label></br>
-                                <span><strong>{{ $user->name}}</strong></span>
-                                
+                                    @if(empty($user->name))
+                                        <span class="text-danger"><strong>{{ __('user.roles.none')}}</strong></span>  
+                                    @else
+                                        <span><strong>{{ $user->name}}</strong></span>  
+                                    @endif
                             </div>
                           </div>
                           <div class="col">
@@ -35,7 +38,7 @@
                             <div class="col">
                                 <div data-mdb-input-init class="form-outline">
                                     <label >{{ ucfirst(__('user.card.role')) }}</label></br>
-                                    <span><strong>{{ ucfirst(__('user.roles.'.$user->role))}}</strong></span>                              
+                                    <span><strong>{{ ucfirst(__('user.roles.'.$user->role->value))}}</strong></span>                              
                                 </div>
                             </div>
                         </div>

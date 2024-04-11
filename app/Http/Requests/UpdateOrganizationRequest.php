@@ -29,7 +29,7 @@ class UpdateOrganizationRequest extends FormRequest
             'expires_at' => 'date',
             'headset_login' => 'string|min:5|max:15',
             'headset_pin' => 'numeric|digits:4',
-            'logo' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:5120'
+            'logo' => 'nullable|file|mimes:jpeg,jpg,png,gif|max:5120'
             ];
     }
 }

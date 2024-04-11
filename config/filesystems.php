@@ -70,6 +70,7 @@ return [
     */
 
     'links' => [
+        public_path('organizations') => storage_path('app/multimedia'),
         public_path('storage') => storage_path('app/public'),
     ],
 

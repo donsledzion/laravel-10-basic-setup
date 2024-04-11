@@ -18,11 +18,12 @@ class UserController extends Controller
     {
         $role = \Auth::user()->role;
         $users = null;
+        //dd($role);
         switch($role){
-            case UserRoles::ADMIN->value:
+            case UserRoles::ADMIN:
                 $users = User::all();
                 break;
-            case UserRoles::USER->value:
+            case UserRoles::USER:
                 $user = \Auth::user();
                 $users = new Collection();
                 foreach($user->organizations as $organization){
@@ -32,7 +33,7 @@ class UserController extends Controller
                 }                
                 break;
             default:
-            return redirect('/home');
+                return redirect('/home');
                 break;
         }
 

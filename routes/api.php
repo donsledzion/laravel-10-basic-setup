@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HeadsetController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,11 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login',function(Request $request){
-    error_log($request->login);
-    error_log($request->pin);
-    error_log($request->device);
-    return response()->json([
-        'status' => 'ok'
-    ])->setStatusCode(200);
-});
+Route::post('/login', [HeadsetController::class, 'login']);

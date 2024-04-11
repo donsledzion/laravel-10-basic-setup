@@ -214,7 +214,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="text-center border-end">
-                            <img src="{{ $organization->logo }}" class="img-fluid avatar-xxl rounded-circle" alt="">
+                            <img src="{{ asset('organizations'.'/'.$organization->id.'/pictures/'.$organization->logo) }}" class="img-fluid avatar-xxl rounded-circle" alt="">
                         </div>
                     </div><!-- end col -->
                     <div class="col-md-9">

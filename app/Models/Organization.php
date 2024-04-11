@@ -6,6 +6,7 @@ use App\Enums\OrganizationRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -39,8 +40,18 @@ class Organization extends Model
                     ->wherePivot('role',OrganizationRoles::MANAGER->value);
     }
 
-    public function scenarios():HasMany
+    public function scenarios():Collection
     {
-        return $this->hasMany(Scenario::class);
+        $scenarios = new Collection();
+        foreach($this->users as $user){
+            $scenarios->push($user->scenarios);
+        }
+        return $scenarios;
+        //return $this->hasMany(Scenario::class);
+    }
+
+    public function tokens():HasMany
+    {
+        return $this->hasMany(OrganizationToken::class);
     }
 }

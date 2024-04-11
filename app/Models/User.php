@@ -54,6 +54,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->role == UserRoles::ADMIN;
     }
 
+    public function isUser():bool
+    {
+        return $this->role == UserRoles::USER;
+    }
+
     public function organizations():BelongsToMany
     {
         return $this->belongsToMany(Organization::class)->withPivot('role');

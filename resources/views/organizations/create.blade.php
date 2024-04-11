@@ -20,7 +20,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('organization.store') }}">
+                    <form method="POST" action="{{ route('organization.store') }}" enctype="multipart/form-data">
                         @csrf
                         <!-- 2 column grid layout with text inputs for organization name and prefix -->
                         <div class="row mb-4">
@@ -72,7 +72,7 @@
                             <label class="form-label" for="expires_at">{{ ucfirst(__('organization.expires_at')) }}</label>
                             @error('expires_at')
                                     <div class="text-danger">{{ __($message) }}</div>
-                                @enderror
+                            @enderror
                         </div>
 
                         <div class="container my-5">
@@ -87,7 +87,10 @@
                                     </p>
                                   </div>
                                 </div>
-                                <input type="file" id="logo" name="logo" multiple accept="image/*" class="d-none" />
+                                <input type="file" id="logo" name="logo" accept="image/*" />
+                                @error('logo')
+                                  <div class="text-danger">{{ __($message) }}</div>
+                                @enderror
                                 <div id="gallery"></div>
                               </div>
                             </div>
@@ -108,65 +111,6 @@
     $('#expires_at').datepicker({
         uiLibrary: 'bootstrap5'
     });
-  let dropArea = document.getElementById('drop-area');
-  let fileElem = document.getElementById('logo');
-  let gallery = document.getElementById('gallery');
-
-  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-    dropArea.addEventListener(eventName, preventDefaults, false);
-    document.body.addEventListener(eventName, preventDefaults, false);
-  });
-
-  ['dragenter', 'dragover'].forEach(eventName => {
-    dropArea.addEventListener(eventName, highlight, false);
-  });
-
-  ['dragleave', 'drop'].forEach(eventName => {
-    dropArea.addEventListener(eventName, unhighlight, false);
-  });
-
-  dropArea.addEventListener('drop', handleDrop, false);
-
-  function preventDefaults(e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  function highlight(e) {
-    dropArea.classList.add('highlight');
-  }
-
-  function unhighlight(e) {
-    dropArea.classList.remove('highlight');
-  }
-
-  function handleDrop(e) {
-    let dt = e.dataTransfer;
-    let files = dt.files;
-    handleFiles(files);
-  }
-
-  dropArea.addEventListener('click', () => {
-    fileElem.click();
-  });
-
-  fileElem.addEventListener('change', function (e) {
-    handleFiles(this.files);
-  });
-
-  function handleFiles(files) {
-    files = [...files];
-    files.forEach(previewFile);
-  }
-
-  function previewFile(file) {
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = function () {
-      let img = document.createElement('img');
-      img.src = reader.result;
-      gallery.appendChild(img);
-    }
-  }
+    
 </script>
 @endsection

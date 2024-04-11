@@ -20,7 +20,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('organization.update',[$organization]) }}">
+                    <form method="POST" action="{{ route('organization.update',[$organization]) }}" enctype="multipart/form-data">
                         @csrf
                         @method("PATCH")
                         <!-- 2 column grid layout with text inputs for organization name and prefix -->
@@ -77,21 +77,21 @@
                         </div>
 
                         <div class="container my-5">
-                            <div class="card">
-                              <div class="card-body">
-                                <div id="drop-area" class="border rounded d-flex justify-content-center align-items-center"
-                                  style="height: 200px; cursor: pointer">
-                                  <div class="text-center">
-                                    <i class="bi bi-cloud-arrow-up-fill text-primary" style="font-size: 48px"></i>
-                                    <p class="mt-3">
-                                      {{ ucfirst(__('organization.logo.drop')) }}
-                                    </p>
-                                  </div>
-                                </div>
-                                <input type="file" id="logo" name="logo" multiple accept="image/*" class="d-none" />
-                                <div id="gallery"></div>
+                          <div class="card-body">
+                            <div id="drop-area" class="border rounded d-flex justify-content-center align-items-center"
+                              style="height: 200px; cursor: pointer">
+                              <div class="text-center">
+                                <i class="bi bi-cloud-arrow-up-fill text-primary" style="font-size: 48px"></i>
+                                <p class="mt-3">
+                                  {{ ucfirst(__('organization.logo.drop')) }}
+                                </p>
                               </div>
                             </div>
+                            <input type="file" id="logo" name="logo" accept="image/*" />
+                            @error('logo')
+                              <div class="text-danger">{{ __($message) }}</div>
+                            @enderror
+                            <div id="gallery"></div>
                         </div>
                         
 
@@ -109,65 +109,6 @@
     $('#expires_at').datepicker({
         uiLibrary: 'bootstrap5'
     });
-  let dropArea = document.getElementById('drop-area');
-  let fileElem = document.getElementById('logo');
-  let gallery = document.getElementById('gallery');
-
-  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-    dropArea.addEventListener(eventName, preventDefaults, false);
-    document.body.addEventListener(eventName, preventDefaults, false);
-  });
-
-  ['dragenter', 'dragover'].forEach(eventName => {
-    dropArea.addEventListener(eventName, highlight, false);
-  });
-
-  ['dragleave', 'drop'].forEach(eventName => {
-    dropArea.addEventListener(eventName, unhighlight, false);
-  });
-
-  dropArea.addEventListener('drop', handleDrop, false);
-
-  function preventDefaults(e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  function highlight(e) {
-    dropArea.classList.add('highlight');
-  }
-
-  function unhighlight(e) {
-    dropArea.classList.remove('highlight');
-  }
-
-  function handleDrop(e) {
-    let dt = e.dataTransfer;
-    let files = dt.files;
-    handleFiles(files);
-  }
-
-  dropArea.addEventListener('click', () => {
-    fileElem.click();
-  });
-
-  fileElem.addEventListener('change', function (e) {
-    handleFiles(this.files);
-  });
-
-  function handleFiles(files) {
-    files = [...files];
-    files.forEach(previewFile);
-  }
-
-  function previewFile(file) {
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = function () {
-      let img = document.createElement('img');
-      img.src = reader.result;
-      gallery.appendChild(img);
-    }
-  }
+  
 </script>
 @endsection

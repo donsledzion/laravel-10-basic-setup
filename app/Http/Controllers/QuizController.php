@@ -20,7 +20,8 @@ class QuizController extends Controller
     public function store(CreateQuizRequest $request, Scenario $scenario)
     {
         $scenario->quizzes()->attach(
-        $quiz_id = Quiz::insertGetId($request->validated()));
+            $quiz_id = Quiz::insertGetId($request->validated())
+        );
         return redirect(route('quiz.show',$quiz_id));
 
     }

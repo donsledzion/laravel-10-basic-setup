@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -13,12 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('organization_tokens', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('organization_id');
-            $table->string('token');
-            $table->timestamps();
-        });
+        DB::statement('ALTER TABLE `scenarios` MODIFY pin varchar(4)');
     }
 
     /**
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('organization_tokens');
+        DB::statement('ALTER TABLE `scenarios` MODIFY pin integer(4)');
     }
 };

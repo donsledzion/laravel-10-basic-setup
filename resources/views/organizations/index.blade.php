@@ -33,7 +33,7 @@
                             <td>{{ $organization->name }}</td>
                             <td>{{ $organization->prefix }}</td>
                             <td>{{ $organization->users()->count() }}</td>
-                            <td><!--  -->n/a</td>
+                            <td>{{ $organization->scenarios()->count() }}</td>
                             <td>
                               <a href="{{ route('organization.edit',[$organization]) }}"><button class="btn btn-warning">{{ ucfirst(__('organization.edit')) }}</button></a>
                               <a href="{{ route('organization.show',[$organization]) }}"><button class="btn btn-info">{{ ucfirst(__('organization.show')) }}</button></a>

@@ -21,11 +21,20 @@
                         <div class="row mb-4">
                           <div class="col">
                             <div data-mdb-input-init class="form-outline">
-                              <input type="text" id="name" name="name" class="form-control" value="{{ old('name', $user->name) }}" />
-                              <label class="form-label" for="name">{{ ucfirst(__('user.form.name')) }}</label>
-                                @error('name')
-                                    <div class="text-danger">{{ __($message) }}</div>
-                                @enderror
+                                @if(\Auth::user()->id == $user->id)
+                                    <input type="text" id="name" name="name" class="form-control" value="{{ old('name', $user->name) }}" />
+                                    <label class="form-label" for="name">{{ ucfirst(__('user.form.name')) }}</label>
+                                    @error('name')
+                                        <div class="text-danger">{{ __($message) }}</div>
+                                    @enderror
+                                @else
+                                    <label >{{ ucfirst(__('user.card.name')) }}</label></br>
+                                    @if(empty($user->name))
+                                        <span class="text-danger"><strong>{{ __('user.roles.none')}}</strong></span>  
+                                    @else
+                                        <span><strong>{{ $user->name}}</strong></span>  
+                                    @endif
+                                @endif
                             </div>
                           </div>
                           <div class="col">
@@ -38,12 +47,12 @@
                             </div>
                           </div>
                         </div>
-                        
+                        @if(\Auth::user()->role->value == 'admin')
                         <div class="row mb-4">
                             <div class="col">
                                 <select id="role" name="role" class="form-select">
-                                    @foreach(\App\Enums\UserRoles::cases() as $role)
-                                        <option value="{{ $role->value }}" @if( old('role', $user->role) == $role->value) selected @endif>{{ ucfirst(__('user.roles.'.$role->value)) }}</option>
+                                    @foreach(\App\Enums\UserRoles::cases() as $role)                                    
+                                        <option value="{{ $role }}" @if( old('role') == $role ||  $user->role == $role)  selected @endif>{{ ucfirst(__('user.roles.'.$role->value)) }}</option>
                                     @endforeach
                                 </select>
                                 <label class="form-label" for="role">{{ ucfirst(__('user.role')) }}</label>
@@ -52,6 +61,7 @@
                                 @enderror
                             </div>
                         </div>
+                        @endif
                       
                         <!-- Submit button -->
                         <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">{{ ucfirst(__('user.save_changes')) }}</button>

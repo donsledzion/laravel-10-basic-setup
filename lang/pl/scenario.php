@@ -15,7 +15,8 @@ return [
     ],
     'form' => [
         'creation' => 'formularz nowego scenariusza',
-        'show' => 'karta przeglądu scenariusza'
+        'show' => 'karta przeglądu scenariusza',
+        'edit' => 'karta edycji scenariusza'
     ]
     
 ];

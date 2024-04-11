@@ -31,9 +31,14 @@
                         @foreach($users as $user)
                         <tr>
                           <th scope="row">1</th>
-                          <td>{{ $user->name }}</td>
+                          <td>
+                            @if(empty($user->name))
+                                <span class="text-danger"><strong>{{ __('user.roles.none')}}</strong></span>  
+                            @else
+                                {{ $user->name}}
+                            @endif</td>
                           <td>{{ $user->email }}</td>
-                          <td>{{ ucfirst(__('user.roles.'.$user->role)) }}</td>
+                          <td>{{ ucfirst(__('user.roles.'.$user->role->value)) }}</td>
                           <td>
                             <a href="{{ route('user.edit',[$user]) }}"><button class="btn btn-warning">{{ ucfirst(__('user.edit')) }}</button></a>
                             <a href="{{ route('user.show',[$user]) }}"><button class="btn btn-info">{{ ucfirst(__('user.show')) }}</button></a>

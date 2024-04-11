@@ -30,7 +30,7 @@ class CreateOrganizationRequest extends FormRequest
         'expires_at' => 'required|date',
         'headset_login' => 'required|string|min:5|max:15|unique:organizations,headset_login',
         'headset_pin' => 'required|numeric|digits:4|',
-        'logo' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:5120'
+        'logo' => 'nullable|file|mimes:jpeg,jpg,png,gif|max:5120'
         ];
     }
 }
