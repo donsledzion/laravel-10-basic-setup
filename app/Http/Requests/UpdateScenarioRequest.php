@@ -26,7 +26,7 @@ class UpdateScenarioRequest extends FormRequest
         return [
             'name' => 'string|min:3|max:128|unique:organizations,name',
             'description' => 'string|min:5|max:1024',
-            'pin' => 'numeric|digits:4',
+            'pin' => 'nullable|numeric|digits:4',
             ];        
     }
 }

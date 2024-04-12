@@ -23,13 +23,18 @@ class UpdateOrganizationRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name' => 'string|min:3|max:256',
             'prefix' => 'string|min:5|max:10',
-            'expires_at' => 'date',
             'headset_login' => 'string|min:5|max:15',
             'headset_pin' => 'numeric|digits:4',
-            'logo' => 'nullable|file|mimes:jpeg,jpg,png,gif|max:5120'
+            'logo' => 'nullable|file|mimes:png|max:5120'
             ];
+
+            if(\Auth::user()->isAdmin()){
+                $rules['expires_at'] = 'date';
+            }
+
+        return $rules; 
     }
 }

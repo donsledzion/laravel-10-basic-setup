@@ -70,6 +70,16 @@ class UserController extends Controller
         ]);
     }
 
+    public function createAdmin(Organization $organization)
+    {
+        if((!\Auth::user()->isAdmin()) || ($organization->admin() != null))
+            return redirect(route('home'));
+        return view('users.create',[
+            'organization' => $organization,
+            'role' => OrganizationRoles::ADMIN->value
+        ]);
+    }
+
     public function store(CreateUserRequest $request)
     {
         try{
@@ -77,6 +87,13 @@ class UserController extends Controller
             if($user == null)
                 $user = User::create($request->validated());
             if(isset($request->organization_id)){
+                $organization = Organization::find($request->organization_id);                
+                if($organization == null)
+                    return redirect(route('home'));
+                if($request->organization_role == 'admin'){                    
+                    if($organization->admin() != null || !\Auth::user()->isAdmin()) 
+                        return redirect(route('home'));
+                }
                 $user->organizations()->attach($request->organization_id,[
                     'role' => $request->organization_role
                 ]);

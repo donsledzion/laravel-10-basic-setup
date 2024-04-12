@@ -58,9 +58,11 @@
                           </div>
                         </div>
 
-                        <!-- 2 column grid layout with text inputs for organization name and prefix -->
+                        <!-- 2 column grid layout with text inputs for organization name and prefix -->                        
                         <div class="row mb-4">                          
-                          
+                            @isset($organization)
+                            <input type="text" name="organization_id" value="{{ $organization->id }}"  style="display: none;" >                                
+                            @endisset
                         </div>
 
                         

@@ -26,8 +26,15 @@ Route::get('/home', function(){
     return view('home');
 })->middleware(['auth','verified']);
 
-Route::get('/organization/{organization}/create-manager', [UserController::class, "createManager"])->name('organization.create.manager')->middleware(['auth','verified']);
-Route::get('/organization/{organization}/create-trainer', [UserController::class, "createTrainer"])->name('organization.create.trainer')->middleware(['auth','verified']);
+Route::get('/organization/{organization}/create-manager', [UserController::class, "createManager"])
+        ->name('organization.create.manager')
+        ->middleware(['auth','verified']);
+Route::get('/organization/{organization}/create-trainer', [UserController::class, "createTrainer"])
+        ->name('organization.create.trainer')
+        ->middleware(['auth','verified']);
+Route::get('/organization/{organization}/create-admin', [UserController::class, "createAdmin"])
+        ->name('organization.create.admin')
+        ->middleware(['auth','verified']);
 
 Route::get('/quiz/create/{scenario}', [QuizController::class, "create"])->name('quiz.create')->middleware(['auth','verified']);
 Route::post('/quiz/{scenario}', [QuizController::class, "store"])->name('quiz.store')->middleware(['auth','verified']);
@@ -37,5 +44,7 @@ Route::post('/answer/{quiz}',[AnswerController::class, "store"])->name('answer.s
 Route::resource('user', UserController::class)->middleware(['auth', 'verified']);
 Route::resource('organization', OrganizationController::class)->middleware(['auth', 'verified']);
 Route::resource('scenario', ScenarioController::class)->middleware(['auth', 'verified']);
+Route::get('/scenario/create/{organization}',[ScenarioController::class, 'create'])->name('scenario.create-for-organization')->middleware(['auth','verified']);
+
 Auth::routes(['verify' => true]);
 

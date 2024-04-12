@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CreateOrganizationRequest;
 use App\Http\Requests\UpdateOrganizationRequest;
 use App\Models\Organization;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -67,10 +68,9 @@ class OrganizationController extends Controller
 
     public function update(UpdateOrganizationRequest $request, Organization $organization)
     {
+        $old_logo = $organization->logo;
         $organization->update($request->validated());
-        if($request->hasFile('logo')){
-            //if organization already has any logo 
-            // need to remove it from storage
+        if($request->hasFile('logo')){            
             $file = $request->file('logo');
             $fileName = $file->getClientOriginalName();
             $ext = pathinfo($fileName, PATHINFO_EXTENSION);
@@ -78,7 +78,7 @@ class OrganizationController extends Controller
             $file->storeAs('multimedia/'.$organization->id.'/pictures/', $hashName);
             $organization->logo = $hashName;
             $organization->save();
-            //dd($filePath);
+            $organization->removeLogoFile($old_logo);
         }
         return redirect(route('organization.show',[
             $organization
@@ -90,7 +90,16 @@ class OrganizationController extends Controller
 
     public function destroy(Organization $organization)
     {
-        $organization->delete();
-        return redirect(route('organization.index'));        
+        try{
+            $organization->removeLogoFile();
+            $organization->delete();            
+        } catch(\Exception $e){
+            $msg = "An error occured while trying to remove organization. ".$e->getMessage();
+            error_log($msg);
+            Log::error($msg);            
+        } finally {
+            return redirect(route('organization.index')); 
+        }
+        
     }
 }

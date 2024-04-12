@@ -15,20 +15,12 @@ return new class extends Migration
     {
         Schema::create('scenarios', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id');
+            $table->foreignId('organization_id');
             $table->string('name');
             $table->string('description')->nullable();
-            $table->integer('pin')->nullable();
+            $table->string('pin')->nullable();
             $table->timestamps();
-        });
-
-        Schema::table('scenarios', function (Blueprint $table) {
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            
         });
     }
 

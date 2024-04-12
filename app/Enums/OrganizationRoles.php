@@ -6,4 +6,5 @@ enum OrganizationRoles: string {
 
     case TRAINER = "trainer";
     case MANAGER = "manager";
+    case ADMIN = "admin";
 }

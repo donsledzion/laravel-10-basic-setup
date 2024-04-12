@@ -55,49 +55,52 @@
                                     <div class="text-danger">{{ __($message) }}</div>
                                 @enderror
                             </div>
-                          </div>
+                          </div>                          
                           <div class="col">
                             <div data-mdb-input-init class="form-outline">
+                              @if(\Auth::user()->isOrganizationAdmin($organization))
                               <input type="password" id="headset_pin" name="headset_pin" class="form-control" placeholder="organization.placeholder.pin" value="{{ old('headset_pin', $organization->headset_pin) }}"/>
                               <label class="form-label" for="headset_pin">{{ ucfirst(__('organization.headset.pin')) }}</label>
                                 @error('headset_pin')
                                     <div class="text-danger">{{ __($message) }}</div>
                                 @enderror
+                              @else
+                              <input type="password" class="form-control" placeholder="organization.placeholder.pin" value="{{ $organization->headset_pin }}" disabled />
+                              <label class="form-label" for="headset_pin">{{ ucfirst(__('organization.headset.pin')) }}</label>
+                              @endif
                             </div>
                           </div>
                         </div>
 
-
+                        @if(\Auth::user()->isAdmin())
                         <div data-mdb-input-init class="form-outline mb-4">
                             <input id="expires_at" name="expires_at" width="276" value="{{ old("expires_at", $organization->expires_at) }}" />
                             <label class="form-label" for="expires_at">{{ ucfirst(__('organization.expires_at')) }}</label>
-                            @error('expires_at')
-                                    <div class="text-danger">{{ __($message) }}</div>
-                                @enderror
+                              @error('expires_at')
+                                <div class="text-danger">{{ __($message) }}</div>
+                              @enderror
                         </div>
+                        @endif
 
                         <div class="container my-5">
                           <div class="card-body">
-                            <div id="drop-area" class="border rounded d-flex justify-content-center align-items-center"
-                              style="height: 200px; cursor: pointer">
-                              <div class="text-center">
-                                <i class="bi bi-cloud-arrow-up-fill text-primary" style="font-size: 48px"></i>
-                                <p class="mt-3">
-                                  {{ ucfirst(__('organization.logo.drop')) }}
-                                </p>
-                              </div>
+                            <div>
+                              <input type="file" id="logo" name="logo" accept="image/*" />
+                              @error('logo')
+                                <div class="text-danger">{{ __($message) }}</div>
+                              @enderror
+                            </div>     
+                            <div>
+                              <img src="{{ asset('organizations'.'/'.$organization->id.'/pictures/'.$organization->logo) }}" />
                             </div>
-                            <input type="file" id="logo" name="logo" accept="image/*" />
-                            @error('logo')
-                              <div class="text-danger">{{ __($message) }}</div>
-                            @enderror
-                            <div id="gallery"></div>
+                                                   
+
                         </div>
                         
 
                       
                         <!-- Submit button -->
-                        <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">{{ ucfirst(__('organization.create')) }}</button>
+                        <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">{{ ucfirst(__('organization.save')) }}</button>
                       </form>
                 </div>
                 

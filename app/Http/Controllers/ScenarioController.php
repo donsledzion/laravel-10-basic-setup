@@ -7,19 +7,27 @@ use App\Http\Requests\UpdateScenarioRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\Scenario;
+use App\Models\Organization;
 
 class ScenarioController extends Controller
 {
     public function index()
     {
+        if(\Auth::user()->isAdmin())
+            $scenarios = Scenario::all();
+        else
+            $scenarios = \Auth::user()->scenarios;
+
         return view('scenarios.index',[
-            'scenarios' => Scenario::all()
+            'scenarios' => $scenarios
         ]);
     }
 
-    public function create()
+    public function create(Organization $organization)
     {
-        return view('scenarios.create');
+        return view('scenarios.create',[
+            'organization' => $organization
+        ]);
     }
 
     public function show(Scenario $scenario)
@@ -34,6 +42,9 @@ class ScenarioController extends Controller
         try{
             $scenario = \Auth::user()->scenarios()->make($request->validated());
             $scenario->save();
+            if(isset($request->organization_id)){
+                $scenario->organizations()->attach($request->organization_id);
+            }
             return redirect(route('scenario.show',[$scenario]));            
         }catch(\Exception $e){
             $msg = "An error occured while trying to store scenario: ".$e->getMessage();

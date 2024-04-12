@@ -214,7 +214,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="text-center border-end">
-                            <img src="{{ asset('organizations'.'/'.$organization->id.'/pictures/'.$organization->logo) }}" class="img-fluid avatar-xxl rounded-circle" alt="">
+                            <img src="{{ asset('organizations'.'/'.$organization->id.'/pictures/'.$organization->logo) }}" class="img-fluid avatar-xxl rounded" alt="">
                         </div>
                     </div><!-- end col -->
                     <div class="col-md-9">
@@ -226,19 +226,33 @@
                             <div class="row my-4">
                                 <div class="col-md-12">
                                     <div>
-                                        <label>{{ ucfirst(__('user.roles.manager')) }}:</label>
-                                        @if($organization->managers()->count() < 1)
-                                        <p class="text-strong mb-2 fw-medium text-danger">
-                                            <i class="mdi mdi-email-outline me-2"></i>
-                                            <strong>{{ ucfirst(__('user.roles.none')) }}</strong>
-                                        </p>
-                                        @endif
-                                        @foreach($organization->managers as $manager)
-                                            <p class="text-strong mb-2 fw-medium">
+                                        <label>{{ ucfirst(__('user.roles.admin')) }}:</label>
+                                        @if($organization->admin() == null)
+                                            @if(\Auth::user()->isAdmin())
+                                                @if(\Auth::user()->canEditOrganization($organization) )    
+                                                    <div>
+                                                        <a href="{{ route('organization.create.admin',[$organization]) }}" class="btn btn-danger">
+                                                            {{ ucfirst(__('organization.create')) }}
+                                                        </a>
+                                                    </div>
+                                                @endif
+                                            @else
+                                            <p class="text-strong mb-2 fw-medium text-danger">
                                                 <i class="mdi mdi-email-outline me-2"></i>
-                                                <strong>{{ $manager->name }}</strong>
+                                                <strong>{{ ucfirst(__('user.roles.none')) }}</strong>
                                             </p>
-                                        @endforeach
+                                            @endif
+                                        @else
+                                        <p class="text-strong mb-2 fw-medium">
+                                            <i class="mdi mdi-email-outline me-2"></i>
+                                            @isset($organization->admin()->name)
+                                                <strong>{{ $organization->admin()->name }}</strong>                                                
+                                            @else
+                                                <strong>{{ $organization->admin()->email }}</strong>                                                
+                                            @endisset
+                                        </p>
+                                        @endif                                        
+                                        
                                         <label>{{ ucfirst(__('organization.expires_at')) }}</label>
                                         <p class="fw-medium mb-0"><i class="mdi mdi-phone-in-talk-outline me-2"></i><strong>{{ $organization->expires_at->format("d-m-Y") }}</strong>
                                         </p>
@@ -248,41 +262,41 @@
                         </div>
                     </div><!-- end col -->
                 </div><!-- end row -->
-            </div><!-- end card body -->
+            </div><!-- end card body -->            
+            @if(\Auth::user()->canEditOrganization($organization) )            
             <a href="{{ route('organization.edit',[$organization]) }}" class="btn btn-warning">{{ ucfirst(__('organization.edit')) }}</a>
+            @endif
         </div><!-- end card -->
 
+        @if(\Auth::user()->canEditOrganization($organization) )            
         <div class="card">
             <h4 class="card-title mb-4">{{ ucfirst(__('organization.members.members')) }}</h4>
-            <a href="{{ route('organization.create.manager',[$organization]) }}" class="btn btn-info">{{ ucfirst(__('organization.members.add.manager')) }}</a>
-            <a href="{{ route('organization.create.trainer',[$organization]) }}" class="btn btn-success mt-1">{{ ucfirst(__('organization.members.add.trainer')) }}</a>
+            @if(\Auth::user()->isOrganizationAdmin($organization))
+                <a href="{{ route('organization.create.manager',[$organization]) }}" class="btn btn-info">{{ ucfirst(__('organization.members.add.manager')) }}</a>
+            @endif            
+            @if(\Auth::user()->isOrganizationAdmin($organization) || \Auth::user()->isOrganizationManager($organization))
+                <a href="{{ route('organization.create.trainer',[$organization]) }}" class="btn btn-success mt-1">{{ ucfirst(__('organization.members.add.trainer')) }}</a>
+            @endif
             <div class="tab-content p-4">
-                
-
                 <div class="tab-panel active show" id="tasks-tab" role="tabpanel">    
                     @foreach($organization->users as $user)
                         @include('organizations.components.member',['user' => $user])
                     @endforeach
                 </div><!-- end tab pane -->
-
-                
             </div>
         </div><!-- end card -->
+        @endif
 
         <div class="card">
             <h4 class="card-title mb-4">{{ ucfirst(__('organization.scenarios.scenarios')) }}</h4>
-            <a href="{{ route('scenario.create',[$organization]) }}" class="btn btn-info">{{ ucfirst(__('organization.scenarios.add')) }}</a>
+            @if(\Auth::user()->canCreateScenariosForOrganization($organization))
+            <a href="{{ route('scenario.create-for-organization',[$organization]) }}" class="btn btn-info">{{ ucfirst(__('organization.scenarios.add-new')) }}</a>
+            @endif
+            
             <div class="tab-content p-4">
-                
-
                 <div class="tab-pane active show" id="tasks-tab" role="tabpanel">
-                    
-                    
-                    
-                    @foreach($organization->users as $user)
-                        @foreach($user->scenarios as $scenario)
-                            @include('organizations.components.scenario',['scenario' => $scenario])
-                        @endforeach
+                    @foreach($organization->scenarios as $scenario)
+                        @include('organizations.components.scenario',['scenario' => $scenario])
                     @endforeach
                 </div><!-- end tab pane -->
 

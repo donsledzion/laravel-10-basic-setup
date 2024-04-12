@@ -4,6 +4,7 @@ return [
     'organization' => 'organizacja',
     'organizations' => 'organizacje',
     'add' => 'dodaj organizację',
+    'save' => 'zapisz',
     'name' => 'nazwa',
     'prefix' => 'prefix',
     'card' => 'karta organizacji',
@@ -22,7 +23,9 @@ return [
     'scenarios' => [
         'scenarios' => 'scenariusze',
         'none' => 'brak',
-        'add' => 'dodaj scenariusz'
+        'add' => 'dodaj scenariusz',
+        'add-new' => 'stwórz nowy',
+        'add-listed' => 'wybierz z listy',
     ],
     'headset' =>[
         'login' => 'login gogli',
