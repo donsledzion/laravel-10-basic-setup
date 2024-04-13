@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('organization_tokens', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('organization_id');
+            $table->foreignId('organization_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('token');
             $table->timestamps();
         });

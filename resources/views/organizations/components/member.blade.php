@@ -7,10 +7,10 @@
                         <div class="row align-items-center">
                             <div class="col-xl-6 col-sm-5">
                                 <div class="list font-size-15">
-                                    <span><strong>{{ $user->name }} - {{ $user->email }} - {{ ucfirst(__('user.roles.'.$user->pivot->role)) }} </strong></span>
+                                    <span><strong>{{ $user->name }} - {{ $user->email }} - {{ ucfirst(__('user.roles.'.\App\Models\Role::find($user->pivot->role_id)->name)) }} </strong></span>
                                 </div>
                             </div><!-- end col -->
-                            
+
                         </div><!-- end row -->
                     </div><!-- end cardbody -->
                 </div><!-- end card -->

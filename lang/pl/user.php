@@ -32,7 +32,8 @@ return [
         'none' => 'brak',
         'trainer' => 'trener',
         'manager' => 'menadżer',
-        'admin' => 'admnistrator',
+        'admin' => 'admnistrator aplikacji',
+        'global-admin' => 'admnistrator serwisu',
         'user' => 'użytkownik'
     ]
 ];

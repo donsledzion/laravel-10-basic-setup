@@ -15,9 +15,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('organization_user', function (Blueprint $table) {
-            $table->foreignId('organization_id');
-            $table->foreignId('user_id');
-            $table->foreignId('role_id');
+            $table->foreignId('organization_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('role_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->unique(['organization_id','user_id']);
         });
     }

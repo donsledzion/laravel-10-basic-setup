@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\OrganizationRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
@@ -34,19 +33,19 @@ class Organization extends Model
 
     public function users():BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withPivot('role');
+        return $this->belongsToMany(User::class)->withPivot('role_id');
     }
 
     public function managers():BelongsToMany
     {
         return $this->belongsToMany(User::class)
-                    ->wherePivot('role',OrganizationRoles::MANAGER->value);
+                    ->wherePivot('role_id',Role::firstWhere('name', 'manager'));
     }
 
     public function admin():User | null
     {
         return $this->users()
-                    ->wherePivot('role',OrganizationRoles::ADMIN->value)->first();
+            ->wherePivot('role_id',Role::firstWhere('name', 'admin')->id)->first();
     }
 
     public function scenarios():HasMany
@@ -64,21 +63,21 @@ class Organization extends Model
         try{
             if($logo == null){
                 if($this->logo == null || Str::emtpy($this->logo)) return null;
-                $logoPath = 'multimedia/'.$this->id.'/pictures/'.$this->logo;                                
+                $logoPath = 'multimedia/'.$this->id.'/pictures/'.$this->logo;
             } else {
                 $logoPath = 'multimedia/'.$this->id.'/pictures/'.$logo;
             }
             if(Storage::exists($logoPath)){
                 return $logoPath;
             }
-            
+
             return null;
         } catch(\Exception $e){
             $msg = "An error occurred while trying to get organization ".$this->name." logo file. ".$e->getMessage();
             error_log($msg);
             Log::error($msg);
         }
-        
+
     }
 
     public function removeLogoFile(string $logo = null)

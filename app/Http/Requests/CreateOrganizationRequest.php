@@ -14,7 +14,7 @@ class CreateOrganizationRequest extends FormRequest
     public function authorize()
     {
 
-        return \Auth::user()->isAdmin();
+        return \Auth::user()->isAllowed('create_organization');
     }
 
     /**

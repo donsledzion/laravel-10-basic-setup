@@ -15,12 +15,7 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('quiz_id');
-            $table->foreign('quiz_id')
-                    ->references('id')
-                    ->on('quizzes')
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
+            $table->foreignId('quiz_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('content');
             $table->boolean('is_correct')->default(false);
             $table->unsignedInteger('order')->nullable();

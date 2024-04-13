@@ -13,7 +13,7 @@ class UpdateOrganizationRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return \Auth::user()->isAllowed('edit_organization');
     }
 
     /**
@@ -35,6 +35,6 @@ class UpdateOrganizationRequest extends FormRequest
                 $rules['expires_at'] = 'date';
             }
 
-        return $rules; 
+        return $rules;
     }
 }

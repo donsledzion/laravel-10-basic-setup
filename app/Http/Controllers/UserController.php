@@ -88,14 +88,15 @@ class UserController extends Controller
                 $user = User::create($request->validated());
             if(isset($request->organization_id)){
                 $organization = Organization::find($request->organization_id);
-                if($organization == null)
+                $organizationRole = Role::find($request->organization_role);
+                if($organization == null || $organizationRole == null)
                     return redirect(route('home'));
-                if($request->organization_role == 'admin'){
-                    if(Auth::user()->isAllowed('create_organization_admin',$organization))
-                        return redirect(route('home'));
-                }
+
+                if(!Auth::user()->isAllowed('create_organization_'.$organizationRole->name))
+                    return redirect(route('home'));
+
                 $user->organizations()->attach($request->organization_id,[
-                    'role' => $request->organization_role
+                    'role_id' => $request->organization_role
                 ]);
             }
             return redirect(route('user.show',[$user]));

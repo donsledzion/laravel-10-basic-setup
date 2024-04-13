@@ -27,14 +27,14 @@
                             </div>
                           </div>
                         </div>
-                        
+
                         <div class="row mb-4">
                             <div class="col">
                                 @if(isset($organization))
                                 <input id="organization_id" name="organization_id" type="hidden" value="{{ $organization->id}} " />
-                                <input id="organization_role" name="organization_role" type="hidden" value="{{ $role }} " />
-                                <span><strong>{{ ucfirst(__('user.roles.'.$role)) }}</strong></span></br>
-                                
+                                <input id="organization_role" name="organization_role" type="hidden" value="{{ $role->id }} " />
+                                <span><strong>{{ ucfirst(__('user.roles.'.$role->name)) }}</strong></span></br>
+
                                 @else
                                 <select id="role" name="role" class="form-select">
                                     @foreach(\App\Enums\UserRoles::cases() as $role)
@@ -48,12 +48,12 @@
                                 @enderror
                             </div>
                         </div>
-                      
+
                         <!-- Submit button -->
                         <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">{{ ucfirst(__('organization.create')) }}</button>
                       </form>
                 </div>
-                
+
             </div>
         </div>
     </div>

@@ -14,22 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('quiz_scenario', function (Blueprint $table) {
-            $table->unsignedBigInteger('quiz_id');
-            $table->unsignedBigInteger('scenario_id');
+            $table->foreignId('quiz_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('scenario_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->unique(['quiz_id','scenario_id']);
-        });
-
-        Schema::table('quiz_scenario', function (Blueprint $table) {
-            $table->foreign('quiz_id')
-                    ->references('id')
-                    ->on('quizzes')
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
-            $table->foreign('scenario_id')
-                    ->references('id')
-                    ->on('scenarios')
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
         });
     }
 
