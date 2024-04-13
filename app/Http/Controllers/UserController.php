@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\OrganizationRoles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Organization;
 use App\Enums\UserRoles;
@@ -18,7 +17,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $role = Auth::user()->role;
+        $role = \Auth::user()->role;
         $users = null;
         //dd($role);
         switch($role){
@@ -26,7 +25,7 @@ class UserController extends Controller
                 $users = User::all();
                 break;
             case UserRoles::USER:
-                $user = Auth::user();
+                $user = \Auth::user();
                 $users = new Collection();
                 foreach($user->organizations as $organization){
                     foreach($organization->users as $member){
@@ -92,8 +91,10 @@ class UserController extends Controller
                 if($organization == null || $organizationRole == null)
                     return redirect(route('home'));
 
-                if(!Auth::user()->isAllowed('create_organization_'.$organizationRole->name))
+                if(!\Auth::user()->isAllowed('create_organization_'.$organizationRole->name,$organization)){
+                    error_log('create_organization_'.$organizationRole->name);
                     return redirect(route('home'));
+                }
 
                 $user->organizations()->attach($request->organization_id,[
                     'role_id' => $request->organization_role

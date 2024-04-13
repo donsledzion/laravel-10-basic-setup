@@ -28,8 +28,8 @@ class CreateQuizRequest extends FormRequest
         return [
             'type' => [new Enum(QuizTypes::class)],
             'question_text' => 'required|string|min:4|max:512',
-            'question_picture' => 'string',
-            'question_audio' => 'string'
+            'question_picture' => 'nullable|file|mimes:png,jpg,bmp|max:10240',
+            'question_audio' => 'nullable|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav',
         ];
     }
 }

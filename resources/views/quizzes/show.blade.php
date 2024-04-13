@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('head')
-@vite(['resources/js/quiz.js'])
+@vite(['resources/js/quiz-correct.js'])
 @endsection
 
 @section('content')
@@ -85,8 +85,4 @@
     
     
 </div>
-@endsection
-@section('javascript')
- 
-</script>
 @endsection

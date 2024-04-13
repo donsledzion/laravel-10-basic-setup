@@ -35,7 +35,7 @@
                             <td>{{ $organization->users()->count() }}</td>
                             <td>{{ $organization->scenarios()->count() }}</td>
                             <td>
-                                @include('organizations.components.buttons.edit-organization',['organization' => $organization])
+                                @include('organizations.components.buttons.edit-organization',['organization' => $organization])                                
                               <a href="{{ route('organization.show',[$organization]) }}"><button class="btn btn-info">{{ ucfirst(__('organization.show')) }}</button></a>
                             </td>
                           </tr>

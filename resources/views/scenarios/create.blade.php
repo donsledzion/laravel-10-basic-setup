@@ -62,7 +62,10 @@
                         <div class="row mb-4">                          
                             @isset($organization)
                             <input type="text" name="organization_id" value="{{ $organization->id }}"  style="display: none;" >                                
+                            @else
+                            tereferer
                             @endisset
+
                         </div>
 
                         

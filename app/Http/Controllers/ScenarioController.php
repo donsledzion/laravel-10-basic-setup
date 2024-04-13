@@ -41,10 +41,9 @@ class ScenarioController extends Controller
     {
         try{
             $scenario = \Auth::user()->scenarios()->make($request->validated());
+            $scenario->organization_id = $request->organization_id;
             $scenario->save();
-            if(isset($request->organization_id)){
-                $scenario->organizations()->attach($request->organization_id);
-            }
+            
             return redirect(route('scenario.show',[$scenario]));            
         }catch(\Exception $e){
             $msg = "An error occured while trying to store scenario: ".$e->getMessage();

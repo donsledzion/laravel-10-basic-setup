@@ -45,5 +45,20 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'see_organization_users'
         ]);
+        Permission::create([
+            'name' => 'create_scenario'
+        ]);
+        Permission::create([
+            'name' => 'edit_scenario'
+        ]);
+        Permission::create([
+            'name' => 'remove_scenario'
+        ]);
+        Permission::create([
+            'name' => 'view_all_scenarios'
+        ]);
+        Permission::create([
+            'name' => 'view_owned_scenarios'
+        ]);
     }
 }

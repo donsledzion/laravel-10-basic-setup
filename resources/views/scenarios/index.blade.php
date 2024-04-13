@@ -12,11 +12,6 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <p>
-                      <a href="{{ route('scenario.create') }}"> <button class="btn btn-info">{{ ucfirst(__('scenario.add')) }}</button></a>
-                    </p>
-                    
-                    
                     <table class="table table-striped">
                       <thead>
                         <tr>
@@ -24,7 +19,7 @@
                           <th scope="col">{{ __('scenario.name') }}</th>
                           <th scope="col">{{ __('scenario.pin') }}</th>
                           <th scope="col">{{ __('scenario.quizzes') }}</th>
-                          <th scope="col">{{ __('scenario.organizations') }}</th>
+                          <th scope="col">{{ __('organization.organization') }}</th>
                           <th scope="col">{{ __('scenario.options') }}</th>
                         </tr>
                       </thead>
@@ -42,7 +37,7 @@
                                 @endif
                             </td>
                           <td>{{ $scenario->quizzes->count() }}</td>
-                          <td>{{ $scenario->organizations->count() }}</td>
+                          <td>{{ $scenario->organization->name }}</td>
                           <td>
                             <a href="{{ route('scenario.edit',[$scenario]) }}"><button class="btn btn-warning">{{ ucfirst(__('scenario.edit')) }}</button></a>
                             <a href="{{ route('scenario.show',[$scenario]) }}"><button class="btn btn-info">{{ ucfirst(__('scenario.show')) }}</button></a>

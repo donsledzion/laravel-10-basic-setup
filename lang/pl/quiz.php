@@ -13,7 +13,7 @@ return [
     'save' => 'zapisz',
     'types' => [
         'text2text' => 'pytanie tekstowe, odpowiedzi tekstowe',
-        'text2picture' => 'pytanie tekstowe, obrazkowe',
+        'text2picture' => 'pytanie tekstowe, odpowiedzi obrazkowe',
         'text2audio' => 'pytanie tekstowe, odpowiedzi dźwiękowe',
         'audio2text' => 'pytanie dźwiękowe, odpowiedzi tekstowe',
         'audio2audio' => 'pytanie dźwiękowe, odpowiedzi dźwiękowe',

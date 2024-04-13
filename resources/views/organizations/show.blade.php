@@ -275,18 +275,14 @@
         </div><!-- end card -->
 
         <div class="card">
-            <h4 class="card-title mb-4">{{ ucfirst(__('organization.scenarios.scenarios')) }}</h4>
             @include('organizations.components.buttons.create-scenario',['organization' => $organization])
-
-            <div class="tab-content p-4">
-                <div class="tab-pane active show" id="tasks-tab" role="tabpanel">
-                    @foreach($organization->scenarios as $scenario)
-                        @include('organizations.components.scenario',['scenario' => $scenario])
-                    @endforeach
-                </div><!-- end tab pane -->
+        </div><!-- end card -->
 
 
-            </div>
+
+        <div class="card">
+            @include('organizations.components.scenarios',['organization' => $organization])
+            
         </div><!-- end card -->
     </div><!-- end col -->
 </div>

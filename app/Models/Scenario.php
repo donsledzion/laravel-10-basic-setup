@@ -32,7 +32,7 @@ class Scenario extends Model
         return $this->belongsToMany(Quiz::class);
     }
 
-    public function organizations():BelongsTo
+    public function organization():BelongsTo
     {
         return $this->belongsTo(Organization::class);
     }
