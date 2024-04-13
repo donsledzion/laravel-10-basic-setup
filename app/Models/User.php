@@ -50,6 +50,20 @@ class User extends Authenticatable implements MustVerifyEmail
         'role' => UserRoles::class
     ];
 
+    public function isAllowed(string $permissionName, Organization $organization = null):bool
+    {
+        $permission = Permission::where('name', $permissionName)->first();
+        if($permission == null) return false;
+        if($this->isAdmin()){
+            if(Role::where('name','global-admin')->first()->permissions->contains($permission)) return true;
+        }
+        if($organization == null) return false;
+        $role = $this->organizationRole($organization);
+        if($role == null) return false;
+        return $role->permissions->contains($permission);
+
+    }
+
     public function isAdmin():bool
     {
         return $this->role == UserRoles::ADMIN;
@@ -62,7 +76,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function organizations():BelongsToMany
     {
-        return $this->belongsToMany(Organization::class)->withPivot('role');
+        return $this->belongsToMany(Organization::class)->withPivot('role_id');
     }
 
     public function scenarios():HasMany
@@ -70,36 +84,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Scenario::class);
     }
 
-    public function organizationRole(Organization $organization)
+    public function organizationRole(Organization $organization):Role | null
     {
         if($this->organizations->count() < 1) return null;
-        return $this->organizations()->where('id',$organization->id)->firstOrFail()->pivot->role;        
+        return Role::firstWhere('id',$this->organizations()->where('id',$organization->id)->firstOrFail()->pivot->role_id);
     }
-
-    public function canCreateScenariosForOrganization(Organization $organization):bool 
-    {
-        if($this->organizationRole($organization) == OrganizationRoles::MANAGER ||
-        $this->organizationRole($organization) == OrganizationRoles::TRAINER)
-            return true;
-        return false;
-    }
-
-    public function isOrganizationAdmin(Organization $organization){
-        return $this->organizationRole($organization) == OrganizationRoles::ADMIN->value;
-    }
-
-    public function isOrganizationManager(Organization $organization){
-        return $this->organizationRole($organization) == OrganizationRoles::MANAGER->value;
-    }
-
-    public function isOrganizationTrainer(Organization $organization){
-        return $this->organizationRole($organization) == OrganizationRoles::TRAINER->value;
-    }
-
-    public function canEditOrganization(Organization $organization){
-        return ($this->isAdmin() || (
-                $this->isOrganizationManager($organization)|| (
-                $this->isORganizationAdmin($organization))));
-    }
-
 }

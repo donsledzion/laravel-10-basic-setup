@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ScenarioController;
+use App\Http\Controllers\PermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,11 +21,13 @@ use App\Http\Controllers\ScenarioController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
+
+
 
 Route::get('/home', function(){
     return view('home');
-})->middleware(['auth','verified']);
+})->name('home')->middleware(['auth','verified']);
 
 Route::get('/organization/{organization}/create-manager', [UserController::class, "createManager"])
         ->name('organization.create.manager')
@@ -46,5 +49,13 @@ Route::resource('organization', OrganizationController::class)->middleware(['aut
 Route::resource('scenario', ScenarioController::class)->middleware(['auth', 'verified']);
 Route::get('/scenario/create/{organization}',[ScenarioController::class, 'create'])->name('scenario.create-for-organization')->middleware(['auth','verified']);
 
+Route::resource('permission', PermissionController::class)->middleware(['auth','verified','admin']);
+
+Route::get('permission/toggle/{permission}/{role}',[PermissionController::class,'toggle'])
+        ->name('permission.toggle')
+        ->middleware(['auth','verified','admin']);
+
 Auth::routes(['verify' => true]);
+
+
 

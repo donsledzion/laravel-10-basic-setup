@@ -3,21 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRoles;
-use Illuminate\Http\Request;
 use App\Http\Requests\CreateOrganizationRequest;
 use App\Http\Requests\UpdateOrganizationRequest;
 use App\Models\Organization;
-use Exception;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class OrganizationController extends Controller
 {
     public function index()
     {
-        $organizations = \Auth::user()->organizations;
-        if(\Auth::user()->role == UserRoles::ADMIN)
+        if(Auth::user()->role == UserRoles::ADMIN)
             $organizations = Organization::all();
+        else
+            $organizations = Auth::user()->organizations;
+
         return view('organizations.index', [
             'organizations' => $organizations
         ]);
@@ -38,7 +38,7 @@ class OrganizationController extends Controller
     public function store(CreateOrganizationRequest $request)
     {
         //dd($request);
-        try{            
+        try{
             $organization = Organization::create($request->validated());
             if($request->hasFile('logo')){
                 $file = $request->file('logo');
@@ -51,7 +51,7 @@ class OrganizationController extends Controller
                 //dd($filePath);
             }
             return redirect(route('organization.show',[$organization]))->with('success','Dodano organizację!');
-            
+
         } catch(\Exception $e) {
             $msg = "An exception occured while trying to create organization entry. Exception message: ".$e->getMessage();
             error_log($msg);
@@ -70,7 +70,7 @@ class OrganizationController extends Controller
     {
         $old_logo = $organization->logo;
         $organization->update($request->validated());
-        if($request->hasFile('logo')){            
+        if($request->hasFile('logo')){
             $file = $request->file('logo');
             $fileName = $file->getClientOriginalName();
             $ext = pathinfo($fileName, PATHINFO_EXTENSION);
@@ -92,14 +92,14 @@ class OrganizationController extends Controller
     {
         try{
             $organization->removeLogoFile();
-            $organization->delete();            
+            $organization->delete();
         } catch(\Exception $e){
             $msg = "An error occured while trying to remove organization. ".$e->getMessage();
             error_log($msg);
-            Log::error($msg);            
+            Log::error($msg);
         } finally {
-            return redirect(route('organization.index')); 
+            return redirect(route('organization.index'));
         }
-        
+
     }
 }

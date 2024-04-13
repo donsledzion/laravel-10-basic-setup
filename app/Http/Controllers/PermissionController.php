@@ -3,7 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Permission;
+use App\Http\Requests\CreatePermissionRequest;
 use Illuminate\Http\Request;
+use \App\Models\Role;
+use Illuminate\Contracts\View\View as ViewView;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View as FacadesView;
+use Illuminate\View\View;
 
 class PermissionController extends Controller
 {
@@ -12,9 +21,12 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index():View
     {
-        //
+        $permissions = Permission::all();
+        return view('permissions.index',[
+            'permissions' => $permissions
+        ]);
     }
 
     /**
@@ -24,7 +36,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        //
+        return view('permissions.create');
     }
 
     /**
@@ -33,9 +45,10 @@ class PermissionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreatePermissionRequest $request):RedirectResponse
     {
-        //
+        Permission::create($request->validated());
+        return redirect(route('permission.index'));
     }
 
     /**
@@ -46,7 +59,9 @@ class PermissionController extends Controller
      */
     public function show(Permission $permission)
     {
-        //
+        return view('permissions.show',[
+            'permission' => $permission
+        ]);
     }
 
     /**
@@ -55,9 +70,11 @@ class PermissionController extends Controller
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function edit(Permission $permission)
+    public function edit(Permission $permission):ViewView
     {
-        //
+        return view('permissions.edit',[
+            'permission' => $permission
+        ]);
     }
 
     /**
@@ -67,9 +84,10 @@ class PermissionController extends Controller
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Permission $permission)
+    public function update(Request $request, Permission $permission):RedirectResponse
     {
-        //
+        $permission->update($request->validated());
+        return redirect(route('permission.show',[$permission]));
     }
 
     /**
@@ -78,8 +96,43 @@ class PermissionController extends Controller
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Permission $permission)
+    public function destroy(Permission $permission):RedirectResponse
     {
-        //
+        try{
+            $permission->delete();
+        }catch(\Exception $e){
+            $msg = "Failed to delete permission! ".$e->getMessage();
+            error_log($msg);
+            Log::error($msg);
+        } finally {
+            return redirect(route('permission.index'));
+        }
+    }
+
+    public function toggle(Permission $permission, Role $role)
+    {
+        error_log("About to toggle permission ".$permission->name." for role ".$role->name."!");
+        try{
+            if($permission->roles->contains($role)){
+                $permission->roles()->detach($role);
+                $active = false;
+            } else {
+                $permission->roles()->attach($role);
+                $active = true;
+            }
+            return response()->json([
+                'status' => 'success',
+                'message' => 'permission.update.success',
+                'active' => $active
+            ])->setStatusCode(200);
+        } catch (\Exception $e){
+            $msg = "Failed to toggle permission for user role. ".$e->getMessage();
+            error_log($msg);
+            Log::error($msg);
+            return response()->json([
+                'status' => 'failed',
+                'message' => $msg
+            ])->setStatusCode(418);
+        }
     }
 }

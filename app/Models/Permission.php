@@ -18,4 +18,9 @@ class Permission extends Model
     {
         return $this->belongsToMany(Role::class);
     }
+
+    public function can(string $permissionName):bool
+    {
+        return $this->roles->where('name',$permissionName)->first() != null;
+    }
 }

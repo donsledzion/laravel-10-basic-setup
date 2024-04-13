@@ -6,9 +6,10 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Organization;
+use App\Models\Role;
 use App\Enums\OrganizationRoles;
 
-class ManagerSeeder extends Seeder
+class OrganizationAdminSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -25,7 +26,7 @@ class ManagerSeeder extends Seeder
         $ogranization = Organization::find(1);
 
         $ogranization->users()->attach($user,[
-            'role' => OrganizationRoles::MANAGER->value
+            'role_id' => Role::where('name','admin')->first()->id
         ]);
 
     }

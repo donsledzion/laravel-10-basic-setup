@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Enums\OrganizationRoles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Organization;
 use App\Enums\UserRoles;
+use App\Models\Role;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,7 +18,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $role = \Auth::user()->role;
+        $role = Auth::user()->role;
         $users = null;
         //dd($role);
         switch($role){
@@ -24,13 +26,13 @@ class UserController extends Controller
                 $users = User::all();
                 break;
             case UserRoles::USER:
-                $user = \Auth::user();
+                $user = Auth::user();
                 $users = new Collection();
                 foreach($user->organizations as $organization){
                     foreach($organization->users as $member){
                         $users->push($member);
                     }
-                }                
+                }
                 break;
             default:
                 return redirect('/home');
@@ -58,7 +60,7 @@ class UserController extends Controller
     {
         return view('users.create',[
             'organization' => $organization,
-            'role' => OrganizationRoles::MANAGER->value
+            'role' => Role::firstWhere('name','manager')
         ]);
     }
 
@@ -66,17 +68,15 @@ class UserController extends Controller
     {
         return view('users.create',[
             'organization' => $organization,
-            'role' => OrganizationRoles::TRAINER->value
+            'role' => Role::firstWhere('name','trainer')
         ]);
     }
 
     public function createAdmin(Organization $organization)
     {
-        if((!\Auth::user()->isAdmin()) || ($organization->admin() != null))
-            return redirect(route('home'));
         return view('users.create',[
             'organization' => $organization,
-            'role' => OrganizationRoles::ADMIN->value
+            'role' => Role::firstWhere('name','admin')
         ]);
     }
 
@@ -87,23 +87,23 @@ class UserController extends Controller
             if($user == null)
                 $user = User::create($request->validated());
             if(isset($request->organization_id)){
-                $organization = Organization::find($request->organization_id);                
+                $organization = Organization::find($request->organization_id);
                 if($organization == null)
                     return redirect(route('home'));
-                if($request->organization_role == 'admin'){                    
-                    if($organization->admin() != null || !\Auth::user()->isAdmin()) 
+                if($request->organization_role == 'admin'){
+                    if(Auth::user()->isAllowed('create_organization_admin',$organization))
                         return redirect(route('home'));
                 }
                 $user->organizations()->attach($request->organization_id,[
                     'role' => $request->organization_role
                 ]);
             }
-            return redirect(route('user.show',[$user]));            
+            return redirect(route('user.show',[$user]));
         } catch(\Exception $e){
             $msg = "An error occurred while trying to store user. Exception message: ".$e->getMessage();
             error_log($msg);
             Log::error('$msg');
-        }        
+        }
     }
 
     public function edit(User $user)

@@ -13,7 +13,7 @@
                         </div>
                     @endif
 
-                    <a href="{{ route('organization.create') }}"><button class="btn btn-info">{{ ucfirst(__('organization.add')) }}</button></a>
+                    @include('organizations.components.button-create-new')
 
                     <table class="table table-striped">
                         <thead>
@@ -35,14 +35,14 @@
                             <td>{{ $organization->users()->count() }}</td>
                             <td>{{ $organization->scenarios()->count() }}</td>
                             <td>
-                              @if(\Auth::user()->canEditOrganization($organization))
+                              @if(\Auth::user()->isAllowed('edit_organization',$organization))
                               <a href="{{ route('organization.edit',[$organization]) }}"><button class="btn btn-warning">{{ ucfirst(__('organization.edit')) }}</button></a>
                               @endif
                               <a href="{{ route('organization.show',[$organization]) }}"><button class="btn btn-info">{{ ucfirst(__('organization.show')) }}</button></a>
                             </td>
-                          </tr>                     
+                          </tr>
                           @endforeach
-                          
+
                         </tbody>
                       </table>
                 </div>
