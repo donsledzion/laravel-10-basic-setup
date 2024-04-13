@@ -35,9 +35,7 @@
                             <td>{{ $organization->users()->count() }}</td>
                             <td>{{ $organization->scenarios()->count() }}</td>
                             <td>
-                              @if(\Auth::user()->isAllowed('edit_organization',$organization))
-                              <a href="{{ route('organization.edit',[$organization]) }}"><button class="btn btn-warning">{{ ucfirst(__('organization.edit')) }}</button></a>
-                              @endif
+                                @include('organizations.components.button-edit',['organization' => $organization])
                               <a href="{{ route('organization.show',[$organization]) }}"><button class="btn btn-info">{{ ucfirst(__('organization.show')) }}</button></a>
                             </td>
                           </tr>
