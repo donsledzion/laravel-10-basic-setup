@@ -25,7 +25,7 @@ class CreatePermissionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|min:5|max:30|unique:permissions,name'
+            'name' => 'string|min:5|max:120|unique:permissions,name'
         ];
     }
 }

@@ -8,8 +8,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ ucfirst(__('quiz.show.title')) }}</i></div>
+            <div class="card">                
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">{{ ucfirst(__('quiz.show.title')) }}</div>
+                        <div class="col text-end"><a href="{{ route('scenario.show',$quiz->scenario) }}" class="fa-solid fa-rotate-left">powrót</a></div>
+                    </div>
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -33,8 +38,14 @@
                         </div>
                     </div>
                     <div class="row mb-4">
+                        @if($quiz->questionFileMediaType() == \App\Enums\MediaTypes::PICTURE)
+                            @include('quizzes.components.question-picture',['quiz' => $quiz])
+                        @elseif($quiz->questionFileMediaType() == \App\Enums\MediaTypes::AUDIO)
+                            @include('quizzes.components.question-audio',['quiz' => $quiz])
+                        @endif
+                    </div>                
+                    <hr class="hr mb-4" />
                         
-                    </div>                    
                     <div class="row mb-4">
                         <strong>Odpowiedzi:</strong>
                         <div class="col">                                
@@ -75,10 +86,9 @@
                                     <button data-mdb-ripple-init type="submit" class="btn btn-warning btn-block mb mt-2 new-answer">{{ ucfirst(__('quiz.save')) }}</button>           
                                 </form>
                             </div>
-                        </div>   
+                        </div>                           
+                    </div>
                     <hr class="hr mb-4" />
-                      
-                </div>
             </div>            
         </div>
     </div>    

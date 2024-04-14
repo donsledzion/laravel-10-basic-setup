@@ -1,0 +1,1 @@
+<img src="{{ asset('organizations'.'/'.$quiz->scenario->organization->id.'/pictures/'.$quiz->question_picture) }}" class="img-fluid" alt="{{ $quiz->question_text }}">

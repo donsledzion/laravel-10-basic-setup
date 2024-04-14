@@ -17,6 +17,10 @@ return new class extends Migration
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
             $table->string('type')->default(QuizTypes::TEXT_2_TEXT->value);
+            $table->foreignId('scenario_id')
+                    ->constrained()
+                    ->cascadeOnUpdate()
+                    ->cascadeOnDelete();
             $table->string('question_text');
             $table->string('question_picture')->nullable();
             $table->string('question_audio')->nullable();

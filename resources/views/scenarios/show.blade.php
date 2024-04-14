@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('head')
+@vite(['resources/js/scenario-remove-quiz.js'])
 <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 @endsection
@@ -11,7 +12,12 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ ucfirst(__('scenario.form.show')) }}</div>
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">{{ ucfirst(__('scenario.form.show')) }}</div>
+                        <div class="col text-end"><a href="{{ route('organization.show',$scenario->organization) }}" class="fa-solid fa-rotate-left">powrót</a></div>
+                    </div>
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))

@@ -128,11 +128,22 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
-    'attributes'           => [
-        'name'=>'nazwa',
-        'first_name' => 'imię',
-        'last_name' => 'nazwisko',
-        'dim_name' => 'zdrobnienie',
+    
+    'attributes' => [
+        'name'              =>'nazwa',
+        'first_name'        => 'imię',
+        'last_name'         => 'nazwisko',
+        'dim_name'          => 'zdrobnienie',        
+        'type'              => 'rodzaj',
+        'question_picture'  => 'zdjęcie do zadania',
+        'question_audio'    => 'dźwiek do zadania',
 
     ],
+    'values' => [
+        'type' => [
+            'picture2text'      => 'pytanie obrazkowe odpowiedzi tekstowe',
+            'audio2text'        => 'pytanie dźwiękowe odpowiedzi tekstowe',
+            'audio2audio'       => 'pytanie dźwiękowe odpowiedzi dźwiękowe',
+        ]
+    ]
 ];

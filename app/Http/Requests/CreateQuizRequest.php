@@ -28,8 +28,10 @@ class CreateQuizRequest extends FormRequest
         return [
             'type' => [new Enum(QuizTypes::class)],
             'question_text' => 'required|string|min:4|max:512',
-            'question_picture' => 'nullable|file|mimes:png,jpg,bmp|max:10240',
-            'question_audio' => 'nullable|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav',
+            'question_picture' => 
+                'required_if:type,picture2text|exclude_if:type,text2text,text2picture,text2audio,audio2text,audio2audio,put-in-order|file|mimes:png,jpg,bmp|max:10240',
+            'question_audio' => 
+                'required_if:type,audio2text,audio2audio|exclude_if:type,text2text,text2picture,text2audio,picture2text,put-in-order|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav',
         ];
     }
 }

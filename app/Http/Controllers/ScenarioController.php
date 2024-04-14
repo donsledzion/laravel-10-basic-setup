@@ -73,16 +73,28 @@ class ScenarioController extends Controller
         
     }
 
-    public function destroy(Scenario $scenario)
+    public function destroy(Request $request, Scenario $scenario)
     {
         try{
             $scenario->delete();
+            if($request->ajax()){
+                return response()->json([
+                    'status' => 'ok',
+                    'message' => 'deleted'
+                ])->setStatusCode(200);
+            }
             return redirect(route('scenario.index'));
-            redirect()->back();
+            
         }catch(\Exception $e){
             $msg = "An error occured while trying to delete scenario: ".$e->getMessage();
             error_log($msg);
             Log::error($msg);
+            if($request->ajax()){
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $msg
+                ])->setStatusCode(200);
+            }
         }        
     }
 }

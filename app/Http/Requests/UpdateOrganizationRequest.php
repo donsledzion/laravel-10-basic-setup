@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use \App\Models\Organization;
 
 class UpdateOrganizationRequest extends FormRequest
 {
@@ -13,7 +14,8 @@ class UpdateOrganizationRequest extends FormRequest
      */
     public function authorize()
     {
-        return \Auth::user()->isAllowed('edit_organization');
+        $organization = Organization::find($this->organization->id);
+        return \Auth::user()->isAllowed('edit_organization',$organization);
     }
 
     /**
@@ -23,6 +25,7 @@ class UpdateOrganizationRequest extends FormRequest
      */
     public function rules()
     {
+        $organization = Organization::find($this->organization->id);
         $rules = [
             'name' => 'string|min:3|max:256',
             'prefix' => 'string|min:5|max:10',
@@ -31,7 +34,7 @@ class UpdateOrganizationRequest extends FormRequest
             'logo' => 'nullable|file|mimes:png|max:5120'
             ];
 
-            if(\Auth::user()->isAdmin()){
+            if(\Auth::user()->isAllowed('set_organization_expiration_date',$organization)){
                 $rules['expires_at'] = 'date';
             }
 

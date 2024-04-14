@@ -41,13 +41,7 @@ class OrganizationController extends Controller
         try{
             $organization = Organization::create($request->validated());
             if($request->hasFile('logo')){
-                $file = $request->file('logo');
-                $fileName = $file->getClientOriginalName();
-                $ext = pathinfo($fileName, PATHINFO_EXTENSION);
-                $hashName = hash('sha256',$fileName).'.'.$ext;
-                $file->storeAs('multimedia/'.$organization->id.'/pictures/', $hashName);
-                $organization->logo = $hashName;
-                $organization->save();
+                $this->storeLogoFile($request->file('logo'), $organization);
             }
             return redirect(route('organization.show',[$organization]))->with('success','Dodano organizację!');
 
@@ -64,20 +58,32 @@ class OrganizationController extends Controller
             'organization' => $organization
         ]);
     }
-
-    public function update(UpdateOrganizationRequest $request, Organization $organization)
+    
+    private function storeLogoFile($file, Organization $organization):bool
     {
-        $old_logo = $organization->logo;
-        $organization->update($request->validated());
-        if($request->hasFile('logo')){
-            $file = $request->file('logo');
+        try{
             $fileName = $file->getClientOriginalName();
             $ext = pathinfo($fileName, PATHINFO_EXTENSION);
             $hashName = hash('sha256',$fileName).'.'.$ext;
             $file->storeAs('multimedia/'.$organization->id.'/pictures/', $hashName);
             $organization->logo = $hashName;
             $organization->save();
-            $organization->removeLogoFile($old_logo);
+            return true;
+        } catch(\Exception $e){
+            $msg = "Failed to store logo file! ".$e->getMessage();
+            error_log($msg);
+            Log::error($msg);
+            return false;
+        }
+    }
+
+    public function update(UpdateOrganizationRequest $request, Organization $organization)
+    {
+        $old_logo = $organization->logo;
+        $organization->update($request->validated());
+        if($request->hasFile('logo')){
+            if($this->storeLogoFile($request->file('logo'), $organization))
+                $organization->removeLogoFile($old_logo);
         }
         return redirect(route('organization.show',[
             $organization

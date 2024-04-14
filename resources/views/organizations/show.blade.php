@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('head')
+@vite(['resources/js/organization-remove-scenario.js'])
 <style>
 
     body{

@@ -60,5 +60,8 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'view_owned_scenarios'
         ]);
+        Permission::create([
+            'name' => 'set_organization_expiration_date'
+        ]);
     }
 }

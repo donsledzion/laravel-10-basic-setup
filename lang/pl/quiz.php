@@ -2,6 +2,9 @@
 
 return [
     'quiz' => 'zadania',
+    'buttons' => [
+        'delete' => 'usuń',
+    ],
     'quizzes' => 'zadania',
     'add' => 'dodaj quiz',
     'answer' => [

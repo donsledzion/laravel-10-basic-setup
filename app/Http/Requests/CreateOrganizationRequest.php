@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use \App\Models\Organization;
 
 class CreateOrganizationRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class CreateOrganizationRequest extends FormRequest
      */
     public function authorize()
     {
-
+        $organization = Organization::find($this->organization->id);
         return \Auth::user()->isAllowed('create_organization');
     }
 
