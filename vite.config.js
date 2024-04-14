@@ -12,6 +12,7 @@ export default defineConfig({
                 "resources/js/quiz-drop-audio.js",
                 "resources/js/quiz-drop-picture.js",
                 "resources/js/quiz-select-type.js",
+                "resources/js/organization-drop-logo.js",
             ],
             publicDirectory: "public_html",
             refresh: true,

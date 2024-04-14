@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('head')
-<script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
+    @vite(['resources/js/organization-drop-logo.js'])
+    <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 @endsection
 
@@ -75,34 +76,36 @@
                             @enderror
                         </div>
 
-                        <div class="container my-5">
-                            <div class="card">
-                              <div class="card-body">
-                                <div id="drop-area" class="border rounded d-flex justify-content-center align-items-center"
-                                  style="height: 200px; cursor: pointer">
-                                  <div class="text-center">
-                                    <i class="bi bi-cloud-arrow-up-fill text-primary" style="font-size: 48px"></i>
-                                    <p class="mt-3">
-                                      {{ ucfirst(__('organization.logo.drop')) }}
-                                    </p>
+                        <div class="row mb-4 logo-container">
+                            <div class="container mt-5">
+                                <div class="card">
+                                  <div class="card-body">
+                                    <div id="logo-drop-area" class="border rounded d-flex justify-content-center align-items-center"
+                                      style="height: 200px; cursor: pointer">
+                                      <div class="text-center">
+                                        <i class="bi bi-cloud-arrow-up-fill text-primary" style="font-size: 48px"></i>
+                                        <p class="mt-3">
+                                          {{ ucfirst(__('organization.logo.drag-and-drop')) }}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <input type="file" name="logo" id="logo" multiple accept="image/*" class="d-none" />
+                                    @error('logo')
+                                        <div class="text-danger">{{ __($message) }}</div>
+                                    @enderror
+                                    <div id="gallery" class="container"></div>
                                   </div>
                                 </div>
-                                <input type="file" id="logo" name="logo" accept="image/*" />
-                                @error('logo')
-                                  <div class="text-danger">{{ __($message) }}</div>
-                                @enderror
-                                <div id="gallery"></div>
                               </div>
-                            </div>
                         </div>
-                        
 
-                      
+
+
                         <!-- Submit button -->
                         <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">{{ ucfirst(__('organization.create')) }}</button>
                       </form>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -111,6 +114,6 @@
     $('#expires_at').datepicker({
         uiLibrary: 'bootstrap5'
     });
-    
+
 </script>
 @endsection

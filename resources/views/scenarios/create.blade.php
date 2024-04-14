@@ -45,7 +45,7 @@
                                     </div>
                                   </div>
                             </div>
-                            
+
                           </div>
                           <div class="col">
                             <div data-mdb-input-init class="form-outline">
@@ -58,22 +58,21 @@
                           </div>
                         </div>
 
-                        <!-- 2 column grid layout with text inputs for organization name and prefix -->                        
-                        <div class="row mb-4">                          
+                        <!-- 2 column grid layout with text inputs for organization name and prefix -->
+                        <div class="row mb-4">
                             @isset($organization)
-                            <input type="text" name="organization_id" value="{{ $organization->id }}"  style="display: none;" >                                
+                            <input type="text" name="organization_id" value="{{ $organization->id }}"  style="display: none;" >
                             @else
-                            tereferer
                             @endisset
 
                         </div>
 
-                        
+
                         <!-- Submit button -->
                         <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">{{ ucfirst(__('organization.create')) }}</button>
                       </form>
                 </div>
-                
+
             </div>
         </div>
     </div>

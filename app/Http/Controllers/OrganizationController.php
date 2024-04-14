@@ -48,7 +48,6 @@ class OrganizationController extends Controller
                 $file->storeAs('multimedia/'.$organization->id.'/pictures/', $hashName);
                 $organization->logo = $hashName;
                 $organization->save();
-                //dd($filePath);
             }
             return redirect(route('organization.show',[$organization]))->with('success','Dodano organizację!');
 
@@ -83,9 +82,6 @@ class OrganizationController extends Controller
         return redirect(route('organization.show',[
             $organization
         ]));
-        return view('organizations.show',[
-            'organization' => $organization
-        ]);
     }
 
     public function destroy(Organization $organization)
