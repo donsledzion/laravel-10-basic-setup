@@ -1,12 +1,13 @@
-$.ajaxSetup({
-    headers: {
-        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-    },
+$(function () {
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+    });
 });
 
 $(".delete-scenario").on("click", function () {
     let scenario_id = $(this).data("id");
-    let baseURL = "{{route('welcome')}}";
     console.log("About to delete scenario with id: " + scenario_id);
     Swal.fire({
         title: "Na pewno usunąć scenariusz?",
@@ -19,8 +20,9 @@ $(".delete-scenario").on("click", function () {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: baseURL + "/scenario/" + scenario_id,
-                method: "DELETE",
+                url: route("scenario.destroy", scenario_id),
+                type: "DELETE",
+
                 success: function (result) {
                     Swal.fire({
                         title: "Usunięto!",
@@ -28,7 +30,6 @@ $(".delete-scenario").on("click", function () {
                         showConfirmButton: false,
                         timer: 1000,
                     });
-                    console.log(result.active);
                 },
             });
         }

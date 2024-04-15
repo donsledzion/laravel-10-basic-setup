@@ -14,7 +14,7 @@ $(".role-toggle").click(function () {
             permission_id
     );
 
-    let baseURL = "{{route('welcome')}}";
+    let baseURL = route("welcome");
 
     Swal.fire({
         title: "Zaczekaj",

@@ -40,36 +40,45 @@ class Quiz extends Model
 
     public function questionFileMediaType():MediaTypes | null
     {
+        error_log("This type: ".$this->type->value);
         switch($this->type)
-        {
-            
+        {            
             case QuizTypes::TEXT_2_TEXT:
                 return null;
+                break;
             case QuizTypes::TEXT_2_PICTURE:
                 return null;
+                break;
             case QuizTypes::TEXT_2_AUDIO:
                 return null;
+                break;
             case QuizTypes::AUDIO_2_TEXT:
                 return MediaTypes::AUDIO;
+                break;
             case QuizTypes::AUDIO_2_AUDIO:
                 return MediaTypes::AUDIO;
+                break;
             case QuizTypes::PICTURE_2_TEXT:
+                error_log("Returning: ".MediaTypes::PICTURE->value);
                 return MediaTypes::PICTURE;
+                break;
             case QuizTypes::PUT_IN_ORDER:
                 return null;
+                break;
             default:
                 return null;
         }
+        error_log("returning null on exit");
         return null;
     }
     public function removeMediaFile(string $logo = null)
     {
         try{
             if($logo == null){
-                $logo = $this->getLogoFile();
+                $logo = $this->getMediaFile();
                 if($logo == null) return;
             } else {
-                $logo = $this->getLogoFile($logo);
+                $logo = $this->getMediaFile($logo);
             }
             Storage::delete($logo);
         } catch(\Exception $e){
@@ -84,12 +93,13 @@ class Quiz extends Model
         try{
             $mediaType = $this->questionFileMediaType();
             if($mediaType == MediaTypes::AUDIO){
-                $mediaFilePath = 'multimedia/'.$this->id.'/audios/'.$this->question_audio;
+                $mediaFilePath = 'multimedia/'.$this->scenario->organization->id.'/audios/'.$this->question_audio;
             } else if($mediaType == MediaTypes::PICTURE){
-                $mediaFilePath = 'multimedia/'.$this->id.'/pictures/'.$this->question_picture;
+                $mediaFilePath = 'multimedia/'.$this->scenario->organization->id.'/pictures/'.$this->question_picture;
             } else{
                 return null;
             }
+            error_log("MediaFilePath: ".$mediaFilePath);
             if(Storage::exists($mediaFilePath)){
                 return $mediaFilePath;
             }

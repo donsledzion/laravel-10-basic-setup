@@ -73,7 +73,7 @@ class ScenarioController extends Controller
         
     }
 
-    public function destroy(Request $request, Scenario $scenario)
+    public function destroy(Scenario $scenario, Request $request)
     {
         try{
             $scenario->delete();

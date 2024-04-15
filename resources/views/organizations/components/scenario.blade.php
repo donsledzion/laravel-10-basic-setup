@@ -15,6 +15,7 @@
                                         </div>
                                         <div class="col text-end">
                                             <button class="btn btn-danger delete-scenario" data-id="{{ $scenario->id }}" >{{ ucfirst(__('quiz.buttons.delete')) }}</button>
+                                            
                                         </div>
                                     </div>                                    
                                 </div>
@@ -25,6 +26,6 @@
                 </div><!-- end card -->
             </div>
         </div><!-- end -->
-
+        
     </div><!-- end col -->
 </div><!-- end row -->
