@@ -3,6 +3,7 @@
 @section('head')
 <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    @vite(['resources/js/toggle-password.js'])
 @endsection
 
 @section('content')
@@ -39,6 +40,7 @@
                                 <div class="col">
                                     <div data-mdb-input-init class="form-outline">
                                       <input type="password" id="pin" name="pin" class="form-control" placeholder="{{ __('scenario.placeholder.pin') }}" value="{{ old('pin',$scenario->pin) }}"/>
+                                      <i href="#" class="fa-regular fa-eye-slash toggle-password" style="cursor: pointer;"></i>
                                       <label class="form-label" for="pin">{{ ucfirst(__('scenario.pin')) }}</label>
                                         @error('pin')
                                             <div class="text-danger">{{ __($message) }}</div>
@@ -46,7 +48,7 @@
                                     </div>
                                   </div>
                             </div>
-                            
+
                           </div>
                           <div class="col">
                             <div data-mdb-input-init class="form-outline">
@@ -60,16 +62,16 @@
                         </div>
 
                         <!-- 2 column grid layout with text inputs for organization name and prefix -->
-                        <div class="row mb-4">                          
-                          
+                        <div class="row mb-4">
+
                         </div>
 
-                        
+
                         <!-- Submit button -->
                         <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">{{ ucfirst(__('scenario.save')) }}</button>
                       </form>
                 </div>
-                
+
             </div>
         </div>
     </div>

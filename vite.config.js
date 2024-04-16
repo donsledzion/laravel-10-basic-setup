@@ -19,6 +19,7 @@ export default defineConfig({
                 "resources/js/scenario-remove-quiz.js",
                 "resources/js/organization-remove-scenario.js",
                 "resources/js/permissions-toggle.js",
+                "resources/js/toggle-password.js",
             ],
             publicDirectory: "public_html",
             refresh: true,

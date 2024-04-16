@@ -25,13 +25,13 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    
+
                     <!-- 2 column grid layout with text inputs for organization name and prefix -->
                     <div class="row mb-4">
                         <div class="col">
                         <div class=row>
-                            <div data-mdb-input-init class="form-outline">                                
-                                <label class="form-label" for="name">{{ ucfirst(__('scenario.name')) }}</label>                                    
+                            <div data-mdb-input-init class="form-outline">
+                                <label class="form-label" for="name">{{ ucfirst(__('scenario.name')) }}</label>
                                 <p><strong>{{ $scenario->name }}</strong></p>
                                 </div>
                         </div>
@@ -45,9 +45,10 @@
                                     <p>{{ __('scenario.none') }}</p>
                                     @endif
                                 </div>
+                                <i class="fa-regular fa-eye-slash"></i>
                                 </div>
                         </div>
-                        
+
                         </div>
                         <div class="col">
                         <div data-mdb-input-init class="form-outline">
@@ -58,18 +59,18 @@
                     </div>
 
                     <!-- 2 column grid layout with text inputs for organization name and prefix -->
-                    <div class="row mb-4">                          
-                        
+                    <div class="row mb-4">
+
                     </div>
 
-                    
+
                     <!-- Submit button -->
-                    
+
                 </div>
                 <a href="{{ route('scenario.edit',[$scenario]) }}" data-mdb-ripple-init type="button" class="btn btn-warning btn-block mb-4">{{ ucfirst(__('scenario.edit')) }}</a>
-                
+
             </div>
-            
+
             <div class="card mt-2">
                 <div class="card-header">{{ ucfirst(__('quiz.quizzes')) }}</div>
 
@@ -79,7 +80,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    
+
                     <!-- 2 column grid layout with text inputs for organization name and prefix -->
                     <div class="row mb-4">
                         <a href="{{ route('quiz.create',[$scenario]) }}" class="btn btn-success">{{ ucfirst(__('quiz.add')) }}</a>
@@ -87,7 +88,7 @@
                     @foreach ($scenario->quizzes as $quiz)
                         @include('scenarios.components.quiz',[$quiz])
                     @endforeach
-                </div>                    
+                </div>
             </div>
         </div>
     </div>
