@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\MediaTypes;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateAnswerRequest extends FormRequest
@@ -23,10 +24,20 @@ class CreateAnswerRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+
+        $rules = [            
             'content' => 'required|string',
             'is_correct' => 'boolean',
             'order' => 'numeric',
         ];
+
+        if($this->quiz->answerFileMediaType() == MediaTypes::AUDIO){
+            $rules['content'] = 'required|file|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav';
+        } else if($this->quiz->answerFileMediaType() == MediaTypes::PICTURE){
+            $rules['content'] = 'required|file|mimes:png,jpg,bmp|max:10240';
+        }
+
+
+        return $rules;
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use SebastianBergmann\Type\NullType;
 
 class Quiz extends Model
 {
@@ -40,7 +41,6 @@ class Quiz extends Model
 
     public function questionFileMediaType():MediaTypes | null
     {
-        error_log("This type: ".$this->type->value);
         switch($this->type)
         {            
             case QuizTypes::TEXT_2_TEXT:
@@ -59,7 +59,6 @@ class Quiz extends Model
                 return MediaTypes::AUDIO;
                 break;
             case QuizTypes::PICTURE_2_TEXT:
-                error_log("Returning: ".MediaTypes::PICTURE->value);
                 return MediaTypes::PICTURE;
                 break;
             case QuizTypes::PUT_IN_ORDER:
@@ -68,9 +67,41 @@ class Quiz extends Model
             default:
                 return null;
         }
-        error_log("returning null on exit");
         return null;
     }
+
+    public function answerFileMediaType():MediaTypes | null
+    {
+        switch($this->type)
+        {            
+            case QuizTypes::TEXT_2_TEXT:
+                return null;
+                break;
+            case QuizTypes::TEXT_2_PICTURE:
+                return MediaTypes::PICTURE;
+                break;
+            case QuizTypes::TEXT_2_AUDIO:
+                return MediaTypes::AUDIO;
+                break;
+            case QuizTypes::AUDIO_2_TEXT:
+                return null;
+                break;
+            case QuizTypes::AUDIO_2_AUDIO:
+                return MediaTypes::AUDIO;
+                break;
+            case QuizTypes::PICTURE_2_TEXT:
+                return null;
+                break;
+            case QuizTypes::PUT_IN_ORDER:
+                return null;
+                break;
+            default:
+                return null;
+        }
+        return null;
+    }
+
+
     public function removeMediaFile(string $logo = null)
     {
         try{

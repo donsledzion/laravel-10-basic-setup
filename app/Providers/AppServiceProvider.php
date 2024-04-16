@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Answer;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Quiz;
 use App\Models\Scenario;
@@ -26,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Quiz::deleting(function($quiz){
+            foreach($quiz->answers as $answer){
+                $answer->delete();
+            }
             $quiz->removeMediaFile();
         });
 
@@ -34,5 +38,10 @@ class AppServiceProvider extends ServiceProvider
                 $quiz->delete();
             }
         });
+
+        Answer::deleting(function($answer){
+            $answer->removeMediaFile();
+        });
+
     }
 }

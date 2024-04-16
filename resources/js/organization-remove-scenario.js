@@ -25,10 +25,14 @@ $(".delete-scenario").on("click", function () {
 
                 success: function (result) {
                     Swal.fire({
+                        icon: "success",
                         title: "Usunięto!",
                         text: "Scenariusz z wszystkimi pytaniami został usunięty.",
-                        showConfirmButton: false,
-                        timer: 1000,
+                        allowOutsideClick: false,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
                     });
                 },
             });
