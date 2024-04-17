@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('head')
-@vite(['resources/js/organization-remove-scenario.js'])
+@vite(['resources/js/organization-remove-scenario.js','resources/js/toggle-pin-text.js'])
 <style>
 
     body{
@@ -225,7 +225,7 @@
                                 <h5>{{ __('organization.prefix') }}: {{ $organization->prefix }}</h5>
                             </div>
                             <div class="row my-4">
-                                <div class="col-md-12">
+                                <div class="col-6 col-md-6">
                                     <div>
                                         <label>{{ ucfirst(__('user.roles.admin')) }}:</label>
                                         @if($organization->admin() == null)
@@ -257,6 +257,17 @@
                                         </p>
                                     </div>
                                 </div><!-- end col -->
+                                <div class="col-6 col-md-6">
+                                    <label class="form-label" for="headset_pin">{{ ucfirst(__('organization.headset_pin')) }}</label>
+                                    
+                                    <p id="pin" style="display: none;">{{ $organization->headset_pin }}</p>
+                                    <p id="pin-hidden">
+                                        @for($i = 0 ; $i < strlen($organization->headset_pin) ; $i++)
+                                        *
+                                        @endfor
+                                    </p>
+                                    <i class="fa-regular fa-eye-slash toggle-password" style="cursor: pointer;"></i>
+                                </div>
                             </div><!-- end row -->
                         </div>
                     </div><!-- end col -->

@@ -13,9 +13,10 @@
                                                 <label class="form-check-label ms-1">{{ $scenario->name }}</label>                                        
                                             </a>
                                         </div>
-                                        <div class="col text-end">
-                                            <button class="btn btn-danger delete-scenario" data-id="{{ $scenario->id }}" >{{ ucfirst(__('quiz.buttons.delete')) }}</button>
-                                            
+                                        <div class="col text-end">                                            
+                                            <button class="btn btn-danger delete-scenario" data-id="{{ $scenario->id }}" >
+                                                <i class="fa-regular fa-trash-can"></i>
+                                            </button>
                                         </div>
                                     </div>                                    
                                 </div>

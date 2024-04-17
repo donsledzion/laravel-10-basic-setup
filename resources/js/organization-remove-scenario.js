@@ -17,6 +17,7 @@ $(".delete-scenario").on("click", function () {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Tak, usuń!",
+        cancelButtonText: "Jednak nie!",
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({

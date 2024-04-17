@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('head')
-@vite(['resources/js/scenario-remove-quiz.js'])
+@vite(['resources/js/scenario-remove-quiz.js','resources/js/toggle-pin-text.js'])
 <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 @endsection
@@ -15,7 +15,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col">{{ ucfirst(__('scenario.form.show')) }}</div>
-                        <div class="col text-end"><a href="{{ route('organization.show',$scenario->organization) }}" class="fa-solid fa-rotate-left">powrót</a></div>
+                        <div class="col text-end"><a href="{{ route('organization.show',$scenario->organization) }}" class="fa-solid fa-rotate-left"></a></div>
                     </div>
                 </div>
 
@@ -38,14 +38,19 @@
                         <div class="row mb-4 mt-4">
                             <div class="col">
                                 <div data-mdb-input-init class="form-outline">
-                                    <label class="form-label" for="scenario_pin">{{ ucfirst(__('scenario.pin')) }}</label>
+                                    <label class="form-label" for="pin">{{ ucfirst(__('scenario.pin')) }}</label>
                                     @if($scenario->pin)
-                                    <p>{{ $scenario->pin }}</p>
+                                    <p id="pin" style="display: none;">{{ $scenario->pin }}</p>
+                                    <p id="pin-hidden">
+                                        @for($i = 0 ; $i < strlen($scenario->pin) ; $i++)
+                                        *
+                                        @endfor
+                                    </p>
                                     @else
                                     <p>{{ __('scenario.none') }}</p>
                                     @endif
                                 </div>
-                                <i class="fa-regular fa-eye-slash"></i>
+                                <i class="fa-regular fa-eye-slash toggle-password" style="cursor: pointer;"></i>
                                 </div>
                         </div>
 

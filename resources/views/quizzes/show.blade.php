@@ -10,6 +10,7 @@
 @else
     @vite(['resources/js/quiz-correct.js']);
 @endif
+@vite(['resources/js/scenario-remove-quiz.js']);
 @endsection
 
 @section('content')
@@ -20,7 +21,10 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col">{{ ucfirst(__('quiz.show.title')) }}</div>
-                        <div class="col text-end"><a href="{{ route('scenario.show',$quiz->scenario) }}" class="fa-solid fa-rotate-left">powrót</a></div>
+                        <div class="col text-end"><a href="{{ route('scenario.show',$quiz->scenario) }}" class="fa-solid fa-rotate-left"></a></div>
+                        <button class="btn btn-danger delete-quiz" data-id="{{ $quiz->id }}" >
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
                     </div>
                 </div>
 

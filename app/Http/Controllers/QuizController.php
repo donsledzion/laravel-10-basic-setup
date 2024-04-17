@@ -6,6 +6,7 @@ use App\Models\Scenario;
 use App\Models\Quiz;
 use App\Http\Requests\CreateQuizRequest;
 use App\Enums\MediaTypes;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class QuizController extends Controller
@@ -44,7 +45,7 @@ class QuizController extends Controller
     }
 
     public function show(Quiz $quiz)
-    {
+    {        
         return view('quizzes.show',[
             'quiz' => $quiz
         ]);
@@ -64,5 +65,35 @@ class QuizController extends Controller
             Log::error($msg);
             return '';
         }
+    }
+
+    public function destroy(Request $request, Quiz $quiz)
+    {
+        try{
+            $scenario = $quiz->scenario;
+            $quiz->removeMediaFile();
+            $quiz->delete();
+            if($request->ajax()){
+                return response()->json([
+                    'status' => 'ok',
+                    'message' => 'deleted',
+                    'redirect' => route('scenario.show',$scenario),
+                ])->setStatusCode(200);
+            }
+            return redirect(route('scenario.show',[$scenario]));
+        } catch(\Exception $e){
+            $msg = "An error occured while trying to remove quiz. ".$e->getMessage();
+            error_log($msg);
+            Log::error($msg);
+            if($request->ajax()){
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $msg,
+                    'redirect' => route('scenario.show',$scenario),
+                ])->setStatusCode(200);
+            }
+            return redirect(route('scenario.show',[$scenario]));
+        }
+
     }
 }

@@ -43,6 +43,8 @@ Route::get('/quiz/create/{scenario}', [QuizController::class, "create"])->name('
 Route::post('/quiz/{scenario}', [QuizController::class, "store"])->name('quiz.store')->middleware(['auth','verified']);
 Route::get('/quiz/{quiz}', [QuizController::class,"show"])->name('quiz.show')->middleware(['auth','verified']);
 Route::post('/answer/{quiz}',[AnswerController::class, "store"])->name('answer.store')->middleware(['auth','verified']);
+Route::delete('/quiz/{quiz}',[QuizController::class, "destroy"])->name('quiz.destroy')->middleware(['auth','verified']);
+
 
 Route::resource('user', UserController::class)->middleware(['auth', 'verified']);
 Route::resource('organization', OrganizationController::class)->middleware(['auth', 'verified']);
