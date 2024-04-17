@@ -57,7 +57,10 @@ Route::get('permission/toggle/{permission}/{role}',[PermissionController::class,
         ->name('permission.toggle')
         ->middleware(['auth','verified','admin']);
 
-Auth::routes(['verify' => true]);
+Auth::routes([
+    'verify' => true,
+    'register' => false
+]);
 
 
 
