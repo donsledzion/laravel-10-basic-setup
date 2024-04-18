@@ -22,8 +22,11 @@
                     <div class="row">
                         <div class="col">{{ ucfirst(__('quiz.show.title')) }}</div>
                         <div class="col text-end">                            
+                            <a href="{{ route('organization.show',$quiz->scenario->organization) }}">
+                                <button class="btn btn-info py-2 px-2 fa-solid fa-angles-left"></button>
+                            </a>
                             <a href="{{ route('scenario.show',$quiz->scenario) }}">
-                                <button class="btn btn-info py-2 px-2 fa-solid fa-rotate-left"></button>
+                                <button class="btn btn-info py-2 px-2 fa-solid fa-angle-left"></button>
                             </a>
                             <button class="py-1 px-2 btn btn-danger delete-quiz" data-id="{{ $quiz->id }}" >
                                 <i class="fa-regular fa-trash-can"></i> 

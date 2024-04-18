@@ -42,9 +42,14 @@ Route::get('/organization/{organization}/create-admin', [UserController::class, 
 Route::get('/quiz/create/{scenario}', [QuizController::class, "create"])->name('quiz.create')->middleware(['auth','verified']);
 Route::post('/quiz/{scenario}', [QuizController::class, "store"])->name('quiz.store')->middleware(['auth','verified']);
 Route::get('/quiz/{quiz}', [QuizController::class,"show"])->name('quiz.show')->middleware(['auth','verified']);
-Route::post('/answer/{quiz}',[AnswerController::class, "store"])->name('answer.store')->middleware(['auth','verified']);
-Route::delete('/answer/{answer}',[AnswerController::class, "destroy"])->name('answer.destroy')->middleware(['auth','verified']);
 Route::delete('/quiz/{quiz}',[QuizController::class, "destroy"])->name('quiz.destroy')->middleware(['auth','verified']);
+
+
+
+Route::post('/answer/{quiz}',[AnswerController::class, "store"])->name('answer.store')->middleware(['auth','verified']);
+Route::patch('/answer/{answer}',[AnswerController::class, "update"])->name('answer.update')->middleware(['auth','verified']);
+Route::get('/answer/{answer}/edit',[AnswerController::class, "edit"])->name('answer.edit')->middleware(['auth','verified']);
+Route::delete('/answer/{answer}',[AnswerController::class, "destroy"])->name('answer.destroy')->middleware(['auth','verified']);
 
 
 Route::resource('user', UserController::class)->middleware(['auth', 'verified']);

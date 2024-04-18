@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Quiz;
 use App\Enums\MediaTypes;
 use App\Http\Requests\CreateAnswerRequest;
+use App\Http\Requests\UpdateAnswerRequest;
 use App\Models\Answer;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class AnswerController extends Controller
 {
     public function store(CreateAnswerRequest $request, Quiz $quiz)
     {
-        //dd($request);
+        
         $answer = $quiz->answers()->create($request->validated());
         $media_type = $quiz->answerFileMediaType();
 
@@ -40,6 +41,22 @@ class AnswerController extends Controller
             Log::error($msg);
             return '';
         }
+    }
+
+    public function edit(Answer $answer)
+    {
+        return view('answers.edit',[
+            'answer' => $answer
+        ]);
+    }
+
+    public function update(UpdateAnswerRequest $request, Answer $answer)
+    {
+        //dd($request);
+        $answer->update($request->validated());
+        $answer->is_correct = $request->has('is_correct');
+        $answer->save();
+        return redirect(route('quiz.show',$answer->quiz));
     }
 
     public function destroy(Request $request, Answer $answer)
