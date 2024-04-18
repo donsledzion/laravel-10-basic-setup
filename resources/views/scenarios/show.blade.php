@@ -15,7 +15,12 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col">{{ ucfirst(__('scenario.form.show')) }}</div>
-                        <div class="col text-end"><a href="{{ route('organization.show',$scenario->organization) }}" class="fa-solid fa-rotate-left"></a></div>
+                        <div class="col text-end">
+                            <a href="{{ route('organization.show',$scenario->organization) }}">
+                                <button class="btn btn-info py-2 px-2 fa-solid fa-rotate-left"></button>
+                            </a>
+                        </div>
+                        
                     </div>
                 </div>
 

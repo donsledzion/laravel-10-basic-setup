@@ -8,9 +8,9 @@
 @elseif($quiz->type == \App\Enums\QuizTypes::PUT_IN_ORDER)
 
 @else
-    @vite(['resources/js/quiz-correct.js']);
+    @vite(['resources/js/quiz-correct.js'])
 @endif
-@vite(['resources/js/scenario-remove-quiz.js']);
+@vite(['resources/js/scenario-remove-quiz.js','resources/js/quiz-remove-answer.js'])
 @endsection
 
 @section('content')
@@ -21,10 +21,16 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col">{{ ucfirst(__('quiz.show.title')) }}</div>
-                        <div class="col text-end"><a href="{{ route('scenario.show',$quiz->scenario) }}" class="fa-solid fa-rotate-left"></a></div>
-                        <button class="btn btn-danger delete-quiz" data-id="{{ $quiz->id }}" >
-                            <i class="fa-regular fa-trash-can"></i>
-                        </button>
+                        <div class="col text-end">                            
+                            <a href="{{ route('scenario.show',$quiz->scenario) }}">
+                                <button class="btn btn-info py-2 px-2 fa-solid fa-rotate-left"></button>
+                            </a>
+                            <button class="py-1 px-2 btn btn-danger delete-quiz" data-id="{{ $quiz->id }}" >
+                                <i class="fa-regular fa-trash-can"></i> 
+                            </button>
+                        
+                        </div>
+                        
                     </div>
                 </div>
 

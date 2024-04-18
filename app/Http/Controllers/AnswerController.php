@@ -7,6 +7,7 @@ use App\Enums\MediaTypes;
 use App\Http\Requests\CreateAnswerRequest;
 use App\Models\Answer;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 class AnswerController extends Controller
 {
@@ -40,4 +41,32 @@ class AnswerController extends Controller
             return '';
         }
     }
+
+    public function destroy(Request $request, Answer $answer)
+    {
+        try{
+            error_log("Answer: ". $answer->content);
+            $quiz = $answer->quiz;
+            $answer->delete();
+            if($request->ajax()){
+                return response()->json([
+                    'status' => 'ok',
+                    'message' => 'deleted',
+                ])->setStatusCode(200);
+            }
+            return redirect(route('quiz.show',[$quiz]));
+        } catch(\Exception $e){
+            $msg = "An error occured while trying to remove answer. ".$e->getMessage();
+            error_log($msg);
+            Log::error($msg);
+            if($request->ajax()){
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $msg,
+                ])->setStatusCode(200);
+            }
+            return redirect(route('quiz.show',[$quiz]));
+        }
+    }
+
 }
