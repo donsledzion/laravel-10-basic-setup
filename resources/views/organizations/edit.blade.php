@@ -93,7 +93,7 @@
                                       <div class="text-center">
                                         <i class="bi bi-cloud-arrow-up-fill text-primary" style="font-size: 48px"></i>
                                         <p class="mt-3">
-                                          {{ ucfirst(__('organization.logo.drag-and-drop')) }}
+                                          {{ ucfirst(__('organization.logo.drop')) }}
                                         </p>
                                       </div>
                                     </div>
@@ -102,7 +102,7 @@
                                         <div class="text-danger">{{ __($message) }}</div>
                                     @enderror
                                     <div id="gallery" class="container">
-                                    @if(file_exists('organizations'.'/'.$organization->id.'/pictures/'.$organization->logo))
+                                    @if($organization->logo != null && file_exists('organizations'.'/'.$organization->id.'/pictures/'.$organization->logo))
                                         <img src="{{ asset('organizations'.'/'.$organization->id.'/pictures/'.$organization->logo) }}" class="img-fluid" />
                                     @endif
                                     </div>
@@ -121,6 +121,7 @@
 </div>
 <script>
     $('#expires_at').datepicker({
+        format: 'yyyy/mm/dd',
         uiLibrary: 'bootstrap5'
     });
 

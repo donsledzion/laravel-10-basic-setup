@@ -85,7 +85,7 @@
                                       <div class="text-center">
                                         <i class="bi bi-cloud-arrow-up-fill text-primary" style="font-size: 48px"></i>
                                         <p class="mt-3">
-                                          {{ ucfirst(__('organization.logo.drag-and-drop')) }}
+                                          {{ ucfirst(__('organization.logo.drop')) }}
                                         </p>
                                       </div>
                                     </div>
@@ -112,6 +112,7 @@
 </div>
 <script>
     $('#expires_at').datepicker({
+        format: 'yyyy/mm/dd',
         uiLibrary: 'bootstrap5'
     });
 
