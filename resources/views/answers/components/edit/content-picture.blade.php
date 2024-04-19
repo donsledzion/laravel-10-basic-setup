@@ -15,7 +15,11 @@
             @error('content')
                 <div class="text-danger">{{ __($message) }}</div>
             @enderror
-            <div id="gallery" class="container"></div>
+            <div id="gallery" class="container">
+              @if($answer->content != null && file_exists('organizations'.'/'.$answer->quiz->scenario->organization->id.'/pictures/'.$answer->content))
+                <img src="{{ asset('organizations'.'/'.$answer->quiz->scenario->organization->id.'/pictures/'.$answer->content) }}" class="img-fluid" />
+              @endif
+            </div>
           </div>
         </div>
     </div>

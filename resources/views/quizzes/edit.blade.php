@@ -69,7 +69,11 @@
                                     @error('question_picture')
                                         <div class="text-danger">{{ __($message) }}</div>
                                     @enderror
-                                    <div id="gallery" class="container"></div>
+                                    <div id="gallery" class="container">
+                                    @if($quiz->question_picture != null && file_exists('organizations'.'/'.$quiz->scenario->organization->id.'/pictures/'.$quiz->question_picture))
+                                        <img src="{{ asset('organizations'.'/'.$quiz->scenario->organization->id.'/pictures/'.$quiz->question_picture) }}" class="img-fluid" />
+                                    @endif
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -97,7 +101,7 @@
                                 </div>
                               </div>
                               <audio id="audio" controls="controls">
-                                <source id="audioSource" src="">
+                                <source id="audioSource" src="{{ asset('organizations'.'/'.$quiz->scenario->organization->id.'/audios/'.$quiz->question_audio) }}">
                               </audio>            
                         </div>
                       

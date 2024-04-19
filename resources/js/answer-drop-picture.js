@@ -56,6 +56,11 @@ function previewFile(file) {
         let img = document.createElement("img");
         img.src = reader.result;
         img.classList.add("img-fluid");
+
+        while (gallery.firstChild) {
+            gallery.removeChild(gallery.firstChild);
+        }
+
         gallery.appendChild(img);
     };
 }
