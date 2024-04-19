@@ -11,6 +11,12 @@
     @vite(['resources/js/quiz-correct.js'])
 @endif
 @vite(['resources/js/scenario-remove-quiz.js','resources/js/quiz-remove-answer.js'])
+<style>
+    a:link { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover { text-decoration: none; }
+a:active { text-decoration: none; }
+</style>
 @endsection
 
 @section('content')
@@ -23,11 +29,14 @@
                         <div class="col">{{ ucfirst(__('quiz.show.title')) }}</div>
                         <div class="col text-end">                            
                             <a href="{{ route('organization.show',$quiz->scenario->organization) }}">
-                                <button class="btn btn-info py-2 px-2 fa-solid fa-angles-left"></button>
+                                <button class="btn btn-info py-2 px-2 fa-solid fa-angles-left" style="text-decoration: none;"></button>
                             </a>
                             <a href="{{ route('scenario.show',$quiz->scenario) }}">
-                                <button class="btn btn-info py-2 px-2 fa-solid fa-angle-left"></button>
+                                <button class="btn btn-info py-2 px-2 fa-solid fa-angle-left" style="text-decoration: none;"></button>
                             </a>
+                            <button class="py-1 px-2 btn btn-warning" ><a href="{{ route('quiz.edit',$quiz) }}" style="text-decoration: none;"><i class="fa-regular fa-pen-to-square"></i> </a>
+                                
+                            </button>
                             <button class="py-1 px-2 btn btn-danger delete-quiz" data-id="{{ $quiz->id }}" >
                                 <i class="fa-regular fa-trash-can"></i> 
                             </button>

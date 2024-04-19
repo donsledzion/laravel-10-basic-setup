@@ -42,7 +42,9 @@ Route::get('/organization/{organization}/create-admin', [UserController::class, 
 Route::get('/quiz/create/{scenario}', [QuizController::class, "create"])->name('quiz.create')->middleware(['auth','verified']);
 Route::post('/quiz/{scenario}', [QuizController::class, "store"])->name('quiz.store')->middleware(['auth','verified']);
 Route::get('/quiz/{quiz}', [QuizController::class,"show"])->name('quiz.show')->middleware(['auth','verified']);
+Route::patch('quiz/{quiz}',[QuizController::class,"update"])->name('quiz.update')->middleware(['auth','verified']);
 Route::delete('/quiz/{quiz}',[QuizController::class, "destroy"])->name('quiz.destroy')->middleware(['auth','verified']);
+Route::get('/quiz/{quiz}/edit',[QuizController::class, "edit"])->name('quiz.edit')->middleware(['auth','verified']);
 
 
 

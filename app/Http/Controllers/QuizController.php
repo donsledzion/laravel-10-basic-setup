@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Scenario;
 use App\Models\Quiz;
 use App\Http\Requests\CreateQuizRequest;
+use App\Http\Requests\UpdateQuizRequest;
 use App\Enums\MediaTypes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -67,6 +68,35 @@ class QuizController extends Controller
         }
     }
 
+    public function edit(Quiz $quiz)
+    {
+        return view('quizzes.edit',[
+            'quiz' => $quiz
+        ]);
+    }
+
+    public function update(UpdateQuizRequest $request, Quiz $quiz)
+    {
+        $quiz->update($request->validated());
+        $media_type = $quiz->questionFileMediaType();
+        if($media_type != null){
+            if($media_type == MediaTypes::PICTURE){
+                if($request->hasFile('question_picture')){
+                    $quiz->removeMediaFile();
+                    $quiz->question_picture = $this->storeQuizFile($request->file('question_picture'),$media_type,$quiz);
+                }                
+            } elseif($media_type == MediaTypes::AUDIO){
+                if($request->hasFile('question_audio')){
+                    $quiz->removeMediaFile();
+                    $quiz->question_audio = $this->storeQuizFile($request->file('question_audio'),$media_type,$quiz);
+                } 
+            }
+            $quiz->save();
+        }
+
+        return redirect(route('quiz.show',$quiz));
+    }
+
     public function destroy(Request $request, Quiz $quiz)
     {
         try{
@@ -94,6 +124,5 @@ class QuizController extends Controller
             }
             return redirect(route('scenario.show',[$scenario]));
         }
-
     }
 }

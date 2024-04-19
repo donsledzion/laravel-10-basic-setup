@@ -4,6 +4,12 @@
 @vite(['resources/js/scenario-remove-quiz.js','resources/js/toggle-pin-text.js'])
 <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <style>
+    a:link { text-decoration: none; }
+    a:visited { text-decoration: none; }
+    a:hover { text-decoration: none; }
+    a:active { text-decoration: none; }
+    </style>
 @endsection
 
 @section('content')
@@ -16,7 +22,7 @@
                     <div class="row">
                         <div class="col">{{ ucfirst(__('scenario.form.show')) }}</div>
                         <div class="col text-end">
-                            <a href="{{ route('organization.show',$scenario->organization) }}">
+                            <a href="{{ route('organization.show',$scenario->organization) }}"> 
                                 <button class="btn btn-info py-2 px-2 fa-solid fa-rotate-left"></button>
                             </a>
                         </div>

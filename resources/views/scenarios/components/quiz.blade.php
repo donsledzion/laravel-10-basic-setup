@@ -11,10 +11,18 @@
                                     <label class="form-check-label ms-1 task-title">{{ $quiz->question_text }}</label>                                
                                     </a>
                                 </div>
-                                <div class="col text-end">                                            
-                                    <button class="btn btn-danger delete-quiz" data-id="{{ $quiz->id }}" >
-                                        <i class="fa-regular fa-trash-can"></i>
-                                    </button>
+                                <div class="col text-end">
+                                    <div class="row">
+                                        <div class="col">
+                                            @include('quizzes.components.quiz-type',['quiz' => $quiz])
+                                        </div>
+                                        <div class="col">
+                                            <button class="btn btn-warning"><a href="{{ route('quiz.edit',$quiz) }}" style="text-decoration: none;"><i class="fa-regular fa-pen-to-square"></i></a><button>
+                                            <button class="btn btn-danger delete-quiz" data-id="{{ $quiz->id }}" >
+                                                <i class="fa-regular fa-trash-can"></i>
+                                            </button>
+                                        </div>
+                                </div>
                                 </div>
                             </div>
                         </div>

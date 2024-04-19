@@ -2,6 +2,9 @@
 
 return [
     'quiz' => 'zadania',
+    'edit' => [
+        'title' => 'edycja pytania do scenariusza: '
+    ],
     'buttons' => [
         'delete' => 'usuń',
     ],
