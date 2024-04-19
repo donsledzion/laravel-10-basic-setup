@@ -11,7 +11,7 @@
                 </p>
               </div>
             </div>
-            <input type="file" name="content" id="content" multiple accept="image/*" class="d-none" />
+            <input type="file" name="content" id="content" accept="image/*" class="d-none" />
             @error('content')
                 <div class="text-danger">{{ __($message) }}</div>
             @enderror

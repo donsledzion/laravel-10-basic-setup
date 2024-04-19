@@ -11,7 +11,7 @@
                 </p>
               </div>
             </div>
-            <input type="file" name="content" id="content" multiple accept="audio/*" class="d-none"/>
+            <input type="file" name="content" id="content" accept="audio/*" class="d-none"/>
             @error('content')
                 <div class="text-danger">{{ __($message) }}</div>
             @enderror

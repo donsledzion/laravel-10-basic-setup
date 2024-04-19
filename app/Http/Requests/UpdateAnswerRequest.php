@@ -25,15 +25,15 @@ class UpdateAnswerRequest extends FormRequest
     public function rules()
     {
         $rules = [            
-            'content' => 'required|string',
+            'content' => 'nullable|string',
             'is_correct' => 'boolean',
             'order' => 'numeric',
         ];
 
         if($this->answer->quiz->answerFileMediaType() == MediaTypes::AUDIO){
-            $rules['content'] = 'required|file|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav';
+            $rules['content'] = 'nullable|file|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav';
         } else if($this->answer->quiz->answerFileMediaType() == MediaTypes::PICTURE){
-            $rules['content'] = 'required|file|mimes:png,jpg,bmp|max:10240';
+            $rules['content'] = 'nullable|file|mimes:png,jpg,bmp|max:10240';
         }
 
         return $rules;

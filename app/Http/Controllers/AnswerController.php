@@ -52,8 +52,16 @@ class AnswerController extends Controller
 
     public function update(UpdateAnswerRequest $request, Answer $answer)
     {
-        //dd($request);
-        $answer->update($request->validated());
+
+        $media_type = $answer->quiz->answerFileMediaType();        
+        if($media_type != null){            
+            if($request->hasFile('content')){
+                $answer->removeMediaFile();
+                $answer->content = $this->storeAnswerFile($request->file('content'),$media_type,$answer);
+            }
+        } elseif($request->has('content')){
+            $answer->content = $request->content;
+        }
         $answer->is_correct = $request->has('is_correct');
         $answer->save();
         return redirect(route('quiz.show',$answer->quiz));

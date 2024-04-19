@@ -11,7 +11,7 @@
                 </p>
               </div>
             </div>
-            <input type="file" name="content" id="content" multiple accept="audio/*" class="d-none"/>
+            <input type="file" name="content" id="content" accept="audio/*" class="d-none"/>
             @error('content')
                 <div class="text-danger">{{ __($message) }}</div>
             @enderror
@@ -20,6 +20,6 @@
         </div>
       </div>
       <audio id="audio" controls="controls">
-        <source id="audioSource" src="">
+        <source id="audioSource" src="{{ asset('organizations'.'/'.$answer->quiz->scenario->organization->id.'/audios/'.$answer->content) }}">
       </audio>    
 </div>
