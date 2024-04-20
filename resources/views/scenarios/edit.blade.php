@@ -3,7 +3,7 @@
 @section('head')
 <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-    @vite(['resources/js/toggle-password.js'])
+    @vite(['resources/js/toggle-pin-input.js'])
 @endsection
 
 @section('content')
