@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('head')
-@vite(['resources/js/organization-drop-logo.js'])
+@vite(['resources/js/organization-drop-logo.js','resources/js/toggle-pin-input.js'])
 <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 @endsection
@@ -60,7 +60,8 @@
                           <div class="col">
                             <div data-mdb-input-init class="form-outline">
                               @if(\Auth::user()->isAllowed('set_organization_pin'))
-                              <input type="password" id="headset_pin" name="headset_pin" class="form-control" placeholder="organization.placeholder.pin" value="{{ old('headset_pin', $organization->headset_pin) }}"/>
+                              <input type="password" id="headset_pin" name="headset_pin" class="form-control" placeholder="organization.placeholder.pin" value="{{ old('headset_pin', $organization->headset_pin) }}"/>                              
+                              <i href="#" class="fa-regular fa-eye-slash toggle-password" style="cursor: pointer;"></i>
                               <label class="form-label" for="headset_pin">{{ ucfirst(__('organization.headset.pin')) }}</label>
                                 @error('headset_pin')
                                     <div class="text-danger">{{ __($message) }}</div>
