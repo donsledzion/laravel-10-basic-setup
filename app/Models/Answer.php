@@ -57,7 +57,7 @@ class Answer extends Model
     public function answerFileMediaType():MediaTypes | null
     {
         switch($this->quiz->type)
-        {            
+        {
             case QuizTypes::TEXT_2_TEXT:
                 return null;
                 break;
@@ -101,5 +101,16 @@ class Answer extends Model
             Log::error($msg);
         }
     }
-    
+
+    public function isFirst()
+    {
+        if($this->quiz->type != QuizTypes::PUT_IN_ORDER) throw new \Exception("Can't define order of non ordered type question");
+        return $this->order == 1;
+    }
+
+    public function isLast()
+    {
+        if($this->quiz->type != QuizTypes::PUT_IN_ORDER) throw new \Exception("Can't define order of non ordered type question");
+        return $this->order == $this->quiz->answers->count();
+    }
 }
