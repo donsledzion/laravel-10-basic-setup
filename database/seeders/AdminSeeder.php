@@ -25,7 +25,7 @@ class AdminSeeder extends Seeder
         ]);
         User::create([
             'name' => 'Grzegorz Sokołowski',
-            'email' => 'grzegorz@data.net',
+            'email' => 'grzegorz@data.pl',
             'role' => UserRoles::ADMIN
         ]);
         User::create([
