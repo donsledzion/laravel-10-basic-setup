@@ -14,15 +14,17 @@ class HeadsetController extends Controller
     public function login(Request $request)
     {
         try{
+            error_log("trying to login...");
             $organization = Organization::where('headset_login',$request->login)
                                         ->where('headset_pin',$request->pin)
                                         ->first();
             if($organization != null){
                 $token = $organization->tokens()->create([
-                    'token' => Str::random(32)
+                    'token' => Str::random(32),
+                    'device' => $request->device
                 ]);
                 $token->organization = $organization;
-                $token->scenarios = $organization->scenarios();
+                //$token->scenarios = $organization->scenarios();
                 if($organization->expires_at < Carbon::now()){
                     return response()->json(
                         $token,

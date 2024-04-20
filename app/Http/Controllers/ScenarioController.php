@@ -8,11 +8,47 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\Scenario;
 use App\Models\Organization;
+use App\Models\OrganizationToken;
+use Illuminate\Support\Collection;
 
 class ScenarioController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if($request->is('api/*')){
+            error_log("device: ".$request->device);
+            error_log("token: ".$request->token);
+            $token = OrganizationToken::where('device',$request->device)->where('token',$request->token)->first();
+            if($token != null){
+                $scenarios = new Collection();
+                foreach($token->organization->scenarios as $scenario)
+                {
+                    $newScenario = $scenario;
+                    $quizzes = new Collection();
+                    foreach($scenario->quizzes as $quiz)
+                    {
+                        $newQuiz = $quiz;
+                        foreach($newQuiz->answers as $answer){
+                            if($answer->order == null){
+                                $answer->order = -1;
+                            }
+                        }
+                        $newQuiz->answers = $quiz->answers;
+                        $quizzes->push($newQuiz);
+                    }
+                    $newScenario->quizzes = $quizzes;
+                    $scenarios->push($newScenario);
+                }
+
+                error_log("Token correct! Organization: ".$token->organization->name);
+                
+                return response()->json($scenarios);
+            } else {
+                error_log("Failed to login. Invalid token!");
+                return response()->json(['fail']);
+            }
+        }
+
         if(\Auth::user()->isAdmin())
             $scenarios = Scenario::all();
         else

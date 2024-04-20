@@ -11,7 +11,8 @@ class OrganizationToken extends Model
     use HasFactory;
 
     protected $fillable = [
-        'token'
+        'token',
+        'device'
     ];
 
     protected $casts = [
