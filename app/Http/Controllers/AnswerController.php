@@ -15,7 +15,7 @@ class AnswerController extends Controller
 {
     public function store(CreateAnswerRequest $request, Quiz $quiz)
     {
-        
+
         $answer = $quiz->answers()->create($request->validated());
         $media_type = $quiz->answerFileMediaType();
 
@@ -30,7 +30,6 @@ class AnswerController extends Controller
             $lastOrder++;
             $answer->order = $lastOrder;
             $answer->save();
-            //dd($lastOrder);
         }
 
         return redirect(route('quiz.show',[$quiz]));
@@ -42,7 +41,7 @@ class AnswerController extends Controller
             $fileName = $file->getClientOriginalName();
             $ext = pathinfo($fileName, PATHINFO_EXTENSION);
             $hashName = hash('sha256',$fileName).'.'.$ext;
-            $file->storeAs('multimedia/'.$answer->quiz->scenario->organization->id.'/'.$type->value.'s/', $hashName);            
+            $file->storeAs('multimedia/'.$answer->quiz->scenario->organization->id.'/'.$type->value.'s/', $hashName);
             return $hashName;
         } catch(\Exception $e){
             $msg = "Failed to store quiz media file! ".$e->getMessage();
@@ -62,8 +61,8 @@ class AnswerController extends Controller
     public function update(UpdateAnswerRequest $request, Answer $answer)
     {
 
-        $media_type = $answer->quiz->answerFileMediaType();        
-        if($media_type != null){            
+        $media_type = $answer->quiz->answerFileMediaType();
+        if($media_type != null){
             if($request->hasFile('content')){
                 $answer->removeMediaFile();
                 $answer->content = $this->storeAnswerFile($request->file('content'),$media_type,$answer);
@@ -82,6 +81,7 @@ class AnswerController extends Controller
             error_log("Answer: ". $answer->content);
             $quiz = $answer->quiz;
             $answer->delete();
+            $answer->quiz->reorderAnswers();
             if($request->ajax()){
                 return response()->json([
                     'status' => 'ok',

@@ -25,13 +25,13 @@ class UpdateAnswerRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [            
+        $rules = [
             'content' => 'nullable|string',
             //'is_correct' => 'boolean',
             'order' => 'numeric',
         ];
-        
-        if($this->quiz->type != QuizTypes::PUT_IN_ORDER){
+
+        if($this->answer->quiz->type != QuizTypes::PUT_IN_ORDER){
             $rules['is_correct'] = 'boolean';
         }
 

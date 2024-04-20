@@ -28,14 +28,15 @@
                     <form method="POST" action="{{ route('answer.update',$answer) }}" enctype="multipart/form-data">
                         @csrf
                         @method("PATCH")
-                    
+
                         @if($answer->quiz->type == \App\Enums\QuizTypes::TEXT_2_PICTURE)
                             @include('answers.components.edit.content-picture')
                         @elseif($answer->quiz->type == \App\Enums\QuizTypes::TEXT_2_AUDIO ||$answer->quiz->type == \App\Enums\QuizTypes::AUDIO_2_AUDIO)
-                            @include('answers.components.edit.content-audio',['answer' => $answer])                                    
-                        @else                                    
-                            @include('answers.components.edit.content-text',['answer' => $answer])                                    
+                            @include('answers.components.edit.content-audio',['answer' => $answer])
+                        @else
+                            @include('answers.components.edit.content-text',['answer' => $answer])
                         @endif
+                        @if($answer->quiz->type != \App\Enums\QuizTypes::PUT_IN_ORDER)
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="is_correct" name="is_correct" value="1" @if($answer->is_correct == true) checked @endif>
                             <label class="form-check-label" for="is_correct">{{ __('quiz.answer.is_correct') }}</label>
@@ -43,6 +44,7 @@
                                 <div class="text-danger">{{ __($message) }}</div>
                             @enderror
                         </div>
+                        @endif
                         <!-- Submit button -->
                         <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">{{ ucfirst(__('answer.update')) }}</button>
                       </form>

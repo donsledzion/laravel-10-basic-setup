@@ -42,7 +42,7 @@ class Quiz extends Model
     public function questionFileMediaType():MediaTypes | null
     {
         switch($this->type)
-        {            
+        {
             case QuizTypes::TEXT_2_TEXT:
                 return null;
                 break;
@@ -73,7 +73,7 @@ class Quiz extends Model
     public function answerFileMediaType():MediaTypes | null
     {
         switch($this->type)
-        {            
+        {
             case QuizTypes::TEXT_2_TEXT:
                 return null;
                 break;
@@ -101,6 +101,19 @@ class Quiz extends Model
         return null;
     }
 
+
+    public function reorderAnswers()
+    {
+        if($this->type != QuizTypes::PUT_IN_ORDER) return;
+        if($this->answers->count() < 1) return;
+
+        $order = 0;
+        foreach( $this->answers->sortBy('order') as $answer ){
+            $order++;
+            $answer->order = $order;
+            $answer->save();
+        }
+    }
 
     public function removeMediaFile(string $logo = null)
     {
