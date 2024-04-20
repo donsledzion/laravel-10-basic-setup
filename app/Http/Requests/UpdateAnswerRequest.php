@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\MediaTypes;
+use App\Enums\QuizTypes;
 
 class UpdateAnswerRequest extends FormRequest
 {
@@ -26,9 +27,13 @@ class UpdateAnswerRequest extends FormRequest
     {
         $rules = [            
             'content' => 'nullable|string',
-            'is_correct' => 'boolean',
+            //'is_correct' => 'boolean',
             'order' => 'numeric',
         ];
+        
+        if($this->quiz->type != QuizTypes::PUT_IN_ORDER){
+            $rules['is_correct'] = 'boolean';
+        }
 
         if($this->answer->quiz->answerFileMediaType() == MediaTypes::AUDIO){
             $rules['content'] = 'nullable|file|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav';

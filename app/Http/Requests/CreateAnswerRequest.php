@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\MediaTypes;
+use App\Enums\QuizTypes;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateAnswerRequest extends FormRequest
@@ -27,9 +28,13 @@ class CreateAnswerRequest extends FormRequest
 
         $rules = [            
             'content' => 'required|string',
-            'is_correct' => 'boolean',
+            //'is_correct' => 'boolean',
             'order' => 'numeric',
         ];
+
+        if($this->quiz->type != QuizTypes::PUT_IN_ORDER){
+            $rules['is_correct'] = 'boolean';
+        }
 
         if($this->quiz->answerFileMediaType() == MediaTypes::AUDIO){
             $rules['content'] = 'required|file|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav';

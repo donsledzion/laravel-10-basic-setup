@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Quiz;
 use App\Enums\MediaTypes;
+use App\Enums\QuizTypes;
 use App\Http\Requests\CreateAnswerRequest;
 use App\Http\Requests\UpdateAnswerRequest;
 use App\Models\Answer;
@@ -24,6 +25,14 @@ class AnswerController extends Controller
                 $answer->save();
             }
         }
+        if($quiz->type == QuizTypes::PUT_IN_ORDER){
+            $lastOrder = $quiz->answers->sortByDesc('order')->first()->order;
+            $lastOrder++;
+            $answer->order = $lastOrder;
+            $answer->save();
+            //dd($lastOrder);
+        }
+
         return redirect(route('quiz.show',[$quiz]));
     }
 

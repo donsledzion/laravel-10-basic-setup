@@ -101,6 +101,7 @@ a:active { text-decoration: none; }
                                     @else                                    
                                         @include('quizzes.components.answers.content-text')                                    
                                     @endif
+                                    @if($quiz->type != \App\Enums\QuizTypes::PUT_IN_ORDER)
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="is_correct" name="is_correct" value="1" checked>
                                         <label class="form-check-label" for="is_correct">{{ __('quiz.answer.is_correct') }}</label>
@@ -108,6 +109,7 @@ a:active { text-decoration: none; }
                                             <div class="text-danger">{{ __($message) }}</div>
                                         @enderror
                                     </div>
+                                    @endif
                                     <button data-mdb-ripple-init type="submit" class="btn btn-warning btn-block mb mt-2 new-answer">{{ ucfirst(__('quiz.save')) }}</button>           
                                 </form>
                             </div>
