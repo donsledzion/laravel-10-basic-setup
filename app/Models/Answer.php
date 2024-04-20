@@ -118,13 +118,8 @@ class Answer extends Model
     {
         try{
             if($this->isFirst()) return;
-            $oldOrder = $this->order;
-            $newOrder = $oldOrder - 1;
-            $replaceWith = $this->quiz->answers->sortBy('order')[$newOrder-1];
-            $this->order = $newOrder;
-            $replaceWith->order = $oldOrder;
+            $this->order--;
             $this->save();
-            $replaceWith->save();
         } catch(\Exception $e){
             $msg = 'Answer@moveUp error: '.$e->getMessage();
             error_log($msg);
@@ -136,15 +131,10 @@ class Answer extends Model
     {
         try{
             if($this->isLast()) return;
-            $oldOrder = $this->order;
-            $newOrder = $oldOrder + 1;
-            $replaceWith = $this->quiz->answers->sortBy('order')[$newOrder-1];
-            $this->order = $newOrder;
-            $replaceWith->order = $oldOrder;
+            $this->order++;
             $this->save();
-            $replaceWith->save();
         } catch(\Exception $e){
-            $msg = 'Answer@moveUp error: '.$e->getMessage();
+            $msg = 'Answer@moveDown error: '.$e->getMessage();
             error_log($msg);
         }
     }

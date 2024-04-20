@@ -2,7 +2,7 @@
     <div class="col">
         @if($answer->quiz->type == \App\Enums\QuizTypes::PUT_IN_ORDER)
         <div class="row">
-            <div class="col-9 bg-info rounded py-2 text-white fw-bold my-1">{{ $answer->content }}</div>
+            <div class="col-9 bg-info rounded py-2 text-white fw-bold my-1">{{ $answer->order }} - {{ $answer->content }}</div>
             <div class="col-3">
                 @include('answers.components.change-order-buttons',['answer' => $answer])
                 <a href="{{ route('answer.edit',[$answer]) }}"><button class="btn btn-warning py-2 my-1 mt-1 fa-regular fa-pen-to-square"></button></a>
