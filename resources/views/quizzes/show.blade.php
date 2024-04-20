@@ -79,7 +79,7 @@ a:active { text-decoration: none; }
                     <div class="row mb-4">
                         <strong>Odpowiedzi:</strong>
                         <div class="col">
-                            @foreach ($quiz->answers as $answer)
+                            @foreach ($quiz->answers->sortBy('order') as $answer)
                                 @include('quizzes.components.answer',['answer' => $answer])
                             @endforeach
                         </div>

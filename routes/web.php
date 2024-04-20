@@ -52,6 +52,8 @@ Route::post('/answer/{quiz}',[AnswerController::class, "store"])->name('answer.s
 Route::patch('/answer/{answer}',[AnswerController::class, "update"])->name('answer.update')->middleware(['auth','verified']);
 Route::get('/answer/{answer}/edit',[AnswerController::class, "edit"])->name('answer.edit')->middleware(['auth','verified']);
 Route::delete('/answer/{answer}',[AnswerController::class, "destroy"])->name('answer.destroy')->middleware(['auth','verified']);
+Route::post('/answer/{answer}/move-up',[AnswerController::class, "moveUp"])->name('answer.move-up')->middleware(['auth','verified']);
+Route::post('/answer/{answer}/move-down',[AnswerController::class, "moveDown"])->name('answer.move-down')->middleware(['auth','verified']);
 
 
 Route::resource('user', UserController::class)->middleware(['auth', 'verified']);

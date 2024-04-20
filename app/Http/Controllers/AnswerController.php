@@ -103,4 +103,42 @@ class AnswerController extends Controller
         }
     }
 
+    public function moveUp(Answer $answer)
+    {
+        try{
+            $answer->moveUp();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'order changed successfully',
+            ])->setStatusCode(200);
+        } catch(\Exception $e){
+            $msg = 'Failed to change order for answer! '.$e->getMessage();
+            error_log($msg);
+            Log::error($msg);
+            return response()->json([
+                'status' => 'error',
+                'message' => $msg,
+            ])->setStatusCode(200);
+        }
+    }
+
+    public function moveDown(Answer $answer)
+    {
+        try{
+            $answer->moveDown();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'order changed successfully',
+            ])->setStatusCode(200);
+        } catch(\Exception $e){
+            $msg = 'Failed to change order for answer! '.$e->getMessage();
+            error_log($msg);
+            Log::error($msg);
+            return response()->json([
+                'status' => 'error',
+                'message' => $msg,
+            ])->setStatusCode(200);
+        }
+    }
+
 }

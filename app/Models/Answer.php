@@ -113,4 +113,39 @@ class Answer extends Model
         if($this->quiz->type != QuizTypes::PUT_IN_ORDER) throw new \Exception("Can't define order of non ordered type question");
         return $this->order == $this->quiz->answers->count();
     }
+
+    public function moveUp()
+    {
+        try{
+            if($this->isFirst()) return;
+            $oldOrder = $this->order;
+            $newOrder = $oldOrder - 1;
+            $replaceWith = $this->quiz->answers->sortBy('order')[$newOrder-1];
+            $this->order = $newOrder;
+            $replaceWith->order = $oldOrder;
+            $this->save();
+            $replaceWith->save();
+        } catch(\Exception $e){
+            $msg = 'Answer@moveUp error: '.$e->getMessage();
+            error_log($msg);
+        }
+
+    }
+
+    public function moveDown()
+    {
+        try{
+            if($this->isLast()) return;
+            $oldOrder = $this->order;
+            $newOrder = $oldOrder + 1;
+            $replaceWith = $this->quiz->answers->sortBy('order')[$newOrder-1];
+            $this->order = $newOrder;
+            $replaceWith->order = $oldOrder;
+            $this->save();
+            $replaceWith->save();
+        } catch(\Exception $e){
+            $msg = 'Answer@moveUp error: '.$e->getMessage();
+            error_log($msg);
+        }
+    }
 }
