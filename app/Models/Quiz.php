@@ -42,15 +42,15 @@ class Quiz extends Model
     public function getQuestionAudioFileFullPath(): string
     {
         if($this->question_audio == null) return '';
-        if(!asset('organizations'.'/'.$this->id.'/pictures/'.$this->question_audio)) return '';
-        return asset('organizations'.'/'.$this->id.'/pictures/'.$this->question_audio);
+        if(!asset('organizations'.'/'.$this->scenario->organization->id.'/pictures/'.$this->question_audio)) return '';
+        return asset('organizations'.'/'.$this->scenario->organization->id.'/pictures/'.$this->question_audio);
     }
 
     public function getQuestionPictureFileFullPath(): string
     {
         if($this->question_picture == null) return '';
-        if(!asset('organizations'.'/'.$this->id.'/pictures/'.$this->question_picture)) return '';
-        return asset('organizations'.'/'.$this->id.'/pictures/'.$this->question_picture);
+        if(!asset('organizations'.'/'.$this->scenario->organization->id.'/pictures/'.$this->question_picture)) return '';
+        return asset('organizations'.'/'.$this->scenario->organization->id.'/pictures/'.$this->question_picture);
     }
 
     public function questionFileMediaType():MediaTypes | null

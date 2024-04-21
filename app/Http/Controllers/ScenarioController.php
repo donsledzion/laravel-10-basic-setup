@@ -17,6 +17,7 @@ class ScenarioController extends Controller
     public function index(Request $request)
     {
         if($request->is('api/*')){
+            error_log('got indexAPI request hit');
             return $this->indexAPI($request);
         }
 
@@ -36,12 +37,17 @@ class ScenarioController extends Controller
         error_log("token: ".$request->token);
         $token = OrganizationToken::where('device',$request->device)->where('token',$request->token)->first();
         if($token != null){
-            if($token->organization->epixres_at < Carbon::now()){
+            error_log('token found. Expires at: '.$token->organization->expires_at);
+            if(Carbon::parse($token->organization->epixres_at)->format("YY-mm-dd")<(Carbon::now()->format("YY-mm-dd"))){
+                error_log('token expired');
+                $msg = 'license for organization '.$token->organization->name.' expired '.(Carbon::parse($token->organization->expires_at)->diffInDays(Carbon::now())).' days ago';
+                error_log($msg);
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'license for organization '.$token->organization->name.' expired '.Carbon::parse($token->organization->expired_at - Carbon::now())->diffInDays().' days ago'
+                    'message' => $msg
                 ])->setStatusCode(206);
             }
+            error_log('token is ok');
             $scenarios = new Collection();
             foreach($token->organization->scenarios as $scenario)
             {
