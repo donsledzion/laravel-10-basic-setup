@@ -106,9 +106,11 @@ class AnswerController extends Controller
     public function moveUp(Answer $answer)
     {
         try{
+            error_log("Move up answer:".$answer->content);
             $oldOrder = $answer->order;
-            $answer->moveUp();
             $other = $answer->quiz->answers->where('order', $oldOrder-1)->first();
+            $answer->moveUp();
+            error_log("Move down answer:".$other->content);
             $other->moveDown();
             return response()->json([
                 'status' => 'success',
@@ -129,8 +131,8 @@ class AnswerController extends Controller
     {
         try{
             $oldOrder = $answer->order;
-            $answer->moveDown();
             $other = $answer->quiz->answers->where('order', $oldOrder+1)->first();
+            $answer->moveDown();
             $other->moveUp();
             return response()->json([
                 'status' => 'success',
