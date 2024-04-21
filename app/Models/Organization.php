@@ -80,6 +80,14 @@ class Organization extends Model
 
     }
 
+
+    public function getLogoFullPath(): string
+    {
+        if($this->logo == null) return '';
+        if(!asset('organizations'.'/'.$this->id.'/pictures/'.$this->logo)) return '';
+        return asset('organizations'.'/'.$this->id.'/pictures/'.$this->logo);
+    }
+
     public function removeLogoFile(string $logo = null)
     {
         try{

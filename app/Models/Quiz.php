@@ -39,6 +39,20 @@ class Quiz extends Model
         return $this->belongsTo(Scenario::class);
     }
 
+    public function getQuestionAudioFileFullPath(): string
+    {
+        if($this->question_audio == null) return '';
+        if(!asset('organizations'.'/'.$this->id.'/pictures/'.$this->question_audio)) return '';
+        return asset('organizations'.'/'.$this->id.'/pictures/'.$this->question_audio);
+    }
+
+    public function getQuestionPictureFileFullPath(): string
+    {
+        if($this->question_picture == null) return '';
+        if(!asset('organizations'.'/'.$this->id.'/pictures/'.$this->question_picture)) return '';
+        return asset('organizations'.'/'.$this->id.'/pictures/'.$this->question_picture);
+    }
+
     public function questionFileMediaType():MediaTypes | null
     {
         switch($this->type)

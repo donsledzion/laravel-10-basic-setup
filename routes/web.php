@@ -7,6 +7,7 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ScenarioController;
 use App\Http\Controllers\PermissionController;
+use App\Models\Organization;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +23,6 @@ use App\Http\Controllers\PermissionController;
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
-
-
 
 Route::get('/home', function(){
     return view('home');

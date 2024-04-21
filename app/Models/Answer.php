@@ -114,6 +114,13 @@ class Answer extends Model
         return $this->order == $this->quiz->answers->count();
     }
 
+    public function getAnswerMediaFileFullPath(): string
+    {
+        if($this->content == null) return '';
+        if(!asset('organizations'.'/'.$this->id.'/pictures/'.$this->content)) return '';
+        return asset('organizations'.'/'.$this->id.'/pictures/'.$this->content);
+    }
+
     public function moveUp()
     {
         try{
