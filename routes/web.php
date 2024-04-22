@@ -37,6 +37,9 @@ Route::get('/organization/{organization}/create-trainer', [UserController::class
 Route::get('/organization/{organization}/create-admin', [UserController::class, "createAdmin"])
         ->name('organization.create.admin')
         ->middleware(['auth','verified']);
+Route::get('/organization/{organization}/remove-member/{user}',[OrganizationController::class,'removeMember'])
+        ->name('organization.remove-member')
+        ->middleware(['auth','verified']);
 
 Route::get('/quiz/create/{scenario}', [QuizController::class, "create"])->name('quiz.create')->middleware(['auth','verified']);
 Route::post('/quiz/{scenario}', [QuizController::class, "store"])->name('quiz.store')->middleware(['auth','verified']);

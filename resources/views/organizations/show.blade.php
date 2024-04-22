@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('head')
-@vite(['resources/js/organization-remove-scenario.js','resources/js/toggle-pin-text.js'])
+@vite(['resources/js/organization-remove-scenario.js','resources/js/toggle-pin-text.js','resources/js/organization-remove-user.js'])
 <style>
 
     body{

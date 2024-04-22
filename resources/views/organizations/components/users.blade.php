@@ -3,7 +3,10 @@
     <div class="tab-content p-4">
         <div class="tab-panel active show" id="tasks-tab" role="tabpanel">
             @foreach($organization->users as $user)
-                @include('organizations.components.member',['user' => $user])
+                @include('organizations.components.member',[
+                    'user' => $user,
+                    'organization' => $organization
+                    ])
             @endforeach
     </div><!-- end tab pane -->
 </div>

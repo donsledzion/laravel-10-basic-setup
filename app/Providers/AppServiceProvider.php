@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Answer;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Quiz;
+use App\Models\User;
 use App\Models\Scenario;
 
 class AppServiceProvider extends ServiceProvider
@@ -41,6 +42,11 @@ class AppServiceProvider extends ServiceProvider
 
         Answer::deleting(function($answer){
             $answer->removeMediaFile();
+        });
+
+        User::deleting(function($user){
+            error_log("User ".$user->email." is beeing removed");
+            //email notify!!!
         });
 
     }

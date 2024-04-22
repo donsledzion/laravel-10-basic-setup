@@ -5,11 +5,17 @@
                 <div class="card task-box rounded-3">
                     <div class="card-body">
                         <div class="row align-items-center">
-                            <div class="col-xl-6 col-sm-5">
+                            <div class="col-xl-10 col-sm-5">
                                 <div class="list font-size-15">
                                     <span><strong>{{ $user->name }} - {{ $user->email }} - {{ ucfirst(__('user.roles.'.\App\Models\Role::find($user->pivot->role_id)->name)) }} </strong></span>
                                 </div>
                             </div><!-- end col -->
+                            <div class="col-xl-2 text-end">
+                                @include('organizations.components.buttons.remove-member',[
+                                    'user' => $user,
+                                    'organization' => $organization
+                                    ])
+                            </div>
 
                         </div><!-- end row -->
                     </div><!-- end cardbody -->

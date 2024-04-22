@@ -87,6 +87,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function organizationRole(Organization $organization):Role | null
     {
         if($this->organizations->count() < 1) return null;
-        return Role::firstWhere('id',$this->organizations()->where('id',$organization->id)->firstOrFail()->pivot->role_id);
+        return Role::firstWhere('id',$this->organizations()->where('id',$organization->id)
+                    ->firstOrFail()->pivot->role_id);
     }
 }

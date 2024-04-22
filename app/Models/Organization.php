@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Log;
@@ -103,5 +102,30 @@ class Organization extends Model
             error_log($msg);
             Log::error($msg);
         }
+    }
+
+    public function removeMember(User $user)
+    {
+        if($this->admin() != null && $this->admin() != $user){
+            $this->moveScenariosToAdmin($user);
+        }
+        $this->users()->detach($user);
+        if($user->organizations->count() < 1){
+            $user->delete();
+        }
+    }
+
+    private function moveScenariosToAdmin(User $user)
+    {
+        if($user->scenarios()->where('organization_id',$this->id)->count() > 0){
+            $user->scenarios()
+            ->where('organization_id',$this->id)
+            ->get()
+            ->toQuery()
+            ->update([
+                'user_id' => $this->admin()->id
+            ]);
+        }
+        
     }
 }

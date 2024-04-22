@@ -6,6 +6,7 @@ use App\Enums\UserRoles;
 use App\Http\Requests\CreateOrganizationRequest;
 use App\Http\Requests\UpdateOrganizationRequest;
 use App\Models\Organization;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -103,5 +104,70 @@ class OrganizationController extends Controller
             return redirect(route('organization.index'));
         }
 
+    }
+
+    public function removeMember(Organization $organization, User $user)
+    {
+        try{
+            if($user->organizationRole($organization) == null){
+                return response()->json([
+                    'status' => 'error',
+                    'title' => __('organization.message.remove-member.fail.title'),
+                    'message' => __('organization.message.remove-member.fail.non-organization-member')
+                ])->setStatusCode(203);
+            }
+            if($organization->admin() == null){
+                return response()->json([
+                    'status' => 'error',
+                    'title' => __('organization.message.remove-member.fail.title'),
+                    'message' => __('organization.message.remove-member.fail.no-admin')
+                ])->setStatusCode(203);
+            }
+            if($organization->admin()->id == $user->id){
+                error_log("About to remove organization admin. Am I allowed?");
+                if(!\Auth::user()->isAllowed('remove_organization_admin',$organization)){
+                    return response()->json([
+                        'status' => 'error',
+                        'title' => __('organization.message.remove-member.fail.title'),
+                        'message' => __('organization.message.remove-member.fail.no-permission')
+                    ])->setStatusCode(206);
+                }
+            }
+            if($user->organizationRole($organization)->name == 'manager'){
+                if(!\Auth::user()->isAllowed('remove_manager',$organization)){
+                    return response()->json([
+                        'status' => 'error',
+                        'title' => __('organization.message.remove-member.fail.title'),
+                        'message' => __('organization.message.remove-member.fail.no-permission')
+                    ])->setStatusCode(206);
+                }
+            }
+            if($user->organizationRole($organization)->name == 'trainer'){
+                if(!\Auth::user()->isAllowed('remove_trainer',$organization)){
+                    return response()->json([
+                        'status' => 'error',
+                        'title' => __('organization.message.remove-member.fail.title'),
+                        'message' => __('organization.message.remove-member.fail.no-permission')
+                    ])->setStatusCode(206);
+                }
+            }        
+            $role_name = $user->organizationRole($organization)->name;
+            $organization->removeMember($user);
+            return response()->json([
+                'status' => 'success',
+                'title' => __('organization.message.remove-member.success.title'),
+                'message' => __('organization.message.remove-member.success.'.$role_name)
+            ])->setStatusCode(200);
+        } catch (\Exception $e){
+            $msg = 'Failed to remove organization member. '.$e->getMessage();
+            error_log($msg);
+            Log::error($msg);
+            return response()->json([
+                'status' => 'error',
+                'title' => __('organization.message.remove-member.fail.title'),
+                'message' => $msg
+            ])->setStatusCode(500);
+        }
+        
     }
 }

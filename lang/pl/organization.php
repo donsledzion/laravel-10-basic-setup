@@ -42,6 +42,21 @@ return [
         'prefix' => 'podaj prefix orgnizacji',
         'headset_login' => 'podaj login dla gogli',
         'headset_pin' => 'podaj pin dla gogli',
-    ]
-        
-        ];
+    ],
+    'message' => [
+        'remove-member' => [
+            'fail' => [
+                'title' => 'Błąd!',
+                'no-admin' => 'Nie można usunąć użytkownika, kiedy nie ma administratora organizacji.',
+                'non-organization-member' => 'To nie jest członek tej organizacji.',
+                'no-permission' => 'Nie masz uprawnień do tej operacji.',
+            ],
+            'success' => [
+                'title' => 'Wykonano!',
+                'trainer' => 'Trener zostł usunięty z organizacji.',
+                'manager' => 'Manager został usunięty z organizacji.',
+                'admin' => 'Administrator organizacji został usuniety.'
+            ]
+        ]
+    ],        
+];

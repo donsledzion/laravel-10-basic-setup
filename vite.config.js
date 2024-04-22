@@ -16,6 +16,7 @@ export default defineConfig({
                 "resources/js/quiz-select-type.js",
                 "resources/js/answer-select-type.js",
                 "resources/js/organization-drop-logo.js",
+                "resources/js/organization-remove-user.js",
                 "resources/js/scenario-remove-quiz.js",
                 "resources/js/quiz-remove-answer.js",
                 "resources/js/organization-remove-scenario.js",
