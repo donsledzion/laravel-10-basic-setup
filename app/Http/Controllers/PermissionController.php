@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Permission;
 use App\Http\Requests\CreatePermissionRequest;
+use App\Http\Requests\UpdatePermissionRequest;
 use Illuminate\Http\Request;
 use \App\Models\Role;
 use Illuminate\Contracts\View\View as ViewView;
@@ -84,10 +85,10 @@ class PermissionController extends Controller
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Permission $permission):RedirectResponse
+    public function update(UpdatePermissionRequest $request, Permission $permission):RedirectResponse
     {
         $permission->update($request->validated());
-        return redirect(route('permission.show',[$permission]));
+        return redirect(route('permission.index'));
     }
 
     /**
@@ -96,16 +97,22 @@ class PermissionController extends Controller
      * @param  \App\Models\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Permission $permission):RedirectResponse
+    public function destroy(Permission $permission):JsonResponse
     {
         try{
             $permission->delete();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'deleted'
+            ])->setStatusCode(200);
         }catch(\Exception $e){
             $msg = "Failed to delete permission! ".$e->getMessage();
             error_log($msg);
             Log::error($msg);
-        } finally {
-            return redirect(route('permission.index'));
+            return response()->json([
+                'status' => 'error',
+                'message' => $msg
+            ])->setStatusCode(206);
         }
     }
 

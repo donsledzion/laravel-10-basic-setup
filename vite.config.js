@@ -24,6 +24,7 @@ export default defineConfig({
                 "resources/js/toggle-pin-input.js",
                 "resources/js/toggle-pin-text.js",
                 "resources/js/answer-change-order.js",
+                "resources/js/remove-permission.js",
             ],
             publicDirectory: "public_html",
             refresh: true,

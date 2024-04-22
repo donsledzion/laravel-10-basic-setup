@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('head')
-@vite(['resources/js/permissions-toggle.js'])
+@vite(['resources/js/permissions-toggle.js','resources/js/remove-permission.js'])
 @endsection
 @section('content')
 <div class="container">
@@ -44,7 +44,7 @@
                                 <a href="{{ route('permission.edit',[$permission]) }}"><button class="btn btn-warning">E</button></a>
                             </td>
                             <td>
-                                <a href="{{ route('permission.destroy',[$permission]) }}"><button class="btn btn-danger">D</button></a>
+                                <button class="btn btn-danger delete-permission" data-id="{{ $permission->id }}"><i class="fa-solid fa-trash-can"></i></button>
                             </td>
                         </tr>
                         @endforeach
