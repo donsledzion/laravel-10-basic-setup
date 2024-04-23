@@ -258,7 +258,11 @@
                                     </div>
                                 </div><!-- end col -->
                                 <div class="col-6 col-md-6">
-                                    <label class="form-label" for="headset_pin">{{ ucfirst(__('organization.headset_pin')) }}</label>
+                                    <label class="form-label" for="headset_login">{{ ucfirst(__('organization.headset.login')) }}</label>
+                                    
+                                    <p id="pin">{{ $organization->headset_login }}</p>                                    
+
+                                    <label class="form-label" for="headset_pin">{{ ucfirst(__('organization.headset.pin')) }}</label>
                                     
                                     <p id="pin" style="display: none;">{{ $organization->headset_pin }}</p>
                                     <p id="pin-hidden">
