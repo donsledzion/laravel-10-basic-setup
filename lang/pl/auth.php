@@ -35,6 +35,7 @@ return [
         'title' => 'weryfikacja adresu email',
         'before-proceeding' => 'przed kontynuowaniem korzystania z serwisu musisz zweryfikować swój email klikając w link w wiadomości, którą do Ciebie wysłaliśmy.',
         'if-didnt-receive-email' => 'jeśli nie masz żadnej wiadomości od nas',
+        'fresh-email-sent' => 'Wysłano nową wiadomość email',
     ],
     'reset' => [
         'title' => 'reset hasła',
