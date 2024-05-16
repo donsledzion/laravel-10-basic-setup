@@ -39,7 +39,9 @@
                           <td>{{ $scenario->quizzes->count() }}</td>
                           <td>{{ $scenario->organization->name }}</td>
                           <td>
-                            <a href="{{ route('scenario.edit',[$scenario]) }}"><button class="btn btn-warning">{{ ucfirst(__('scenario.edit')) }}</button></a>
+                            @if(\Auth::user()->isAllowed('edit_scenario',$scenario->organization))
+                              <a href="{{ route('scenario.edit',[$scenario]) }}"><button class="btn btn-warning">{{ ucfirst(__('scenario.edit')) }}</button></a>
+                            @endif
                             <a href="{{ route('scenario.show',[$scenario]) }}"><button class="btn btn-info">{{ ucfirst(__('scenario.show')) }}</button></a>
                           </td>
                         </tr>                     

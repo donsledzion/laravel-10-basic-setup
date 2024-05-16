@@ -7,6 +7,7 @@ use App\Enums\UserRoles;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
+use App\Models\Role;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -17,7 +18,12 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if($this->user->id == \Auth::user()->id)
+            return true;
+        $role = Role::findOrFail($this->organization_role);
+        if($role->name == 'global-admin')
+            return \Auth::user()->isAllowed('edit_admin');
+        return \Auth::user()->isAllowed('create_organization_'.$role->name);        
     }
 
     /**

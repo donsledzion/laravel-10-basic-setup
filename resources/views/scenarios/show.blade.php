@@ -40,31 +40,44 @@
                     <!-- 2 column grid layout with text inputs for organization name and prefix -->
                     <div class="row mb-4">
                         <div class="col">
-                        <div class=row>
-                            <div data-mdb-input-init class="form-outline">
-                                <label class="form-label" for="name">{{ ucfirst(__('scenario.name')) }}</label>
-                                <p><strong>{{ $scenario->name }}</strong></p>
-                                </div>
-                        </div>
-                        <div class="row mb-4 mt-4">
-                            <div class="col">
+                            <div class=row>
                                 <div data-mdb-input-init class="form-outline">
-                                    <label class="form-label" for="pin">{{ ucfirst(__('scenario.pin')) }}</label>
-                                    @if($scenario->pin)
-                                    <p id="pin" style="display: none;">{{ $scenario->pin }}</p>
-                                    <p id="pin-hidden">
-                                        @for($i = 0 ; $i < strlen($scenario->pin) ; $i++)
-                                        *
-                                        @endfor
-                                    </p>
+                                    <label class="form-label" for="name">{{ ucfirst(__('scenario.author')) }}</label>
+                                    @if(!empty($scenario->owner->name))
+                                        <p><strong>{{ $scenario->owner->name }}</strong></p>
                                     @else
-                                    <p>{{ __('scenario.none') }}</p>
+                                        <p><strong>{{ $scenario->owner->email }}</strong></p>
                                     @endif
                                 </div>
-                                <i class="fa-regular fa-eye-slash toggle-password" style="cursor: pointer;"></i>
-                                </div>
+                            </div>
                         </div>
-
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class=row>
+                                <div data-mdb-input-init class="form-outline">
+                                    <label class="form-label" for="name">{{ ucfirst(__('scenario.name')) }}</label>
+                                    <p><strong>{{ $scenario->name }}</strong></p>
+                                </div>
+                            </div>
+                            <div class="row mb-4 mt-4">
+                                <div class="col">
+                                    <div data-mdb-input-init class="form-outline">
+                                        <label class="form-label" for="pin">{{ ucfirst(__('scenario.pin')) }}</label>
+                                        @if($scenario->pin)
+                                        <p id="pin" style="display: none;">{{ $scenario->pin }}</p>
+                                        <p id="pin-hidden">
+                                            @for($i = 0 ; $i < strlen($scenario->pin) ; $i++)
+                                            *
+                                            @endfor
+                                        </p>
+                                        @else
+                                        <p>{{ __('scenario.none') }}</p>
+                                        @endif
+                                    </div>
+                                    <i class="fa-regular fa-eye-slash toggle-password" style="cursor: pointer;"></i>
+                                    </div>
+                            </div>
                         </div>
                         <div class="col">
                         <div data-mdb-input-init class="form-outline">

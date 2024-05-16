@@ -15,6 +15,7 @@ return [
     'organizations' => 'organizacje',
     'options' => 'opcje',
     'scenarios' => 'scenariusze',
+    'author' => 'autor',
     'placeholder' => [
         'pin' => 'kod zabezpieczający',
         'name' => 'nazwa scenariusza',
