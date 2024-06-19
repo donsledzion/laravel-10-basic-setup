@@ -137,6 +137,7 @@ return [
         'type'              => 'rodzaj',
         'question_picture'  => 'zdjęcie do zadania',
         'question_audio'    => 'dźwiek do zadania',
+        'description'    => 'opis',
 
     ],
     'values' => [
