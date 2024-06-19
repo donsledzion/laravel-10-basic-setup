@@ -14,7 +14,9 @@ class UpdateOrganizationRequest extends FormRequest
      */
     public function authorize()
     {
-        $organization = Organization::find($this->organization->id);
+        $organization = null;
+        if($this->organization != null)
+            $organization = Organization::find($this->organization->id);
         return \Auth::user()->isAllowed('edit_organization',$organization);
     }
 
