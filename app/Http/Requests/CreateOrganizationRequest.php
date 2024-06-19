@@ -14,7 +14,6 @@ class CreateOrganizationRequest extends FormRequest
      */
     public function authorize()
     {
-        $organization = Organization::find($this->organization->id);
         return \Auth::user()->isAllowed('create_organization');
     }
 
