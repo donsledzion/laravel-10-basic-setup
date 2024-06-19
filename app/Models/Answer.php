@@ -117,8 +117,14 @@ class Answer extends Model
     public function getAnswerMediaFileFullPath(): string
     {
         if($this->content == null) return '';
-        if(!asset('organizations'.'/'.$this->quiz->scenario->organization->id.'/pictures/'.$this->content)) return '';
-        return asset('organizations'.'/'.$this->quiz->scenario->organization->id.'/pictures/'.$this->content);
+        if($this->answerFileMediaType() == MediaTypes::PICTURE){
+            if(!asset('organizations'.'/'.$this->quiz->scenario->organization->id.'/pictures/'.$this->content)) return '';
+            return asset('organizations'.'/'.$this->quiz->scenario->organization->id.'/pictures/'.$this->content);
+        } else if($this->answerFileMediaType() == MediaTypes::AUDIO){
+            if(!asset('organizations'.'/'.$this->quiz->scenario->organization->id.'/audios/'.$this->content)) return '';
+            return asset('organizations'.'/'.$this->quiz->scenario->organization->id.'/audios/'.$this->content);
+        }
+        if($this->content == null) return '';        
     }
 
     public function moveUp()
