@@ -51,7 +51,7 @@
                             <div data-mdb-input-init class="form-outline">
                               <textarea id="description" rows="5" name="description" class="form-control" placeholder="{{ __('scenario.placeholder.description') }}">{{ old("description") }}</textarea>
                               <label class="form-label" for="description">{{ ucfirst(__('scenario.description')) }}</label>
-                                @error('prefix')
+                                @error('description')
                                     <div class="text-danger">{{ __($message) }}</div>
                                 @enderror
                             </div>
