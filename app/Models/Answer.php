@@ -117,8 +117,8 @@ class Answer extends Model
     public function getAnswerMediaFileFullPath(): string
     {
         if($this->content == null) return '';
-        if(!asset('organizations'.'/'.$this->id.'/pictures/'.$this->content)) return '';
-        return asset('organizations'.'/'.$this->id.'/pictures/'.$this->content);
+        if(!asset('organizations'.'/'.$this->quiz->scenario->organization->id.'/pictures/'.$this->content)) return '';
+        return asset('organizations'.'/'.$this->quiz->scenario->organization->id.'/pictures/'.$this->content);
     }
 
     public function moveUp()
