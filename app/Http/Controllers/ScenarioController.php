@@ -53,11 +53,11 @@ class ScenarioController extends Controller
             foreach($token->organization->scenarios as $scenario)
             {
                 $newScenario = $scenario;
-                $logoFile = $scenario->getLogoFile();
+                /*$logoFile = $scenario->getLogoFile();
                 if($logoFile == null || Str::emtpy($logoFile->logo)){
                     $logoFile = $scenario->organization->getLogoFile();
-                }
-                $newScenario->logo = $logoFile;
+                }*/
+                $newScenario->logo = $scenario->getLogoFile();
 
                 $quizzes = new Collection();
                 foreach($scenario->quizzes as $quiz)
