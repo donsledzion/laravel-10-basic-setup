@@ -69,6 +69,7 @@ class Scenario extends Model
         if($this->logo == null || Str::empty($this->logo)){
             return '';
         }
+        if(!asset('organizations'.'/'.$this->organization->id.'/pictures/'.$this->logo)) return '';
         return asset('organizations'.'/'.$this->organization->id.'/pictures/'.$this->logo);
     }
 
