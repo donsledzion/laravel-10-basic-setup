@@ -57,6 +57,7 @@ class ScenarioController extends Controller
                 if($logoFile == null || Str::emtpy($logoFile->logo)){
                     $logoFile = $scenario->organization->getLogoFile();
                 }
+                $newScenario->logo = $logoFile;
 
                 $quizzes = new Collection();
                 foreach($scenario->quizzes as $quiz)
