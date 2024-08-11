@@ -11,6 +11,7 @@ use App\Models\Organization;
 use App\Models\OrganizationToken;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class ScenarioController extends Controller
 {
@@ -52,6 +53,11 @@ class ScenarioController extends Controller
             foreach($token->organization->scenarios as $scenario)
             {
                 $newScenario = $scenario;
+                $logoFile = $scenario->getLogoFile();
+                if($logoFile == null || Str::emtpy($logoFile->logo)){
+                    $logoFile = $scenario->organization->getLogoFile();
+                }
+
                 $quizzes = new Collection();
                 foreach($scenario->quizzes as $quiz)
                 {
