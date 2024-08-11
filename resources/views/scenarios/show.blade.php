@@ -22,11 +22,11 @@
                     <div class="row">
                         <div class="col">{{ ucfirst(__('scenario.form.show')) }}</div>
                         <div class="col text-end">
-                            <a href="{{ route('organization.show',$scenario->organization) }}"> 
+                            <a href="{{ route('organization.show',$scenario->organization) }}">
                                 <button class="btn btn-info py-2 px-2 fa-solid fa-rotate-left"></button>
                             </a>
                         </div>
-                        
+
                     </div>
                 </div>
 
@@ -80,6 +80,9 @@
                             </div>
                         </div>
                         <div class="col">
+                            <div class="text-center border-end">
+                                <img src="{{ asset('organizations'.'/'.$scenario->organization->id.'/pictures/'.$scenario->logo) }}" class="img-fluid avatar-xxl rounded" alt="">
+                            </div>
                         <div data-mdb-input-init class="form-outline">
                             <label class="form-label" for="description">{{ ucfirst(__('scenario.description')) }}</label>
                             <p id="description" name="description" class="text">{{ $scenario->description }}</p>

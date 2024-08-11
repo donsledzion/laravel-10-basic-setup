@@ -99,11 +99,15 @@ class ScenarioController extends Controller
         try{
             $scenario = \Auth::user()->scenarios()->make($request->validated());
             $scenario->organization_id = $request->organization_id;
+
             $scenario->save();
+            if($request->hasFile('logo')){
+                $this->storeLogoFile($request->file('logo'), $scenario);
+            }
 
             return redirect(route('scenario.show',[$scenario]));
         }catch(\Exception $e){
-            $msg = "An error occured while trying to store scenario: ".$e->getMessage();
+            $msg = "An error occurred while trying to store scenario: ".$e->getMessage();
             error_log($msg);
             Log::error($msg);
         }
@@ -120,10 +124,23 @@ class ScenarioController extends Controller
     public function update(UpdateScenarioRequest $request, Scenario $scenario)
     {
         try{
+            $old_logo = $scenario->logo;
             $scenario->update($request->validated());
+            if($request->hasFile('logo')){
+                if($this->storeLogoFile($request->file('logo'), $scenario))
+                    try {
+                        $scenario->removeLogoFile($old_logo);
+                    } catch(\Exception $e) {
+                        $msg = "An error occurred while trying to remove logo file: ".$e->getMessage();
+                        error_log($msg);
+                        Log::error($msg);
+                    }
+
+
+            }
             return redirect(route('scenario.show',[$scenario]));
         }catch(\Exception $e){
-            $msg = "An error occured while trying to update scenario: ".$e->getMessage();
+            $msg = "An error occurred while trying to update scenario: ".$e->getMessage();
             error_log($msg);
             Log::error($msg);
         }
@@ -152,6 +169,24 @@ class ScenarioController extends Controller
                     'message' => $msg
                 ])->setStatusCode(200);
             }
+        }
+    }
+
+    private function storeLogoFile($file, Scenario $scenario):bool
+    {
+        try{
+            $fileName = $file->getClientOriginalName();
+            $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+            $hashName = hash('sha256',$fileName).'.'.$ext;
+            $file->storeAs('multimedia/'.$scenario->organization->id.'/pictures/', $hashName);
+            $scenario->logo = $hashName;
+            $scenario->save();
+            return true;
+        } catch(\Exception $e){
+            $msg = "Failed to store logo file! ".$e->getMessage();
+            error_log($msg);
+            Log::error($msg);
+            return false;
         }
     }
 }

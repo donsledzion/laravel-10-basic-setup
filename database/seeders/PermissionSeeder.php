@@ -64,9 +64,6 @@ class PermissionSeeder extends Seeder
             'name' => 'set_organization_expiration_date'
         ]);
         Permission::create([
-            'name' => 'remove_admin'
-        ]);
-        Permission::create([
             'name' => 'remove_manager'
         ]);
         Permission::create([

@@ -9,7 +9,6 @@ return [
     'none' => 'brak',
     'name' => 'nazwa',
     'pin' => 'pin',
-    'none' => 'brak',
     'yes' => 'tak',
     'quizzes' => 'zadania',
     'organizations' => 'organizacje',
@@ -25,6 +24,10 @@ return [
         'creation' => 'formularz nowego scenariusza',
         'show' => 'karta przeglądu scenariusza',
         'edit' => 'karta edycji scenariusza'
-    ]
-    
+    ],
+    'logo' => [
+        'drop' => 'Wybierz z dysku lub upuść logo dla scenariusza. (rozmiar do 5MB, wymiary do 1024 x 1024)',
+        'logo' => 'logo'
+    ],
+
 ];

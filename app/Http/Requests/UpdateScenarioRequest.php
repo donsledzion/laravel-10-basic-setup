@@ -27,6 +27,7 @@ class UpdateScenarioRequest extends FormRequest
             'name' => 'string|min:3|max:128|unique:organizations,name',
             'description' => 'string|min:5|max:1024',
             'pin' => 'nullable|numeric|digits:4',
-            ];        
+            'logo' => 'nullable|file|mimes:png|max:5120'
+            ];
     }
 }
