@@ -81,7 +81,7 @@ class Organization extends Model
 
     public function getLogoFullPath(): string
     {
-        if($this->logo == null) return '';
+        if($this->logo == null || empty($this->logo)) return '';
         if(!asset('organizations'.'/'.$this->id.'/pictures/'.$this->logo)) return '';
         return asset('organizations'.'/'.$this->id.'/pictures/'.$this->logo);
     }
