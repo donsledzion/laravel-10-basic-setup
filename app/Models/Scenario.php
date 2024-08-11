@@ -67,7 +67,11 @@ class Scenario extends Model
     public function getLogoFileFullPath()
     {
         if($this->logo == null || empty($this->logo)){
+            if($this->organization->logo == null || empty($this->organization->logo))
             return '';
+            if(!asset('organizations'.'/'.$this->organization->id.'/pictures/'.$this->organization->logo)) return '';
+            return asset('organizations'.'/'.$this->organization->id.'/pictures/'.$this->organization->logo);
+
         }
         if(!asset('organizations'.'/'.$this->organization->id.'/pictures/'.$this->logo)) return '';
         return asset('organizations'.'/'.$this->organization->id.'/pictures/'.$this->logo);
