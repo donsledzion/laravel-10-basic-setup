@@ -62,7 +62,14 @@ class Scenario extends Model
             error_log($msg);
             Log::error($msg);
         }
+    }
 
+    public function getLogoFileFullPath()
+    {
+        if($this->logo == null || Str::empty($this->logo)){
+            return '';
+        }
+        return asset('organizations'.'/'.$this->organization->id.'/pictures/'.$this->logo);
     }
 
     public function removeLogoFile(string $logo = null)
