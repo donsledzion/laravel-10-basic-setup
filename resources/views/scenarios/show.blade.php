@@ -81,7 +81,11 @@
                         </div>
                         <div class="col">
                             <div class="text-center border-end">
-                                <img src="{{ asset('organizations'.'/'.$scenario->organization->id.'/pictures/'.$scenario->logo) }}" class="img-fluid avatar-xxl rounded" alt="">
+                                @if(!empty($scenario->logo) && \Illuminate\Support\Facades\Storage::exists('multimedia/'.$scenario->organization->id.'/pictures/'.$scenario->logo))
+                                    <img src="{{ asset('organizations'.'/'.$scenario->organization->id.'/pictures/'.$scenario->logo) }}" class="img-fluid avatar-xxl rounded" alt="">
+                                @else
+                                    <img src="{{ asset('organizations'.'/'.$scenario->organization->id.'/pictures/'.$scenario->organization->logo) }}" class="img-fluid avatar-xxl rounded" alt="">
+                                @endif
                             </div>
                         <div data-mdb-input-init class="form-outline">
                             <label class="form-label" for="description">{{ ucfirst(__('scenario.description')) }}</label>

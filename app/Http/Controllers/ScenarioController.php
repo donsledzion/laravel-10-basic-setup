@@ -53,10 +53,6 @@ class ScenarioController extends Controller
             foreach($token->organization->scenarios as $scenario)
             {
                 $newScenario = $scenario;
-                /*$logoFile = $scenario->getLogoFile();
-                if($logoFile == null || Str::emtpy($logoFile->logo)){
-                    $logoFile = $scenario->organization->getLogoFile();
-                }*/
                 $newScenario->logo = $scenario->getLogoFileFullPath();
 
                 $quizzes = new Collection();
@@ -134,7 +130,7 @@ class ScenarioController extends Controller
             $old_logo = $scenario->logo;
             $scenario->update($request->validated());
             if($request->hasFile('logo')){
-                if($this->storeLogoFile($request->file('logo'), $scenario))
+                if($this->storeLogoFile($request->file('logo'), $scenario) && !empty($old_logo))
                     try {
                         $scenario->removeLogoFile($old_logo);
                     } catch(\Exception $e) {
@@ -188,6 +184,7 @@ class ScenarioController extends Controller
             $file->storeAs('multimedia/'.$scenario->organization->id.'/pictures/', $hashName);
             $scenario->logo = $hashName;
             $scenario->save();
+            error_log("Stored new logo file for scenario: ".$hashName);
             return true;
         } catch(\Exception $e){
             $msg = "Failed to store logo file! ".$e->getMessage();

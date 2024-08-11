@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('scenarios', function (Blueprint $table) {
-            $table->string('logo')->after('pin');
+            $table->string('logo')->after('pin')->nullable();
         });
     }
 

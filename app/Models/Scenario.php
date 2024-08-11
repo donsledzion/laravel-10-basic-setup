@@ -52,7 +52,7 @@ class Scenario extends Model
             } else {
                 $logoPath = 'multimedia/'.$this->organization->id.'/pictures/'.$logo;
             }
-            if(Storage::exists($logoPath)){
+            if($logoPath != null && Storage::exists($logoPath)){
                 return $logoPath;
             }
 
@@ -85,7 +85,8 @@ class Scenario extends Model
                 $logo = $this->getLogoFile($logo);
                 error_log("Found logo at: ".$logo);
             }
-            Storage::delete($logo);
+            if($logo != null && Storage::exists($logo))
+                Storage::delete($logo);
         } catch(\Exception $e){
             $msg = "An error occurred while trying to remove organization ".$this->name." logo file. ".$e->getMessage();
             error_log($msg);

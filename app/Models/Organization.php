@@ -60,7 +60,7 @@ class Organization extends Model
     {
         try{
             if($logo == null){
-                if($this->logo == null || Str::empty($this->logo)) return null;
+                if($this->logo == null || empty($this->logo)) return null;
                 $logoPath = 'multimedia/'.$this->id.'/pictures/'.$this->logo;
             } else {
                 $logoPath = 'multimedia/'.$this->id.'/pictures/'.$logo;
@@ -95,7 +95,8 @@ class Organization extends Model
             } else {
                 $logo = $this->getLogoFile($logo);
             }
-            Storage::delete($logo);
+            if(Storage::exists($logo))
+                Storage::delete($logo);
         } catch(\Exception $e){
             $msg = "An error occurred while trying to remove organization ".$this->name." logo file. ".$e->getMessage();
             error_log($msg);
