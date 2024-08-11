@@ -47,7 +47,7 @@ class Scenario extends Model
     {
         try{
             if($logo == null){
-                if($this->logo == null || Str::emtpy($this->logo)) return null;
+                if($this->logo == null || empty($this->logo)) return null;
                 $logoPath = 'multimedia/'.$this->organization->id.'/pictures/'.$this->logo;
             } else {
                 $logoPath = 'multimedia/'.$this->organization->id.'/pictures/'.$logo;
@@ -66,7 +66,7 @@ class Scenario extends Model
 
     public function getLogoFileFullPath()
     {
-        if($this->logo == null || Str::empty($this->logo)){
+        if($this->logo == null || empty($this->logo)){
             return '';
         }
         if(!asset('organizations'.'/'.$this->organization->id.'/pictures/'.$this->logo)) return '';

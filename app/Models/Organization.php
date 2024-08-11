@@ -60,7 +60,7 @@ class Organization extends Model
     {
         try{
             if($logo == null){
-                if($this->logo == null || Str::emtpy($this->logo)) return null;
+                if($this->logo == null || Str::empty($this->logo)) return null;
                 $logoPath = 'multimedia/'.$this->id.'/pictures/'.$this->logo;
             } else {
                 $logoPath = 'multimedia/'.$this->id.'/pictures/'.$logo;
