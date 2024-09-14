@@ -4,6 +4,7 @@ use App\Http\Controllers\HeadsetController;
 use App\Http\Controllers\ScenarioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [HeadsetController::class, 'login']);
 
 Route::post('/scenarios', [ScenarioController::class, 'index']);
+
+
+Route::get('/some-file', function(){
+    $image = Gdrive::get('quizzly/Bugsunited.png');
+
+    return response($image->file, 200)
+        ->header('Content-Type', $image->ext);
+});
