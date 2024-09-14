@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRoles;
+use App\Http\Requests\CreateOrganizationLogoRequest;
 use App\Http\Requests\CreateOrganizationRequest;
 use App\Http\Requests\UpdateOrganizationRequest;
+use App\Models\MediaFile;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class OrganizationController extends Controller
 {
@@ -42,14 +45,28 @@ class OrganizationController extends Controller
         try{
             $organization = Organization::create($request->validated());
             if($request->hasFile('logo')){
-                $this->storeLogoFile($request->file('logo'), $organization);
+                $attributes = $request
+                    ->merge([
+                        'file' => $request->logo,
+                        'organization' => $organization->id
+                    ])
+                    ->validate([
+                        'file' => 'nullable|file|mimes:png|max:5120',
+                        'organization' => 'required',
+                        Rule::exists('organizations','id')
+                    ]);
+                $logo = MediaFile::create($attributes);
+                $organization->logo = $logo->id;
+                $organization->save();
+                //$this->storeLogoFile($request->file('logo'), $organization);
             }
             return redirect(route('organization.show',[$organization]))->with('success','Dodano organizację!');
 
         } catch(\Exception $e) {
-            $msg = "An exception occured while trying to create organization entry. Exception message: ".$e->getMessage();
+            $msg = "An exception occurred while trying to create organization entry. Exception message: ".$e->getMessage();
             error_log($msg);
             Log::Error($msg);
+            $organization->delete();
         }
     }
 
@@ -59,7 +76,7 @@ class OrganizationController extends Controller
             'organization' => $organization
         ]);
     }
-    
+
     private function storeLogoFile($file, Organization $organization):bool
     {
         try{
@@ -150,7 +167,7 @@ class OrganizationController extends Controller
                         'message' => __('organization.message.remove-member.fail.no-permission')
                     ])->setStatusCode(206);
                 }
-            }        
+            }
             $role_name = $user->organizationRole($organization)->name;
             $organization->removeMember($user);
             return response()->json([
@@ -168,6 +185,6 @@ class OrganizationController extends Controller
                 'message' => $msg
             ])->setStatusCode(500);
         }
-        
+
     }
 }

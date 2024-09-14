@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -54,6 +55,11 @@ class Organization extends Model
     public function tokens():HasMany
     {
         return $this->hasMany(OrganizationToken::class);
+    }
+
+    public function logoFile():HasOne
+    {
+        return $this->hasOne(MediaFile::class,'id','logo');
     }
 
     public function getLogoFile(string $logo = null)
