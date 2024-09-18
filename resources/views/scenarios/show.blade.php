@@ -98,6 +98,19 @@
                     <div class="row mb-4">
 
                     </div>
+                        <div class="row mb-4">
+                            Zestaw kolorów:
+                            <label for="favcolor">Kolor tekstu pytania:</label>
+                            <input disabled type="color" id="color_question_text" name="color_question_text" value="{{$scenario->color_question_text}}">
+                            <label for="favcolor">Kolor tekstu odpowiedzi:</label>
+                            <input disabled type="color" id="color_answer_text" name="color_answer_text" value="{{$scenario->color_answer_text}}">
+                            <label for="favcolor">Kolor tła pytania:</label>
+                            <input disabled type="color" id="color_question_background" name="color_question_background" value="{{$scenario->color_question_background}}">
+                            <label for="favcolor">Kolor tła odpowiedzi:</label>
+                            <input disabled type="color" id="color_answer_background" name="color_answer_background" value="{{$scenario->color_answer_background}}">
+                            <label for="favcolor">Kolor podłogi:</label>
+                            <input disabled type="color" id="color_floor" name="color_floor" value="{{$scenario->color_floor}}">
+                        </div>
 
 
                     <!-- Submit button -->

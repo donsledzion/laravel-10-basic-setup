@@ -67,7 +67,19 @@
                             @endisset
 
                         </div>
-
+                            <div class="row mb-4">
+                                Zestaw kolorów:
+                                <label for="favcolor">Kolor tekstu pytania:</label>
+                                <input type="color" id="color_question_text" name="color_question_text" value="#000000">
+                                <label for="favcolor">Kolor tekstu odpowiedzi:</label>
+                                <input type="color" id="color_answer_text" name="color_answer_text" value="#ffffff">
+                                <label for="favcolor">Kolor tła pytania:</label>
+                                <input type="color" id="color_question_background" name="color_question_background" value="#000000">
+                                <label for="favcolor">Kolor tła odpowiedzi:</label>
+                                <input type="color" id="color_answer_background" name="color_answer_background" value="#ffffff">
+                                <label for="favcolor">Kolor podłogi:</label>
+                                <input type="color" id="color_floor" name="color_floor" value="#ffffff">
+                            </div>
                         <div class="row mb-4 logo-container">
                             <div class="container mt-2">
                                 <div class="card">

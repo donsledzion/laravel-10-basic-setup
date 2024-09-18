@@ -27,6 +27,11 @@ class CreateScenarioRequest extends FormRequest
             'name' => 'required|string|min:3|max:128',
             'description' => 'string|min:5|max:1024',
             'pin' => 'nullable|string|digits:4',
+            'color_question_text' => ['required','regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i'],
+            'color_answer_text' => ['required','regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i'],
+            'color_question_background' => ['required','regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i'],
+            'color_answer_background' => ['required','regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i'],
+            'color_floor' => ['required','regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i'],
             'logo' => 'nullable|file|mimes:png|max:5120'
             ];
     }

@@ -19,7 +19,12 @@ class Scenario extends Model
         'name',
         'description',
         'pin',
-        'logo'
+        'logo',
+        'color_question_text',
+        'color_answer_text',
+        'color_question_background',
+        'color_answer_background',
+        'color_floor'
     ];
 
     protected $casts = [
