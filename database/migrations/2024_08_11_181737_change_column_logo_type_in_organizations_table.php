@@ -14,6 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::table('organizations', function (Blueprint $table) {
+            $table->dropColumn('logo');
+        });
+
+        Schema::table('organizations', function (Blueprint $table) {
             $table->unsignedBigInteger('logo')
                 ->after('headset_login')
                 ->nullable();
@@ -41,6 +45,10 @@ return new class extends Migration
         });
         Schema::table('organizations', function (Blueprint $table) {
             $table->dropColumn('logo');
+        });
+
+        Schema::table('organizations', function (Blueprint $table) {
+            $table->string('logo')->nullable();
         });
 
     }
