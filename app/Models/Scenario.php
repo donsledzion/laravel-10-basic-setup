@@ -24,7 +24,8 @@ class Scenario extends Model
         'color_answer_text',
         'color_question_background',
         'color_answer_background',
-        'color_floor'
+        'color_floor',
+        'interaction_id',
     ];
 
     protected $casts = [
@@ -45,6 +46,11 @@ class Scenario extends Model
     public function organization():BelongsTo
     {
         return $this->belongsTo(Organization::class);
+    }
+
+    public function interaction():BelongsTo
+    {
+        return $this->belongsTo(AnsweringInteractionType::class,'interaction_id','id');
     }
 
 

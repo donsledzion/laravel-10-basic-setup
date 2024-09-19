@@ -61,6 +61,14 @@
                             </div>
                           </div>
                         </div>
+                            <div class="row mb-4">
+                                <label for="interaction_id">Rodzaj interakcji z zadaniami:</label>
+                                <select id="interaction_id" name="interaction_id" class="form-select">
+                                    @foreach(\App\Models\AnsweringInteractionType::all() as $interaction)
+                                        <option @if($scenario->interaction != null && $interaction->id == $scenario->interaction->id) selected @endif value="{{$interaction->id}}">{{$interaction->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
 
                             <div class="row mb-4">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\AnsweringInteractionTypeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrganizationController;
@@ -61,6 +62,7 @@ Route::post('/answer/{answer}/move-down',[AnswerController::class, "moveDown"])-
 Route::resource('user', UserController::class)->middleware(['auth', 'verified']);
 Route::resource('organization', OrganizationController::class)->middleware(['auth', 'verified']);
 Route::resource('scenario', ScenarioController::class)->middleware(['auth', 'verified']);
+Route::resource('answeringInteractionType',AnsweringInteractionTypeController::class)->middleware(['auth','verified']);
 Route::get('/scenario/create/{organization}',[ScenarioController::class, 'create'])->name('scenario.create-for-organization')->middleware(['auth','verified']);
 
 Route::resource('permission', PermissionController::class)->middleware(['auth','verified','admin']);

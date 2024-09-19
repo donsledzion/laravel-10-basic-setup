@@ -99,6 +99,11 @@
 
                     </div>
                         <div class="row mb-4">
+                            <label for="interaction_id">Rodzaj interakcji z zadaniami:</label>
+                            <input disabled type="text" class="form-control" value="@if($scenario->interaction != null){{$scenario->interaction->name}}@else brak @endif">
+                        </div>
+
+                        <div class="row mb-4">
                             Zestaw kolorów:
                             <label for="favcolor">Kolor tekstu pytania:</label>
                             <input disabled type="color" id="color_question_text" name="color_question_text" value="{{$scenario->color_question_text}}">

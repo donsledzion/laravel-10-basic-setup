@@ -67,6 +67,16 @@
                             @endisset
 
                         </div>
+
+                            <div class="row mb-4">
+                                <label for="interaction_id">Rodzaj interakcji z zadaniami:</label>
+                                <select id="interaction_id" name="interaction_id" class="form-select">
+                                    @foreach(\App\Models\AnsweringInteractionType::all() as $interaction)
+                                        <option value="{{$interaction->id}}">{{$interaction->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <div class="row mb-4">
                                 Zestaw kolorów:
                                 <label for="favcolor">Kolor tekstu pytania:</label>
