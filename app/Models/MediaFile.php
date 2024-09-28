@@ -6,6 +6,7 @@ use App\Enums\MediaTypes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,8 +32,13 @@ class MediaFile extends Model
             $fileName = $file->getClientOriginalName();
             $ext = pathinfo($fileName, PATHINFO_EXTENSION);
             $hashName = hash('sha256',$fileName).'.'.$ext;
-            $file->storeAs('multimedia/'.$attributes["organization"].'/pictures/', $hashName);
-            $newMediaFile = new MediaFile(['name' => $hashName]);
+            if(array_key_exists("organization",$attributes))
+                //dd($attributes);
+                //$targetPath = 'multimedia/'.$attributes["organization"].'/'.self::extension2mediaType($ext)->value.'/'.$hashName;
+                $file->storeAs('multimedia/'.$attributes["organization"].'/'.self::extension2mediaType($ext).'s/', $hashName);
+            else
+                $file->storeAs('multimedia/internal/'.self::extension2mediaType($ext).'s/', $hashName);
+            $newMediaFile = new MediaFile(['name' => $hashName, 'type' => self::extension2mediaType($ext)]);
             $newMediaFile->save();
             return $newMediaFile;
         } catch(\Exception $e){
@@ -45,19 +51,36 @@ class MediaFile extends Model
 
     public function getMediaPath():string
     {
-        return 'multimedia/'.$this->organization->id.'/'.$this->directory().'/'.$this->name;
+        $organization = "internal";
+        if($this->organization != null)
+            $organization = $this->organization->id;
+        return config('app.url').'/organizations/'.$organization.'/'.$this->directory().'/'.$this->name;
     }
 
     public function directory():string
     {
-        switch ($this->type){
-            case MediaTypes::AUDIO->value:
-                return 'audios';
-            case MediaTypes::VIDEO->value:
-                return 'videos';
-            default:
-                return 'pictures';
+        return $this->type->value.'s';
+    }
+
+    public static function extension2mediaType(string $ext):string
+    {
+        $pictureExtensions = array('png', 'jpg', 'jpeg', 'bmp', 'gif');
+        $audioExtensions = array('mp3', 'wav', 'ogg');
+        $videoExtensions = array('mp4', 'mkv', 'mov');
+
+        foreach ($pictureExtensions as $extension)
+        {
+            if($extension == $ext) return 'picture';
         }
+        foreach ($audioExtensions as $extension)
+        {
+            if($extension == $ext) return 'audio';
+        }
+        foreach ($videoExtensions as $extension)
+        {
+            if($extension == $ext) return 'video';
+        }
+        return 'other';
     }
 
     public function organization():belongsTo

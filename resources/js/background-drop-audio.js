@@ -1,5 +1,5 @@
 let audioDropArea = document.getElementById("audio-drop-area");
-let question_audio = document.getElementById("question_audio");
+let question_audio = document.getElementById("background_audio");
 
 ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
     audioDropArea.addEventListener(eventName, preventDefaults, false);

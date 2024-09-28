@@ -33,7 +33,8 @@ class UpdateScenarioRequest extends FormRequest
             'color_answer_background' => ['regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i'],
             'color_floor' => ['regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i'],
             'logo' => 'nullable|file|mimes:png|max:5120',
-            'interaction_id' => 'numeric|exists:answering_interaction_types,id'
+            'interaction_id' => 'numeric|exists:answering_interaction_types,id',
+            'audio_background_id' => 'numeric|exists:audio_backgrounds,id|nullable'
             ];
     }
 }

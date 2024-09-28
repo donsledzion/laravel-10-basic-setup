@@ -7,6 +7,9 @@
 <a class="navbar-brand" href="{{ route('permission.index') }}">
     {{ ucfirst(__('permission.permissions')) }}
 </a>
+<a class="navbar-brand" href="{{ route('multimedia.index') }}">
+    {{ ucfirst(__('multimedia.multimedia')) }}
+</a>
 <a class="navbar-brand" href="{{ route('answeringInteractionType.index') }}">
     {{ ucfirst(__('answering-interactions.interactions')) }}
 </a>

@@ -26,6 +26,7 @@ class Scenario extends Model
         'color_answer_background',
         'color_floor',
         'interaction_id',
+        'audio_background_id'
     ];
 
     protected $casts = [
@@ -51,6 +52,11 @@ class Scenario extends Model
     public function interaction():BelongsTo
     {
         return $this->belongsTo(AnsweringInteractionType::class,'interaction_id','id');
+    }
+
+    public function audioBackground():BelongsTo
+    {
+        return $this->belongsTo(AudioBackground::class,'audio_background_id', 'id');
     }
 
 

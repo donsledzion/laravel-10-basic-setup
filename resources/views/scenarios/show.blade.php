@@ -104,6 +104,17 @@
                         </div>
 
                         <div class="row mb-4">
+                            <label for="audio_background">{{ucfirst(__('multimedia.audio.title'))}}</label>
+                            <input id="audio_background" disabled type="text" class="form-control" value="@if($scenario->audioBackground != null){{$scenario->audioBackground->name}}@else brak @endif">
+                            @if($scenario->audioBackground != null)
+                                <audio id="audio" controls="controls">
+                                    <source id="audioSource" src="{{$scenario->audioBackground->media->getMediaPath()}}">
+                                </audio>
+                            @endif
+                        </div>
+
+
+                        <div class="row mb-4">
                             Zestaw kolorów:
                             <label for="favcolor">Kolor tekstu pytania:</label>
                             <input disabled type="color" id="color_question_text" name="color_question_text" value="{{$scenario->color_question_text}}">

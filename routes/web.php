@@ -2,13 +2,15 @@
 
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AnsweringInteractionTypeController;
+use App\Http\Controllers\AudioBackgroundController;
+use App\Http\Controllers\MultimediaController;
+use App\Http\Controllers\SkyboxBackgroundController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ScenarioController;
 use App\Http\Controllers\PermissionController;
-use App\Models\Organization;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,10 +68,15 @@ Route::resource('answeringInteractionType',AnsweringInteractionTypeController::c
 Route::get('/scenario/create/{organization}',[ScenarioController::class, 'create'])->name('scenario.create-for-organization')->middleware(['auth','verified']);
 
 Route::resource('permission', PermissionController::class)->middleware(['auth','verified','admin']);
-
 Route::get('permission/toggle/{permission}/{role}',[PermissionController::class,'toggle'])
         ->name('permission.toggle')
         ->middleware(['auth','verified','admin']);
+
+Route::get('multimedia-files',[MultimediaController::class, "index"])->name('multimedia.index')->middleware(['auth','verified', 'admin']);
+
+Route::resource('audioBackground', AudioBackgroundController::class)->middleware(['auth','verified']);
+Route::resource('skyboxBackground', SkyboxBackgroundController::class)->middleware(['auth','verified']);
+
 
 Auth::routes([
     'verify' => true,

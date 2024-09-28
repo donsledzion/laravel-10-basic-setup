@@ -41,7 +41,6 @@ class OrganizationController extends Controller
 
     public function store(CreateOrganizationRequest $request)
     {
-        //dd($request);
         try{
             $organization = Organization::create($request->validated());
             if($request->hasFile('logo')){
@@ -58,7 +57,6 @@ class OrganizationController extends Controller
                 $logo = MediaFile::create($attributes);
                 $organization->logo = $logo->id;
                 $organization->save();
-                //$this->storeLogoFile($request->file('logo'), $organization);
             }
             return redirect(route('organization.show',[$organization]))->with('success','Dodano organizację!');
 

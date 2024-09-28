@@ -78,6 +78,16 @@
                             </div>
 
                             <div class="row mb-4">
+                                <label for="audio_background_id">Tło muzyczne:</label>
+                                <select id="audio_background_id" name="audio_background_id" class="form-select">
+                                        <option value="{{null}}">{{__('multimedia.none')}}</option>
+                                    @foreach(\App\Models\AudioBackground::all() as $audio)
+                                        <option value="{{$audio->id}}">{{$audio->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="row mb-4">
                                 Zestaw kolorów:
                                 <label for="favcolor">Kolor tekstu pytania:</label>
                                 <input type="color" id="color_question_text" name="color_question_text" value="#000000">
