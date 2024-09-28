@@ -62,6 +62,7 @@ class MediaFile extends Model
                 $file->storeAs($basePath, $hashName);
             else
                 throw new \Exception("Something went wrong while trygin to create new Media File!");
+            Storage::setVisibility($basePath.'/'.$hashName,'public');
 
             $newMediaFile = new MediaFile(['name' => $hashName, 'type' => self::extension2mediaType($ext)]);
             $newMediaFile->save();
