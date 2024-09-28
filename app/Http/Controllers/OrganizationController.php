@@ -76,32 +76,27 @@ class OrganizationController extends Controller
         ]);
     }
 
-    private function storeLogoFile($file, Organization $organization):bool
-    {
-        try{
-            $fileName = $file->getClientOriginalName();
-            $ext = pathinfo($fileName, PATHINFO_EXTENSION);
-            $hashName = hash('sha256',$fileName).'.'.$ext;
-            $file->storeAs('multimedia/'.$organization->id.'/pictures/', $hashName);
-            $organization->logo = $hashName;
-            $organization->save();
-            return true;
-        } catch(\Exception $e){
-            $msg = "Failed to store logo file! ".$e->getMessage();
-            error_log($msg);
-            Log::error($msg);
-            return false;
-        }
-    }
-
     public function update(UpdateOrganizationRequest $request, Organization $organization)
     {
         $old_logo = $organization->logo;
         $organization->update(Arr::except($request->validated(),'logo'));
         if($request->hasFile('logo')){
-            if($this->storeLogoFile($request->file('logo'), $organization))
-                $organization->removeLogoFile($old_logo);
+            $attributes = $request
+                ->merge([
+                    'file' => $request->logo,
+                    'organization' => $organization->id
+                ])
+                ->validate([
+                    'file' => 'nullable|file|mimes:png|max:5120',
+                    'organization' => 'required',
+                    Rule::exists('organizations','id')
+                ]);
+            $logo = MediaFile::create($attributes);
+            $organization->logo = $logo->id;
+            $organization->save();
         }
+        //TODO -> handle disposing of old logo
+
         return redirect(route('organization.show',[
             $organization
         ]));
