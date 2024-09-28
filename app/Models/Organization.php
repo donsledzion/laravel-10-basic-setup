@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class Organization extends Model
 {
@@ -61,6 +60,17 @@ class Organization extends Model
     {
         return $this->hasOne(MediaFile::class,'id','logo');
     }
+
+    public function deleteLogo()
+    {
+        try {
+            if (!$this->logo) return;
+            $this->logo->delete();
+        } catch (\Exception $e) {
+            Log::error("An error occurred while trying to delete organization logo file: ". $e->getMessage());
+        }
+    }
+
 
     public function getLogoFile(string $logo = null)
     {

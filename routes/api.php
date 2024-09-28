@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [HeadsetController::class, 'login']);
 
 Route::post('/scenarios', [ScenarioController::class, 'index']);
+Route::post('/interactions', [\App\Http\Controllers\AnsweringInteractionTypeController::class, 'index']);
 
 
 Route::get('/some-file', function(){

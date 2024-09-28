@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateAnsweringInteractionRequest;
 use App\Http\Requests\UpdateAnsweringInteractionRequest;
 use App\Models\AnsweringInteractionType;
+use App\Models\OrganizationToken;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class AnsweringInteractionTypeController extends Controller
 {
@@ -13,11 +16,40 @@ class AnsweringInteractionTypeController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->is('api/*')){
+            error_log('got indexAPI request hit');
+            return $this->indexAPI($request);
+        }
         return view('answering-interactions.index',[
             'interactions' => AnsweringInteractionType::all()
         ]);
+    }
+
+    private function indexAPI(Request $request)
+    {
+        error_log("device: ".$request->device);
+        error_log("token: ".$request->token);
+        $token = OrganizationToken::where('device',$request->device)->where('token',$request->token)->first();
+        if($token != null){
+            error_log('token found. Expires at: '.$token->organization->expires_at);
+            if(Carbon::parse($token->organization->epixres_at)->format("YY-mm-dd")<(Carbon::now()->format("YY-mm-dd"))){
+                error_log('token expired');
+                $msg = 'license for organization '.$token->organization->name.' expired '.(Carbon::parse($token->organization->expires_at)->diffInDays(Carbon::now())).' days ago';
+                error_log($msg);
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $msg
+                ])->setStatusCode(206);
+            }
+            error_log('token is ok');
+
+            return response()->json(AnsweringInteractionType::all());
+        } else {
+            error_log("Failed to login. Invalid token!");
+            return response()->json(['fail']);
+        }
     }
 
     /**

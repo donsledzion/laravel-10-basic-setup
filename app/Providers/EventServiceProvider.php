@@ -46,7 +46,7 @@ class EventServiceProvider extends ServiceProvider
         });
 
         Organization::deleting(function($organization){
-            $organization->logo->delete();
+            $organization->deleteLogo();
         });
     }
 
