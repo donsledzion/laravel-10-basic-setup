@@ -31,7 +31,7 @@ class MediaFile extends Model
     {
         try {
             Log::debug("About to validate directory: " . $path);
-            if (!File::exists($path)) {
+            if (!Storage::exists($path)) {
                 Log::debug("Directory does not exists yet: " . $path);
                 File::makeDirectory($path, 0777, true, true);
                 Log::debug("Created directory: " . $path);
