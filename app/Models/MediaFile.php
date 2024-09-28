@@ -44,7 +44,7 @@ class MediaFile extends Model
             if(array_key_exists("organization",$attributes)){
                 $basePath .=$attributes["organization"].'/'.self::extension2mediaType($ext).'s/';
             } else{
-                $basePath .='multimedia/internal/'.self::extension2mediaType($ext).'s/';
+                $basePath .='internal/'.self::extension2mediaType($ext).'s/';
             }
             self::validatePath($basePath);
             $file->storeAs($basePath, $hashName);
