@@ -24,7 +24,7 @@ class UpdateScenarioRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|min:3|max:128|unique:organizations,name',
+            'name' => 'string|min:3|max:128',
             'description' => 'string|min:5|max:1024',
             'pin' => 'nullable|numeric|digits:4',
             'color_question_text' => ['regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i'],
