@@ -6,11 +6,10 @@ use App\Enums\MediaTypes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use function PHPUnit\Framework\throwException;
 
 class MediaFile extends Model
 {
@@ -26,6 +25,11 @@ class MediaFile extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function organization():hasOne
+    {
+        return $this->hasOne(Organization::class,'logo','id');
+    }
 
     public static function validatePath(string $path):bool
     {
@@ -107,10 +111,5 @@ class MediaFile extends Model
             if($extension == $ext) return 'video';
         }
         return 'other';
-    }
-
-    public function organization():belongsTo
-    {
-        return $this->belongsTo(Organization::class,'logo','id');
     }
 }

@@ -215,7 +215,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="text-center border-end">
-                            <img src="{{ asset('organizations'.'/'.$organization->id.'/pictures/'.$organization->logo) }}" class="img-fluid avatar-xxl rounded" alt="">
+                            <img src="{{ $organization->logoFile->getMediaPath() }}" class="img-fluid avatar-xxl rounded" alt="">
                         </div>
                     </div><!-- end col -->
                     <div class="col-md-9">
@@ -259,11 +259,11 @@
                                 </div><!-- end col -->
                                 <div class="col-6 col-md-6">
                                     <label class="form-label" for="headset_login">{{ ucfirst(__('organization.headset.login')) }}</label>
-                                    
-                                    <p id="pin">{{ $organization->headset_login }}</p>                                    
+
+                                    <p id="pin">{{ $organization->headset_login }}</p>
 
                                     <label class="form-label" for="headset_pin">{{ ucfirst(__('organization.headset.pin')) }}</label>
-                                    
+
                                     <p id="pin" style="display: none;">{{ $organization->headset_pin }}</p>
                                     <p id="pin-hidden">
                                         @for($i = 0 ; $i < strlen($organization->headset_pin) ; $i++)
@@ -298,7 +298,7 @@
 
         <div class="card">
             @include('organizations.components.scenarios',['organization' => $organization])
-            
+
         </div><!-- end card -->
     </div><!-- end col -->
 </div>
