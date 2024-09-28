@@ -61,7 +61,7 @@ class AudioBackgroundController extends Controller
             return redirect(route('multimedia.index'))->with('success','Dodano tło muzyczne!');
 
         } catch(\Exception $e) {
-            $msg = "An exception occurred while trying to create organization entry. Exception message: ".$e->getMessage();
+            $msg = "An exception occurred while trying to create audio-background entry. Exception message: ".$e->getMessage();
             error_log($msg);
             Log::Error($msg);
             $audio->delete();
