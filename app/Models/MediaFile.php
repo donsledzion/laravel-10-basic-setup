@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use function PHPUnit\Framework\throwException;
 
 class MediaFile extends Model
 {
@@ -26,11 +27,21 @@ class MediaFile extends Model
         'updated_at' => 'datetime',
     ];
 
-    public static function validatePath(string $path)
+    public static function validatePath(string $path):bool
     {
-        if(!File::exists($path)) {
-            File::makeDirectory($path, 0777, true, true);
-            Log::debug("Created directory: ".$path);
+        try {
+            Log::debug("About to validate directory: " . $path);
+            if (!File::exists($path)) {
+                Log::debug("Directory does not exists yet: " . $path);
+                File::makeDirectory($path, 0777, true, true);
+                Log::debug("Created directory: " . $path);
+            } else {
+                Log::debug("Directory already exists: " . $path);
+            }
+            return true;
+        } catch (\Exception $e) {
+            Log::debug("Something went wrong while trying to validate path: " . $path);
+            return false;
         }
     }
 
@@ -47,8 +58,10 @@ class MediaFile extends Model
             } else{
                 $basePath .='internal/'.self::extension2mediaType($ext).'s/';
             }
-            self::validatePath($basePath);
-            $file->storeAs($basePath, $hashName);
+            if(self::validatePath($basePath))
+                $file->storeAs($basePath, $hashName);
+            else
+                throw new \Exception("Something went wrong while trygin to create new Media File!");
 
             $newMediaFile = new MediaFile(['name' => $hashName, 'type' => self::extension2mediaType($ext)]);
             $newMediaFile->save();
