@@ -8,6 +8,7 @@ export default defineConfig({
                 "resources/sass/app.scss",
                 "resources/css/app.css",
                 "resources/js/app.js",
+                "resources/js/background-drop-audio.js",
                 "resources/js/quiz-correct.js",
                 "resources/js/quiz-drop-audio.js",
                 "resources/js/quiz-drop-picture.js",
