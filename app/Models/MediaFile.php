@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,6 +26,13 @@ class MediaFile extends Model
         'updated_at' => 'datetime',
     ];
 
+    public static function validatePath(string $path)
+    {
+        if(!File::exists($path)) {
+            File::makeDirectory($path, 0775, true, true);
+        }
+    }
+
     public static function create($attributes)
     {
         try{
@@ -32,12 +40,15 @@ class MediaFile extends Model
             $fileName = $file->getClientOriginalName();
             $ext = pathinfo($fileName, PATHINFO_EXTENSION);
             $hashName = hash('sha256',$fileName).'.'.$ext;
-            if(array_key_exists("organization",$attributes))
-                //dd($attributes);
-                //$targetPath = 'multimedia/'.$attributes["organization"].'/'.self::extension2mediaType($ext)->value.'/'.$hashName;
-                $file->storeAs('multimedia/'.$attributes["organization"].'/'.self::extension2mediaType($ext).'s/', $hashName);
-            else
-                $file->storeAs('multimedia/internal/'.self::extension2mediaType($ext).'s/', $hashName);
+            $basePath = 'multimedia/';
+            if(array_key_exists("organization",$attributes)){
+                $basePath .=$attributes["organization"].'/'.self::extension2mediaType($ext).'s/';
+            } else{
+                $basePath .='multimedia/internal/'.self::extension2mediaType($ext).'s/';
+            }
+            self::validatePath($basePath);
+            $file->storeAs($basePath, $hashName);
+
             $newMediaFile = new MediaFile(['name' => $hashName, 'type' => self::extension2mediaType($ext)]);
             $newMediaFile->save();
             return $newMediaFile;
