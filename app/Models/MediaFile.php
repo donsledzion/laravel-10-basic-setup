@@ -29,7 +29,7 @@ class MediaFile extends Model
     public static function validatePath(string $path)
     {
         if(!File::exists($path)) {
-            File::makeDirectory($path, 0775, true, true);
+            File::makeDirectory($path, 0777, true, true);
         }
     }
 
