@@ -34,6 +34,7 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
             'throw' => false,
+            'directory_visibility' => 'public',
             'permissions' => [
                 'file' => [
                     'public' => 0644,
@@ -50,6 +51,7 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
+            'directory_visibility' => 'public',
             'visibility' => 'public',
             'throw' => false,
             'permissions' => [
