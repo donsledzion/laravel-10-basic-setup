@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateOrganizationRequest;
 use App\Models\MediaFile;
 use App\Models\Organization;
 use App\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -96,7 +97,7 @@ class OrganizationController extends Controller
     public function update(UpdateOrganizationRequest $request, Organization $organization)
     {
         $old_logo = $organization->logo;
-        $organization->update($request->validated());
+        $organization->update(Arr::except($request->validated(),'logo'));
         if($request->hasFile('logo')){
             if($this->storeLogoFile($request->file('logo'), $organization))
                 $organization->removeLogoFile($old_logo);

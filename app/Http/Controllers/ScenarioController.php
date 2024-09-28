@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateScenarioRequest;
 use App\Http\Requests\UpdateScenarioRequest;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\Scenario;
@@ -128,7 +129,7 @@ class ScenarioController extends Controller
     {
         try{
             $old_logo = $scenario->logo;
-            $scenario->update($request->validated());
+            $scenario->update(Arr::except($request->validated(),'logo'));
             if($request->hasFile('logo')){
                 if($this->storeLogoFile($request->file('logo'), $scenario) && !empty($old_logo))
                     try {
