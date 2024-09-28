@@ -215,7 +215,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="text-center border-end">
-                            <img src="{{ $organization->logoFile->getMediaPath() }}" class="img-fluid avatar-xxl rounded" alt="">
+                            <img src="{{ $organization->logoFilePath() }}" class="img-fluid avatar-xxl rounded" alt="">
                         </div>
                     </div><!-- end col -->
                     <div class="col-md-9">

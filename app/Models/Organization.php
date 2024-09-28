@@ -61,6 +61,13 @@ class Organization extends Model
         return $this->hasOne(MediaFile::class,'id','logo');
     }
 
+    public function logoFilePath():string
+    {
+        if($this->logoFile != null)
+            return $this->logoFile->getMediaPath();
+        return "";
+    }
+
     public function deleteLogo()
     {
         try {
