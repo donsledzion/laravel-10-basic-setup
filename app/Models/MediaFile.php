@@ -30,6 +30,7 @@ class MediaFile extends Model
     {
         if(!File::exists($path)) {
             File::makeDirectory($path, 0777, true, true);
+            Log::debug("Created directory: ".$path);
         }
     }
 
