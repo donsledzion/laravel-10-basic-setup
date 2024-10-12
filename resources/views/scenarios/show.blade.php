@@ -113,6 +113,15 @@
                             @endif
                         </div>
 
+                        <div class="row mb-4">
+                            <label for="skybox_background">{{ucfirst(__('multimedia.skybox.title'))}}</label>
+                            @if($scenario->skyboxBackground != null)
+                            <img id="skybox_background" style="width: 240px;" src="{{$scenario->skyboxBackground->thumbnail->getMediaPath()}}" title="{{$scenario->skyboxBackground->name}}" />
+                            @else
+                                --- brak ---
+                            @endif
+                        </div>
+
 
                         <div class="row mb-4">
                             Zestaw kolorów:

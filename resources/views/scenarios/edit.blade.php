@@ -80,6 +80,16 @@
                                 </select>
                             </div>
 
+                            <div class="row mb-4">
+                                <label for="skybox_background_id">Tło scenariusza:</label>
+                                <select id="skybox_background_id" name="skybox_background_id" class="form-select">
+                                    <option value="{{null}}">{{__('multimedia.none')}}</option>
+                                    @foreach(\App\Models\SkyboxBackground::all() as $skybox)
+                                        <option value="{{$skybox->id}}" @if($scenario->skyboxBackground_id == $skybox->id) selected @endif >{{$skybox->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
 
                             <div class="row mb-4">
                                 Zestaw kolorów:

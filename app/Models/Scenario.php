@@ -26,7 +26,8 @@ class Scenario extends Model
         'color_answer_background',
         'color_floor',
         'interaction_id',
-        'audio_background_id'
+        'audio_background_id',
+        'skybox_background_id'
     ];
 
     protected $casts = [
@@ -57,6 +58,11 @@ class Scenario extends Model
     public function audioBackground():BelongsTo
     {
         return $this->belongsTo(AudioBackground::class,'audio_background_id', 'id');
+    }
+
+    public function skyboxBackground():BelongsTo
+    {
+        return $this->belongsTo(SkyboxBackground::class,'skybox_background_id', 'id');
     }
 
 

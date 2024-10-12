@@ -19,7 +19,7 @@
                             <a href="{{ route('skyboxBackground.create') }}"> <button class="btn btn-info">{{ ucfirst(__('multimedia.skybox.add')) }}</button></a>
                         </p>
 
-
+                        <h3>{{ucfirst(__('multimedia.audios'))}}</h3>
                         <table class="table table-striped">
                             <thead>
                             <tr>
@@ -43,6 +43,34 @@
                                     </td>
                                     <td>
                                         <button class="btn btn-danger delete-interaction" data-id="{{ $audio->id }}"><i class="fa-solid fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+
+                        <h3>{{ucfirst(__('multimedia.skyboxes'))}}</h3>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th >{{ __('multimedia.skybox.name') }}</th>
+                                <th >{{ __('multimedia.skybox.preview') }}</th>
+                                <th >{{ __('multimedia.skybox.edit') }}</th>
+                                <th >{{ __('multimedia.skybox.remove') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($skyboxes as $skybox)
+                                <tr data-interaction-id="{{ $skybox->id }}">
+                                    <td>{{ $skybox->name}}</td>
+                                    <td>
+                                        <img style="width: 120px;" src="{{$skybox->thumbnail->getMediaPath()}}" alt="{{$skybox->name}}"/>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('skyboxBackground.edit',$skybox) }}"><button class="btn btn-warning">E</button></a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger delete-interaction" data-id="{{ $skybox->id }}"><i class="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>
                             @endforeach

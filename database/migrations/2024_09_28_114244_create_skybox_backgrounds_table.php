@@ -16,46 +16,24 @@ return new class extends Migration
         Schema::create('skybox_backgrounds', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('up_picture_id');
-            $table->unsignedBigInteger('down_picture_id');
-            $table->unsignedBigInteger('front_picture_id');
-            $table->unsignedBigInteger('back_picture_id');
-            $table->unsignedBigInteger('left_picture_id');
-            $table->unsignedBigInteger('right_picture_id');
+            $table->unsignedBigInteger('texture_id')->nullable();
+            $table->unsignedBigInteger('thumbnail_id')->nullable();
             $table->timestamps();
         });
 
         Schema::table('skybox_backgrounds', function (Blueprint $table) {
-            $table->foreign('up_picture_id')
+            $table->foreign('texture_id')
                 ->references('id')
                 ->on('media_files')
-                ->nullOnDelete()
+                ->onDelete('set null')
                 ->onUpdate('cascade');
-            $table->foreign('down_picture_id')
+
+            $table->foreign('thumbnail_id')
                 ->references('id')
                 ->on('media_files')
-                ->onDelete('cascade')
+                ->onDelete('set null')
                 ->onUpdate('cascade');
-            $table->foreign('front_picture_id')
-                ->references('id')
-                ->on('media_files')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreign('back_picture_id')
-                ->references('id')
-                ->on('media_files')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreign('left_picture_id')
-                ->references('id')
-                ->on('media_files')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreign('right_picture_id')
-                ->references('id')
-                ->on('media_files')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+
         });
     }
 
