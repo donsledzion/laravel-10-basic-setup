@@ -51,6 +51,7 @@ class Answer extends Model
             $msg = "An error occurred while trying to get media file ".$this->name." | ".$e->getMessage();
             error_log($msg);
             Log::error($msg);
+            return null;
         }
     }
 
@@ -124,7 +125,7 @@ class Answer extends Model
             if(!asset('organizations'.'/'.$this->quiz->scenario->organization->id.'/audios/'.$this->content)) return '';
             return asset('organizations'.'/'.$this->quiz->scenario->organization->id.'/audios/'.$this->content);
         }
-        if($this->content == null) return '';        
+        return '';
     }
 
     public function moveUp()

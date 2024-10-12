@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreign('media_file_id')
                 ->references('id')
                 ->on('media_files')
-                ->onDelete('cascade')
+                ->nullOnDelete()
                 ->onUpdate('cascade');
         });
     }

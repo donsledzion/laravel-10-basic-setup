@@ -21,7 +21,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('audio_backgrounds')
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->nullOnDelete();
         });
     }
 

@@ -28,7 +28,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('media_files')
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->nullOnDelete();
         });
 
     }

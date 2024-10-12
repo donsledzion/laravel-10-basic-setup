@@ -29,7 +29,7 @@ return new class extends Migration
             $table->foreign('up_picture_id')
                 ->references('id')
                 ->on('media_files')
-                ->onDelete('cascade')
+                ->nullOnDelete()
                 ->onUpdate('cascade');
             $table->foreign('down_picture_id')
                 ->references('id')

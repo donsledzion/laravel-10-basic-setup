@@ -131,16 +131,7 @@ class ScenarioController extends Controller
             $old_logo = $scenario->logo;
             $scenario->update(Arr::except($request->validated(),'logo'));
             if($request->hasFile('logo')){
-                if($this->storeLogoFile($request->file('logo'), $scenario) && !empty($old_logo))
-                    try {
-                        $scenario->removeLogoFile($old_logo);
-                    } catch(\Exception $e) {
-                        $msg = "An error occurred while trying to remove logo file: ".$e->getMessage();
-                        error_log($msg);
-                        Log::error($msg);
-                    }
-
-
+                $this->tryUpdateLogoFile($request->file('logo'), $scenario, $old_logo);
             }
             return redirect(route('scenario.show',[$scenario]));
         }catch(\Exception $e){
@@ -148,7 +139,6 @@ class ScenarioController extends Controller
             error_log($msg);
             Log::error($msg);
         }
-
     }
 
     public function destroy(Scenario $scenario, Request $request)
@@ -192,6 +182,19 @@ class ScenarioController extends Controller
             error_log($msg);
             Log::error($msg);
             return false;
+        }
+    }
+
+    private function tryUpdateLogoFile($file, Scenario $scenario, $oldLogo)
+    {
+        if($this->storeLogoFile($file, $scenario) && !empty($old_logo)){
+            try {
+                $scenario->removeLogoFile($old_logo);
+            } catch(\Exception $e) {
+                $msg = "An error occurred while trying to remove logo file: ".$e->getMessage();
+                error_log($msg);
+                Log::error($msg);
+            }
         }
     }
 }

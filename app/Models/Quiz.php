@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use SebastianBergmann\Type\NullType;
 
 class Quiz extends Model
 {
@@ -55,64 +54,20 @@ class Quiz extends Model
 
     public function questionFileMediaType():MediaTypes | null
     {
-        switch($this->type)
-        {
-            case QuizTypes::TEXT_2_TEXT:
-                return null;
-                break;
-            case QuizTypes::TEXT_2_PICTURE:
-                return null;
-                break;
-            case QuizTypes::TEXT_2_AUDIO:
-                return null;
-                break;
-            case QuizTypes::AUDIO_2_TEXT:
-                return MediaTypes::AUDIO;
-                break;
-            case QuizTypes::AUDIO_2_AUDIO:
-                return MediaTypes::AUDIO;
-                break;
-            case QuizTypes::PICTURE_2_TEXT:
-                return MediaTypes::PICTURE;
-                break;
-            case QuizTypes::PUT_IN_ORDER:
-                return null;
-                break;
-            default:
-                return null;
-        }
-        return null;
+        return match ($this->type) {
+            QuizTypes::AUDIO_2_AUDIO, QuizTypes::AUDIO_2_TEXT => MediaTypes::AUDIO,
+            QuizTypes::PICTURE_2_TEXT => MediaTypes::PICTURE,
+            default => null,
+        };
     }
 
     public function answerFileMediaType():MediaTypes | null
     {
-        switch($this->type)
-        {
-            case QuizTypes::TEXT_2_TEXT:
-                return null;
-                break;
-            case QuizTypes::TEXT_2_PICTURE:
-                return MediaTypes::PICTURE;
-                break;
-            case QuizTypes::TEXT_2_AUDIO:
-                return MediaTypes::AUDIO;
-                break;
-            case QuizTypes::AUDIO_2_TEXT:
-                return null;
-                break;
-            case QuizTypes::AUDIO_2_AUDIO:
-                return MediaTypes::AUDIO;
-                break;
-            case QuizTypes::PICTURE_2_TEXT:
-                return null;
-                break;
-            case QuizTypes::PUT_IN_ORDER:
-                return null;
-                break;
-            default:
-                return null;
-        }
-        return null;
+        return match ($this->type) {
+            QuizTypes::TEXT_2_PICTURE => MediaTypes::PICTURE,
+            QuizTypes::AUDIO_2_AUDIO, QuizTypes::TEXT_2_AUDIO => MediaTypes::AUDIO,
+            default => null,
+        };
     }
 
 
@@ -129,14 +84,14 @@ class Quiz extends Model
         }
     }
 
-    public function removeMediaFile(string $logo = null)
+    public function removeMediaFile(string $logo = null):void
     {
         try{
             if($logo == null){
                 $logo = $this->getMediaFile();
                 if($logo == null) return;
             } else {
-                $logo = $this->getMediaFile($logo);
+                $logo = $this->getMediaFile();
             }
             Storage::delete($logo);
         } catch(\Exception $e){
@@ -167,6 +122,7 @@ class Quiz extends Model
             $msg = "An error occurred while trying to get media file ".$this->name." | ".$e->getMessage();
             error_log($msg);
             Log::error($msg);
+            return '';
         }
 
     }

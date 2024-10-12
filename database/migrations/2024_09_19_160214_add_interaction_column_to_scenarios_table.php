@@ -21,7 +21,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('answering_interaction_types')
                 ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->nullOnDelete();
         });
     }
 

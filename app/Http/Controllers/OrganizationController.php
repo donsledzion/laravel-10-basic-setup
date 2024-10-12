@@ -9,6 +9,8 @@ use App\Http\Requests\UpdateOrganizationRequest;
 use App\Models\MediaFile;
 use App\Models\Organization;
 use App\Models\User;
+use Google\Service\CloudSearch\Media;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -43,21 +45,9 @@ class OrganizationController extends Controller
     public function store(CreateOrganizationRequest $request)
     {
         try{
-            $organization = Organization::create($request->validated());
+            $organization = Organization::create(Arr::except($request->validated(),'logo'));
             if($request->hasFile('logo')){
-                $attributes = $request
-                    ->merge([
-                        'file' => $request->logo,
-                        'organization' => $organization->id
-                    ])
-                    ->validate([
-                        'file' => 'nullable|file|mimes:png|max:5120',
-                        'organization' => 'required',
-                        Rule::exists('organizations','id')
-                    ]);
-                $logo = MediaFile::create($attributes);
-                $organization->logo = $logo->id;
-                $organization->save();
+                $this->createOrganizationLogo($request, $organization);
             }
             return redirect(route('organization.show',[$organization]))->with('success','Dodano organizację!');
 
@@ -65,7 +55,8 @@ class OrganizationController extends Controller
             $msg = "An exception occurred while trying to create organization entry. Exception message: ".$e->getMessage();
             error_log($msg);
             Log::Error($msg);
-            $organization->delete();
+            if($organization != null)
+                $organization->delete();
         }
     }
 
@@ -81,25 +72,30 @@ class OrganizationController extends Controller
         $old_logo = $organization->logo;
         $organization->update(Arr::except($request->validated(),'logo'));
         if($request->hasFile('logo')){
-            $attributes = $request
-                ->merge([
-                    'file' => $request->logo,
-                    'organization' => $organization->id
-                ])
-                ->validate([
-                    'file' => 'nullable|file|mimes:png|max:5120',
-                    'organization' => 'required',
-                    Rule::exists('organizations','id')
-                ]);
-            $logo = MediaFile::create($attributes);
-            $organization->logo = $logo->id;
-            $organization->save();
+            if($old_logo != null)
+                $this->updateOrganizationLogo($request, $organization);
+            else
+                $this->createOrganizationLogo($request, $organization);
         }
-        //TODO -> handle disposing of old logo
 
         return redirect(route('organization.show',[
             $organization
         ]));
+    }
+
+    private function updateOrganizationLogo($request, Organization $organization)
+    {
+        $organization->logoFile()->delete();
+        $this->createOrganizationLogo($request, $organization);
+    }
+
+    private function createOrganizationLogo($request, Organization $organization){
+        $logo = MediaFile::create([
+            'file' => $request->logo,
+            'organization' => $organization->id
+        ]);
+        $organization->logo = $logo->id;
+        $organization->save();
     }
 
     public function destroy(Organization $organization)
@@ -114,10 +110,10 @@ class OrganizationController extends Controller
         } finally {
             return redirect(route('organization.index'));
         }
-
     }
 
-    public function removeMember(Organization $organization, User $user)
+    public function removeMember(Organization $organization, User $user): JsonResponse
+
     {
         try{
             if($user->organizationRole($organization) == null){
